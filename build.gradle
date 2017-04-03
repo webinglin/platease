@@ -1,5 +1,9 @@
+/*
+ * 基础架构平台
+ * @author webinglin
+ * @since 2017-04-03
+ */
 
-description = '基础架构平台'
 
 allprojects{
 	apply plugin:"idea"
@@ -44,3 +48,10 @@ subprojects{
 	}
 }
 
+idea.project {
+    ipr {
+        withXml { provider ->
+            provider.node.component.find { it.@name == 'VcsDirectoryMappings' }.mapping.@vcs = 'Git'
+        }
+    }
+}

@@ -17,19 +17,19 @@
 
     <aop:aspectj-autoproxy/>
 
-    <util:properties id="jdbcProperties" location="classpath:jdbc.properties"/>
+    <!--<util:properties id="jdbcProperties" location="classpath:jdbc.properties"/>-->
 
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="#{jdbcProperties.driverClassName}"/>
-        <property name="jdbcUrl" value="#{jdbcProperties.url}"/>
-        <property name="user" value="#{jdbcProperties.username}"/>
-        <property name="password" value="#{jdbcProperties.password}"/>
-        <property name="minPoolSize" value="5"/>
-        <property name="initialPoolSize" value="5"/>
-        <!-- 一般大于等于系统线程数 -->
-        <property name="maxPoolSize" value="300"/>
-        <property name="idleConnectionTestPeriod" value="600"/>
-    </bean>
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">-->
+        <!--<property name="driverClass" value="#{jdbcProperties.driverClassName}"/>-->
+        <!--<property name="jdbcUrl" value="#{jdbcProperties.url}"/>-->
+        <!--<property name="user" value="#{jdbcProperties.username}"/>-->
+        <!--<property name="password" value="#{jdbcProperties.password}"/>-->
+        <!--<property name="minPoolSize" value="5"/>-->
+        <!--<property name="initialPoolSize" value="5"/>-->
+        <!--&lt;!&ndash; 一般大于等于系统线程数 &ndash;&gt;-->
+        <!--<property name="maxPoolSize" value="300"/>-->
+        <!--<property name="idleConnectionTestPeriod" value="600"/>-->
+    <!--</bean>-->
 
     <!--<bean id="sessionFactory"-->
           <!--class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">-->

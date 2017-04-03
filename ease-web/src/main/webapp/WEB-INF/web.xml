@@ -7,7 +7,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:context-*.xml</param-value>
+        <param-value>classpath:context-*.xml</param-value>
     </context-param>
 
     <listener>
@@ -31,12 +31,12 @@
     </filter-mapping>
 
     <servlet>
-        <servlet-name>route</servlet-name>
-        <servlet-class>com.piedra.platease.servlet.RouteServlet</servlet-class>
+        <servlet-name>dispatch</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>route</servlet-name>
+        <servlet-name>dispatch</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
