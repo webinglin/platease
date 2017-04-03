@@ -1,0 +1,5 @@
+dependencies {
+    compile "c3p0:c3p0:0.9.1.2",
+            "aspectj:aspectjrt:1.5.4",
+            "org.aspectj:aspectjweaver:1.6.12"
+}

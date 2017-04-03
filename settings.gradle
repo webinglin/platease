@@ -1,1 +1,1 @@
-include ":web",":common",":app"
+include ":ease-web",":ease-common"

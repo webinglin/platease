@@ -21,9 +21,26 @@ subprojects{
 
 	
 	dependencies {
-		
-		
+        compile "commons-collections:commons-collections:3.2.1",
+                "com.alibaba:fastjson:1.1.41",
+                'org.springframework:spring-core:$springVersion',
+                "org.springframework:spring-context:$springVersion",
+                "org.springframework:spring-jdbc:$springVersion",
+                "org.springframework:spring-orm:$springVersion",
+                "org.springframework:spring-aop:$springVersion",
+                "org.springframework:spring-tx:$springVersion",
+                "org.springframework:spring-context-support:$springVersion",
+                'org.apache.commons:commons-lang3:3.4',
+                'org.apache.logging.log4j:log4j-core:2.6.2',
+                "org.slf4j:slf4j-api:1.7.7",
+                "ch.qos.logback:logback-core:1.1.2",
+                "ch.qos.logback:logback-classic:1.1.2"
+
+
+
 		testCompile "junit:junit:4+"
+
+        runtime "mysql:mysql-connector-java:5.1.31"
 	}
 }
 
