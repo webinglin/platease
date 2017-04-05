@@ -15,44 +15,46 @@
         <context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
     </context:component-scan>
 
-    <aop:aspectj-autoproxy/>
+    <aop:aspectj-autoproxy proxy-target-class="true" />
 
-    <!--<util:properties id="jdbcProperties" location="classpath:jdbc.properties"/>-->
+    <util:properties id="jdbcProperties" location="classpath:jdbc.properties"/>
 
-    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">-->
-        <!--<property name="driverClass" value="#{jdbcProperties.driverClassName}"/>-->
-        <!--<property name="jdbcUrl" value="#{jdbcProperties.url}"/>-->
-        <!--<property name="user" value="#{jdbcProperties.username}"/>-->
-        <!--<property name="password" value="#{jdbcProperties.password}"/>-->
-        <!--<property name="minPoolSize" value="5"/>-->
-        <!--<property name="initialPoolSize" value="5"/>-->
-        <!--&lt;!&ndash; 一般大于等于系统线程数 &ndash;&gt;-->
-        <!--<property name="maxPoolSize" value="300"/>-->
-        <!--<property name="idleConnectionTestPeriod" value="600"/>-->
-    <!--</bean>-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbcProperties.url}" />
+        <property name="driverClassName" value="${jdbcProperties.driver}" />
+        <property name="username" value="${jdbcProperties.username}" />
+        <property name="password" value="${jdbcProperties.password}" />
 
-    <!--<bean id="sessionFactory"-->
-          <!--class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">-->
-        <!--<property name="dataSource">-->
-            <!--<ref local="dataSource"/>-->
-        <!--</property>-->
-        <!--<property name="hibernateProperties">-->
-            <!--<props>-->
-                <!--<prop key="hibernate.show_sql">false</prop>-->
-                <!--<prop key="hibernate.format_sql">false</prop>-->
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
-                <!--&lt;!&ndash;-->
-                    <!--<prop key="hibernate.cache.use_query_cache">true</prop>-->
-                    <!--<prop key="hibernate.cache.use_second_level_cache">true</prop>-->
-                    <!--<prop key="hibernate.cache.region.factory_class">-->
-                        <!--org.hibernate.cache.ehcache.EhCacheRegionFactory-->
-                    <!--</prop>-->
-                 <!--&ndash;&gt;-->
-                <!--<prop key="hibernate.current_session_context_class">-->
-                    <!--org.springframework.orm.hibernate4.SpringSessionContext-->
-                <!--</prop>-->
-            <!--</props>-->
-        <!--</property>-->
+        <property name="initialSize" value="5" />
+        <property name="maxActive" value="20" />
+        <property name="minIdle" value="1" />
+        <property name="maxWait" value="60000" />
+
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <property name="validationQuery" value="${jdbcProperties.validationsql}" />
+
+        <property name="poolPreparedStatements" value="true" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="50" />
+
+        <property name="filters" value="stat,wall" />
+    </bean>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" destroy-method="destroy">
+        <property name="dataSource" ref="dataSource" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.format_sql">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+            </props>
+        </property>
+
+        <!---->
         <!--<property name="mappingLocations">-->
             <!--<list>-->
                 <!--<value>-->
@@ -60,17 +62,11 @@
                 <!--</value>-->
             <!--</list>-->
         <!--</property>-->
-    <!--</bean>-->
-
-    <!--<bean id="transactionManager"-->
-          <!--class="org.springframework.orm.hibernate4.HibernateTransactionManager"-->
-          <!--abstract="false" lazy-init="default" autowire="default">-->
-        <!--<property name="sessionFactory">-->
-            <!--<ref local="sessionFactory"/>-->
-        <!--</property>-->
-    <!--</bean>-->
-
-    <!--<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>-->
+    </bean>
+    <bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
 
 </beans>
 

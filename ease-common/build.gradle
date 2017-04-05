@@ -1,5 +1,7 @@
 dependencies {
-    compile "c3p0:c3p0:0.9.1.2",
+    compile 'com.alibaba:druid:1.0.29',
             "aspectj:aspectjrt:1.5.4",
-            "org.aspectj:aspectjweaver:1.6.12"
+            "org.aspectj:aspectjweaver:1.6.12",
+            'velocity:velocity:1.4',
+            'velocity-tools:velocity-tools-view:1.4'
 }
