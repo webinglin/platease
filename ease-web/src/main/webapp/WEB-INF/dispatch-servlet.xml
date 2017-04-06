@@ -15,15 +15,20 @@
     </context:component-scan>
 
     <!-- 默认的注解映射的支持 -->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <!-- 拦截器定义 -->
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/system/**"/>
-            <mvc:mapping path="/user/**"/>
-            <mvc:mapping path="/role/**"/>
-            <mvc:mapping path="/function/**"/>
+            <!--<mvc:mapping path="/user/**"/>-->
+            <!--<mvc:mapping path="/role/**"/>-->
+            <!--<mvc:mapping path="/function/**"/>-->
 
             <bean id="securityInterceptor" class="com.piedra.platease.interceptor.SecurityInterceptor">
                 <!-- 不需要拦截的URL 	登录链接，404链接，强制退出当前标签页-->

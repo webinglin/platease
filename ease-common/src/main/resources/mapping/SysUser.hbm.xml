@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.piedra.platease.model.system.User" table="sys_user" schema="platease">
+        <id name="id">
+            <column name="ID" sql-type="char(32)" length="32"/>
+        </id>
+        <property name="userName">
+            <column name="USER_NAME" sql-type="varchar(255)"/>
+        </property>
+        <property name="idcard">
+            <column name="IDCARD" sql-type="varchar(32)" length="32"/>
+        </property>
+        <property name="realName">
+            <column name="REAL_NAME" sql-type="varchar(255)"/>
+        </property>
+        <property name="password">
+            <column name="PASSWORD" sql-type="varchar(255)"/>
+        </property>
+        <property name="deptId">
+            <column name="DEPT_ID" sql-type="char(32)" length="32"/>
+        </property>
+        <property name="deptCode">
+            <column name="DEPT_CODE" sql-type="char(12)" length="12"/>
+        </property>
+        <property name="status">
+            <column name="STATUS" sql-type="tinyint(4)"/>
+        </property>
+        <property name="lastLoginIp">
+            <column name="LAST_LOGIN_IP" sql-type="varchar(255)"/>
+        </property>
+        <property name="lastLoginTime">
+            <column name="LAST_LOGIN_TIME" sql-type="datetime"/>
+        </property>
+        <property name="telphone">
+            <column name="TELPHONE" sql-type="varchar(32)" length="32"/>
+        </property>
+        <property name="homeBgurl">
+            <column name="HOME_BGURL" sql-type="varchar(255)"/>
+        </property>
+        <property name="creatorId">
+            <column name="CREATOR_ID" sql-type="char(32)" length="32"/>
+        </property>
+        <property name="createTime">
+            <column name="CREATE_TIME" sql-type="datetime"/>
+        </property>
+        <property name="remark">
+            <column name="REMARK" sql-type="varchar(255)"/>
+        </property>
+    </class>
+</hibernate-mapping>

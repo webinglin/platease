@@ -1,6 +1,5 @@
 package com.piedra.platease.service.system;
 
-import com.piedra.platease.model.Page;
 import com.piedra.platease.model.system.User;
 import com.piedra.platease.service.BaseService;
 
@@ -9,13 +8,6 @@ import com.piedra.platease.service.BaseService;
  * @author webinglin
  * @since 2017-04-05
  */
-public interface UserService extends BaseService<User, Integer> {
+public interface UserService extends BaseService<User> {
 
-	/**
-	 * 获取用户的分页对象
-	 * @param pageSize
-	 * @param nowPage
-	 * @return
-	 */
-    Page<User> getUserPage(Integer pageSize, Integer nowPage);
 }

@@ -9,6 +9,6 @@ import com.piedra.platease.model.system.User;
  * @author webinglin
  * @since 2017-04-05
  */
-public interface UserDao extends BaseDao<User, Integer> {
+public interface UserDao extends BaseDao<User> {
 
 }

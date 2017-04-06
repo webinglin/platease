@@ -1,23 +1,19 @@
 package com.piedra.platease.dao;
 
 
-import java.io.Serializable;
-import java.util.List;
-
+import com.piedra.platease.model.Page;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 
-import com.piedra.platease.model.Page;
+import java.util.List;
 
 /**
  * Dao操作接口定义
  * @author webinglin
  * @since 2017-04-05
  */
-public interface BaseDao<T, PK extends Serializable> {
-
-    void setEntityClass(Class<T> entityClass);
+public interface BaseDao<T> {
 
     /**
      * 获取hibernate session对象
@@ -34,21 +30,21 @@ public interface BaseDao<T, PK extends Serializable> {
      * @param id    实体主键
      * @return 实体对象
      */
-     T load(PK id);
+     T load(String id);
 
     /**
      * 通过id加载实体
      * @param id    实体主键
      * @return 实体对象
      */
-     T get(PK id);
+     T get(String id);
 
     /**
      * 根据ID数组获取实体对象集合.
      * @param ids
      * @return 实体对象集合
      */
-     List<T> get(PK[] ids);
+     List<T> get(String[] ids);
 
     /**
      * 根据属性名和属性值获取实体对象.
@@ -91,7 +87,7 @@ public interface BaseDao<T, PK extends Serializable> {
      * @param entity    要保存的实体对象
      * @return ID
      */
-     PK save(T entity);
+    String save(T entity);
 
     /**
      * 保存或更新一个对象
@@ -121,13 +117,13 @@ public interface BaseDao<T, PK extends Serializable> {
      * 根据ID删除实体对象.
      * @param id    待删除的实体ID
      */
-     void delete(PK id);
+     void delete(String id);
 
     /**
      * 根据ID数组删除实体对象.
      * @param ids   待删除的实体对象ID列表
      */
-     void delete(PK[] ids);
+     void delete(String[] ids);
 
     /**
      * 根据实体集合删除实体对象

@@ -1,3 +1,5 @@
+import com.sun.corba.se.impl.util.Version
+
 /*
  * 基础架构平台
  * @author webinglin
@@ -7,10 +9,9 @@
 
 allprojects{
 	apply plugin:"idea"
-	
-	group = 'com.piedra.platease'
-	version = '1.0.0'
 
+	group = 'com.piedra'
+	version = '1.0.0'
 }
 
 subprojects{
@@ -43,9 +44,7 @@ subprojects{
                 'org.hibernate:hibernate-core:5.2.9.Final'
 
 
-
 		testCompile "junit:junit:4+"
-
         runtime "mysql:mysql-connector-java:5.1.31"
 	}
 }

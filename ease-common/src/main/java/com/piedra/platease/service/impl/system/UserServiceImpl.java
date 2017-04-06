@@ -6,9 +6,10 @@ import com.piedra.platease.model.system.User;
 import com.piedra.platease.service.impl.BaseServiceImpl;
 import com.piedra.platease.service.system.UserService;
 import org.hibernate.criterion.DetachedCriteria;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 
 /**
  * 用户实体业务实现层
@@ -16,8 +17,9 @@ import javax.annotation.Resource;
  * @since 2017-04-05
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements UserService {
-	@Resource
+@Transactional
+public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
+	@Autowired
 	public void setBaseDao(UserDao userDao) {
 		super.setBaseDao(userDao);
 	}

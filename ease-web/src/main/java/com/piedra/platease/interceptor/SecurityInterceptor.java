@@ -65,6 +65,10 @@ public class SecurityInterceptor implements HandlerInterceptor{
                 break;
             }
         }
+
+        if(!accessable) {
+            logger.error("当前用户没有登录, 并且访问的地址:{} 不在安全登录链接中.", reqURL);
+        }
         return accessable;
 	}
 

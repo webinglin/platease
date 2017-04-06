@@ -11,12 +11,17 @@ import org.hibernate.criterion.Projections;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
+
+/**
+ * 基础的Service业务类
+ * 由Controller调用，如果对于负责的业务逻辑，在具体的Service实现类里面实现，然后再去调用Dao实现类的方法来达到事务的控制
+ * @param <T>   实体对象
+ */
 @Repository
-public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
+public class BaseDaoImpl<T> implements BaseDao<T> {
 
 	@Resource
 	private SessionFactory sessionFactory;
@@ -33,10 +38,6 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		}
 	}
 
-	public void setEntityClass(Class<T> entityClass) {
-		this.entityClass = entityClass;
-	}
-
 	public Session getSession(){
 		return sessionFactory.getCurrentSession();
 	}
@@ -45,16 +46,16 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		return getSession().createCriteria(entityClass);
 	}
 	
-	public T load(PK id) {
+	public T load(String id) {
 		return getSession().load(this.entityClass, id);
 	}
 
-	public T get(PK id) {
+	public T get(String id) {
 		return getSession().get(this.entityClass, id);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<T> get(PK[] ids) {
+	public List<T> get(String[] ids) {
 		return getSession().createQuery("from "+entityClass.getName()+" as model where model.id in (:ids)").setParameterList("ids", ids).list();
 	}
 
@@ -82,8 +83,8 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public PK save(T entity) {
-		return (PK) getSession().save(entity);
+	public String save(T entity) {
+		return (String) getSession().save(entity);
 	}
 
 	public void saveOrUpdate(T entity) {
@@ -102,12 +103,12 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		getSession().delete(entity);
 	}
 
-	public void delete(PK id) {
+	public void delete(String id) {
 		getSession().delete(load(id));
 	}
 
-	public void delete(PK[] ids) {
-		for (PK id : ids) {
+	public void delete(String[] ids) {
+		for (String id : ids) {
 			delete(id);
 		}
 	}

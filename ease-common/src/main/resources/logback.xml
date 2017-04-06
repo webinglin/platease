@@ -2,7 +2,7 @@
 <configuration debug="false">
     <contextName>PLATEASE</contextName>
 
-    <property name="LOG_HOME" value="logs" />
+    <property name="LOG_HOME" value="plateaseLogs" />
 
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">

@@ -2,6 +2,7 @@ package com.piedra.platease.service.impl;
 
 import com.piedra.platease.dao.BaseDao;
 import com.piedra.platease.service.BaseService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,25 +12,26 @@ import java.util.List;
  * @author webinglin
  * @since 2017-04-05
  */
-public class BaseServiceImpl<T, PK extends Serializable> implements BaseService<T, PK> {
-	private BaseDao<T, PK> baseDao;
+@Transactional
+public class BaseServiceImpl<T> implements BaseService<T> {
+	private BaseDao<T> baseDao;
 
-    protected BaseDao<T, PK> getBaseDao() {
+    protected BaseDao<T> getBaseDao() {
 		return baseDao;
 	}
-	protected void setBaseDao(BaseDao<T, PK> baseDao) {
+	protected void setBaseDao(BaseDao<T> baseDao) {
 		this.baseDao = baseDao;
 	}
 
-	public T load(PK id) {
+	public T load(String id) {
 		return baseDao.load(id);
 	}
 
-	public T get(PK id) {
+	public T get(String id) {
 		return baseDao.get(id);
 	}
 
-	public List<T> get(PK[] ids) {
+	public List<T> get(String[] ids) {
 		return baseDao.get(ids);
 	}
 
@@ -45,7 +47,7 @@ public class BaseServiceImpl<T, PK extends Serializable> implements BaseService<
 		return baseDao.queryCount();
 	}
 
-	public PK save(T entity) {
+	public String save(T entity) {
 		return baseDao.save(entity);
 	}
 
@@ -65,11 +67,11 @@ public class BaseServiceImpl<T, PK extends Serializable> implements BaseService<
 		baseDao.delete(entity);
 	}
 
-	public void delete(PK id) {
+	public void delete(String id) {
 		baseDao.delete(id);
 	}
 
-	public void delete(PK[] ids) {
+	public void delete(String[] ids) {
 		baseDao.delete(ids);
 	}
 
