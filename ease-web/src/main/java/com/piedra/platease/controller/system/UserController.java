@@ -3,8 +3,6 @@ package com.piedra.platease.controller.system;
 import com.piedra.platease.entity.ResultModel;
 import com.piedra.platease.model.system.User;
 import com.piedra.platease.service.system.UserService;
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.id.GUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
