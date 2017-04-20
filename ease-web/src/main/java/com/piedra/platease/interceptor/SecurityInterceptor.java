@@ -1,18 +1,13 @@
 package com.piedra.platease.interceptor;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.piedra.platease.constants.SessionConstants;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -21,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
  * @author linwb
  * @since 2014-9-30
  */
+// FIXME 改用shiro来替代
+@Deprecated
 public class SecurityInterceptor implements HandlerInterceptor{
 	private static final Logger logger = LoggerFactory.getLogger(SecurityInterceptor.class);
 	

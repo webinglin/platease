@@ -26,9 +26,6 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 
 
-
-
-
 	public Page<User> getUserPage(Integer pageSize,Integer pageIndex){
 		DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
 		Page<User> page = new Page<>();
@@ -36,5 +33,10 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		page.setPageSize(pageSize);
 		page.setPageIndex(pageIndex);
 		return getBaseDao().getPage(criteria, page);
-	} 
+	}
+
+    @Override
+    public User getByUsername(String username) throws Exception{
+	    return getBaseDao().get("userName", username);
+    }
 }

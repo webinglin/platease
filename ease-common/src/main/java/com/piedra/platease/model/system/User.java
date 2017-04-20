@@ -12,6 +12,8 @@ public class User {
     private String idcard;
     private String realName;
     private String password;
+    /** 加密密码使用，新增用户的时候随机生成 */
+    private String salt;
     private String deptId;
     private String deptCode;
     private Byte status;
@@ -141,6 +143,14 @@ public class User {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     @Override

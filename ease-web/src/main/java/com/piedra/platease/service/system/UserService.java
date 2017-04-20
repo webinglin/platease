@@ -10,4 +10,10 @@ import com.piedra.platease.service.BaseService;
  */
 public interface UserService extends BaseService<User> {
 
+    /**
+     * 根据用户名查询用户信息
+     * @param username  用户名
+     * @return  返回用户信息
+     */
+    User getByUsername(String username) throws Exception;
 }

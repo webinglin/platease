@@ -15,8 +15,8 @@
 
     <aop:aspectj-autoproxy proxy-target-class="true" />
 
+    <!-- **************************** 数据源配置 BEGIN **************************** -->
     <context:property-placeholder location="classpath:jdbc.properties" />
-
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="url" value="${jdbc.url}" />
         <property name="driverClassName" value="${jdbc.driver}" />
@@ -64,6 +64,12 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+
+    <!-- **************************** 数据源配置 END **************************** -->
+
+
+
+
 
 </beans>
 

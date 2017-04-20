@@ -37,11 +37,13 @@
     </appender>
 
     <logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG" additivity="false" />
-    <logger name="com.piedra.platease" level="WARN">
-        <appender-ref ref="FILE"/>
-    </logger>
 
-    <root level="ERROR">
+    <!-- 设置成INFO级别，可以将info信息输出到FILE中，并且传递给root -->
+    <!--<logger name="com.piedra.platease" level="INFO">-->
+        <!--<appender-ref ref="FILE"/>-->
+    <!--</logger>-->
+
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="ROLLINGFILE" />
     </root>

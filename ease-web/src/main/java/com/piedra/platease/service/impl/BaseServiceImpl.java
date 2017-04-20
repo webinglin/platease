@@ -4,7 +4,6 @@ import com.piedra.platease.dao.BaseDao;
 import com.piedra.platease.service.BaseService;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

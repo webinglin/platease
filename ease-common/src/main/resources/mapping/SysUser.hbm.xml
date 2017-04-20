@@ -20,6 +20,9 @@
         <property name="password">
             <column name="PASSWORD" sql-type="varchar(255)"/>
         </property>
+        <property name="salt">
+            <column name="SALT" sql-type="varchar(8)"/>
+        </property>
         <property name="deptId">
             <column name="DEPT_ID" sql-type="char(32)" length="32"/>
         </property>

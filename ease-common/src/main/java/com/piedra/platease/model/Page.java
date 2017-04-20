@@ -18,7 +18,7 @@ public class Page<T> {
     }
 
     /** 分页数据 */
-    private List<T> list;
+    private List<T> datas;
 
     /** 分页大小 */
     private Integer pageSize = 10;
@@ -40,12 +40,12 @@ public class Page<T> {
     @JSONField(serialize = false)
     private OrderType orderType = OrderType.asc;
 
-    public List<T> getList() {
-        return list;
+    public List<T> getDatas() {
+        return datas;
     }
 
-    public void setList(List<T> list) {
-        this.list = list;
+    public void setDatas(List<T> datas) {
+        this.datas = datas;
     }
 
     public Integer getPageSize() {

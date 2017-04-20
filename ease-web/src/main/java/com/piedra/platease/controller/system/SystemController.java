@@ -14,22 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/system")
 public class SystemController {
 
-    /**
-     * 系统登录
-     * @return  返回登录之后的页面
-     */
-    @RequestMapping("/login")
-    public ModelAndView login(){
-        ModelAndView mav = new ModelAndView();
-        try{
-
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        mav.setViewName("system/login");
-        return mav;
-    }
-
 
 
 
