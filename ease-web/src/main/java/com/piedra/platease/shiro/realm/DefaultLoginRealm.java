@@ -44,19 +44,14 @@ public class DefaultLoginRealm extends AuthorizingRealm {
             return null;
         }
 
-        // 只要没有授权的， 都会调用到这个方法？？？
-        // TODO 防止多次被调用？？
-        // TODO 该方法每次都被调用  。。。。 如果已经授权过了， 那就不要再调用了， 不然每次查询会很恐怖的。。。
-
+        // TODO 加缓存     在进行isPermit之前，都会调用该方法获取权限和角色
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
         try {
             User user = (User) principals.getPrimaryPrincipal();
             String userId = user.getId();
 
-
             //TODO 根据userId查询相应的资源权限
-
 
             logger.info("用户授权成功------------");
 
