@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.piedra.platease.model.system.Function" table="sys_function" schema="platease">
+        <id name="funcId">
+            <column name="FUNC_ID" sql-type="varchar(32)" length="32"/>
+        </id>
+        <property name="funcTitle">
+            <column name="FUNC_TITLE" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="funcUrl">
+            <column name="FUNC_URL" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="imageUrl">
+            <column name="IMAGE_URL" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="funcType">
+            <column name="FUNC_TYPE" sql-type="varchar(32)" length="32" not-null="true"/>
+        </property>
+        <property name="permission">
+            <column name="PERMISSION" sql-type="varchar(100)" length="100" not-null="true"/>
+        </property>
+        <property name="parentId">
+            <column name="PARENT_ID" sql-type="varchar(64)" length="64" not-null="true"/>
+        </property>
+        <property name="remark">
+            <column name="REMARK" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="orderNum">
+            <column name="ORDER_NUM" sql-type="int(11)" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

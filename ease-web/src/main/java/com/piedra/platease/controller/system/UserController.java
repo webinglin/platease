@@ -26,6 +26,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping("/index")
+    public String index(){
+        return "user/user_index";
+    }
+
+
     /**
      * 添加用户
      * @param req   HttpRequest请求对象
@@ -54,6 +60,10 @@ public class UserController {
 
         return resultModel;
     }
+
+
+
+
 
 
 }

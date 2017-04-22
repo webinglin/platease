@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.piedra.platease.model.system.Role" table="sys_role" schema="platease">
+        <id name="id">
+            <column name="ID" sql-type="char(32)" length="32"/>
+        </id>
+        <property name="roleName">
+            <column name="ROLE_NAME" sql-type="varchar(255)" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

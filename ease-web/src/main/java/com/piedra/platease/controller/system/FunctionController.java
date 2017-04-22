@@ -9,6 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2017-04-06
  */
 @Controller
-@RequestMapping("/function")
+@RequestMapping("/func")
 public class FunctionController {
+
+    @RequestMapping("/index")
+    public String index(){
+        return "func/func_index";
+    }
+
+
 }

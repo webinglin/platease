@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.piedra.platease.model.system.Dept" table="sys_dept" schema="platease">
+        <id name="deptId">
+            <column name="DEPT_ID" sql-type="char(32)" length="32"/>
+        </id>
+        <property name="deptName">
+            <column name="DEPT_NAME" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="deptCode">
+            <column name="DEPT_CODE" sql-type="varchar(12)" length="12" not-null="true"/>
+        </property>
+        <property name="parentId">
+            <column name="PARENT_ID" sql-type="char(32)" length="32" not-null="true"/>
+        </property>
+        <property name="alias">
+            <column name="ALIAS" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="remark">
+            <column name="REMARK" sql-type="varchar(255)" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

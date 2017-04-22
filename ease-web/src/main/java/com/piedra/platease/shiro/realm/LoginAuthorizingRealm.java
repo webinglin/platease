@@ -1,5 +1,7 @@
 package com.piedra.platease.shiro.realm;
 
+import com.piedra.platease.model.system.Function;
+import com.piedra.platease.model.system.Role;
 import com.piedra.platease.model.system.User;
 import com.piedra.platease.service.system.UserService;
 import com.piedra.platease.utils.PasswordUtil;
@@ -14,16 +16,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * 默认登录的Realm，处理身份验证和授权
  * @author webinglin
  * @since 2017-04-19
  */
-public class DefaultLoginRealm extends AuthorizingRealm {
-    private static Logger logger = LoggerFactory.getLogger(DefaultLoginRealm.class);
+public class LoginAuthorizingRealm extends AuthorizingRealm {
+    private static Logger logger = LoggerFactory.getLogger(LoginAuthorizingRealm.class);
 
     private static final String REALM_NAME = "loginRealm";
-
 
     @Autowired
     private UserService userService;
@@ -36,29 +41,35 @@ public class DefaultLoginRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        logger.info("用户授权开始------------");
-
+        // 因为非正常退出，即没有显式调用 SecurityUtils.getSubject().logout()(可能是关闭浏览器，或超时)，但此时缓存依旧存在(principals)，所以会自己跑到授权方法里。
         if (!SecurityUtils.getSubject().isAuthenticated()) {
             doClearCache(principals);
             SecurityUtils.getSubject().logout();
             return null;
         }
 
-        // TODO 加缓存     在进行isPermit之前，都会调用该方法获取权限和角色
-        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-
+        logger.info("用户授权开始------------");
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         try {
             User user = (User) principals.getPrimaryPrincipal();
             String userId = user.getId();
 
-            //TODO 根据userId查询相应的资源权限
+            List<Role> roles = userService.queryUserRoles(userId);
+            List<Function> functions = userService.queryUserPermissions(userId);
+
+            Set<String> roleIds = new HashSet<>();
+            roles.forEach(role -> roleIds.add(role.getId()));
+
+            Set<String> funcUrlSet = new HashSet<>();
+            functions.forEach(function -> funcUrlSet.add(function.getFuncUrl()));
+
+            info.setStringPermissions(funcUrlSet);
 
             logger.info("用户授权成功------------");
-
         } catch (Exception e){
             logger.error("授权出错", e);
         }
-        return simpleAuthorizationInfo;
+        return info;
     }
 
     /**

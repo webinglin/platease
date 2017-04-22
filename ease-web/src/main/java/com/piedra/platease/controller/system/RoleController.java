@@ -11,4 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/role")
 public class RoleController {
+
+    @RequestMapping("/index")
+    public String index(){
+        return "role/role_index";
+    }
+
+
 }

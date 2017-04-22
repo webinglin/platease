@@ -8,12 +8,9 @@
     <title>PLATEASE</title>
 </head>
 <body>
-    home page
-登录成功...
+
+系统管理
 
 
-    <form action="/ease/logout" method="post">
-        <input type="submit" value="退出" />
-    </form>
 </body>
 </html>

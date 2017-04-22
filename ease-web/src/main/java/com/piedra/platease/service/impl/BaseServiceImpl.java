@@ -16,11 +16,11 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	private BaseDao<T> baseDao;
 
     protected BaseDao<T> getBaseDao() {
-		return baseDao;
-	}
-	protected void setBaseDao(BaseDao<T> baseDao) {
-		this.baseDao = baseDao;
-	}
+        return baseDao;
+    }
+    protected void setBaseDao(BaseDao<T> baseDao) {
+        this.baseDao = baseDao;
+    }
 
 	public T load(String id) {
 		return baseDao.load(id);

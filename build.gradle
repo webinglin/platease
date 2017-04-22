@@ -1,5 +1,3 @@
-import com.sun.corba.se.impl.util.Version
-
 /*
  * 基础架构平台
  * @author webinglin
@@ -41,6 +39,7 @@ subprojects{
                 "org.slf4j:slf4j-api:1.7.7",
                 "ch.qos.logback:logback-core:1.1.2",
                 "ch.qos.logback:logback-classic:1.1.2",
+                'org.apache.shiro:shiro-core:1.3.2',
                 'org.hibernate:hibernate-core:5.2.9.Final'
 
 

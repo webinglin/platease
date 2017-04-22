@@ -82,8 +82,12 @@ public class LoginController {
      * 退出系统
      */
     @RequestMapping(value="/logout", method=RequestMethod.POST)
-    public void logout(){
-
+    public String logout(){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject != null) {
+            subject.logout();
+        }
+        return InternalResourceViewResolver.REDIRECT_URL_PREFIX + Constants.CONTEXT_PATH;
     }
 
     /**
@@ -91,6 +95,8 @@ public class LoginController {
      */
     @RequestMapping(value="/home")
     public String home(){
+        // TODO 获取一系列的个性化菜单配置   Request域即可
+
         return "/system/home";
     }
 
@@ -100,7 +106,7 @@ public class LoginController {
      */
     @RequestMapping(value="/unAuth")
     public String unAuth(){
-        return "system/unAuth";
+        return "system/unauth";
     }
 
 

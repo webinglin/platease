@@ -165,105 +165,105 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 
 
-    /**
-     * 根据sql语句的条件参数和sql语句名称获取Query对象
-     * @param queryName 查询名称
-     * @param params     查询参数
-     * @return          返回查询对象
-     */
-    public Query getNamedQuery(String queryName, Map<String, Object> params) {
-        Query query = getSession().getNamedQuery(queryName);
-        Query rsQuery = null;
-        try {
-            Velocity.init();
-            VelocityContext context = new VelocityContext();
-            Set<String> keys = params.keySet();
-            //TODO 替换成JDK8
-            //            params.forEach((s, o) ->  {
+//    /**
+//     * 根据sql语句的条件参数和sql语句名称获取Query对象
+//     * @param queryName 查询名称
+//     * @param params     查询参数
+//     * @return          返回查询对象
+//     */
+//    public Query getNamedQuery(String queryName, Map<String, Object> params) {
+//        Query query = getSession().getNamedQuery(queryName);
+//        Query rsQuery = null;
+//        try {
+//            Velocity.init();
+//            VelocityContext context = new VelocityContext();
+//            Set<String> keys = params.keySet();
+
+//            //            params.forEach((s, o) ->  {
+////
+////            });
+//            for (Iterator<String> it = keys.iterator(); it.hasNext();) {
+//                String key = it.next();
+//                context.put(key, params.get(key));
+//            }
+//            StringWriter sql = new StringWriter();
+//            Velocity.evaluate(context, sql, null, query.getQueryString());
+//            rsQuery = getSession().createNativeQuery(sql.toString());
 //
-//            });
-            for (Iterator<String> it = keys.iterator(); it.hasNext();) {
-                String key = it.next();
-                context.put(key, params.get(key));
-            }
-            StringWriter sql = new StringWriter();
-            Velocity.evaluate(context, sql, null, query.getQueryString());
-            rsQuery = getSession().createNativeQuery(sql.toString());
-
-//            JavaUtil.forceSetProperty(rsQuery, "queryReturns", JavaUtil.forceGetProperty(query, "queryReturns"));
-        } catch (Exception e) {
-            logger.error("查询【"+queryName+"】出错", e);
-        }
-        return rsQuery;
-    }
-
-    public Query setQueryNameParameters(Query query, Map<String, Object> params){
-        Set<String> nameParams = query.getParameterMetadata().getNamedParameterNames();
-        for (String nameParam : nameParams) {
-            Object obj = params.get(nameParam);
-            if(obj instanceof Collection){
-                query.setParameterList(nameParam, (Collection) obj);
-            }else if(obj.getClass().isArray()){
-                query.setParameterList(nameParam, (Object[])obj);
-            }else{
-                query.setParameter(nameParam, obj);
-            }
-        }
-        return query;
-    }
-
-    public Integer getNameQueryCount(String countQueryName, Map<String, Object> params) {
-        Query countQuery = getNamedQuery(countQueryName, params);
-        setQueryNameParameters(countQuery, params);
-
-        List countList = countQuery.list();
-        if(CollectionUtils.isEmpty(countList)){
-            return 0;
-        }
-        Integer quertCount = ((Integer) countList.get(0));
-        if(quertCount == null){
-            return 0;
-        }
-        return quertCount;
-    }
-
-    public Page<T> queryByNameQuery(Page<T> page, String queryName, Map<String, Object> params) {
-        if(StringUtils.isNotBlank(page.getOrderBy())){
-            params.put("orderBy", page.getOrderBy());
-            params.put("orderType", page.getOrderType());
-        }
-
-        Query query = getNamedQuery(queryName, params);
-        setQueryNameParameters(query, params);
-
-        query.setFirstResult(page.getPageIndex()*page.getPageSize());
-        query.setMaxResults(page.getPageSize());
-        List<T> resultList = query.list();
-        if(resultList == null){
-            resultList = new ArrayList<>();
-        }
-        page.setDatas(resultList);
-        return page;
-    }
-
-
-    public <M> Page<M> queryByNameQuery(Page<M> page, String queryName, Map<String, Object> params, ResultTransformer transformer) {
-        params.put("orderBy", page.getOrderBy());
-        params.put("orderType", page.getOrderType());
-
-        Query query = getNamedQuery(queryName, params);
-        setQueryNameParameters(query, params);
-        query.setFirstResult(page.getPageIndex()*page.getPageSize());
-        query.setMaxResults(page.getPageSize());
-        if(transformer!=null){
-            query.setResultTransformer(transformer);
-        }
-        List<M> resultList = query.list();
-        if(resultList == null){
-            resultList = new ArrayList<>();
-        }
-        page.setDatas(resultList);
-        return page;
-    }
+////            JavaUtil.forceSetProperty(rsQuery, "queryReturns", JavaUtil.forceGetProperty(query, "queryReturns"));
+//        } catch (Exception e) {
+//            logger.error("查询【"+queryName+"】出错", e);
+//        }
+//        return rsQuery;
+//    }
+//
+//    public Query setQueryNameParameters(Query query, Map<String, Object> params){
+//        Set<String> nameParams = query.getParameterMetadata().getNamedParameterNames();
+//        for (String nameParam : nameParams) {
+//            Object obj = params.get(nameParam);
+//            if(obj instanceof Collection){
+//                query.setParameterList(nameParam, (Collection) obj);
+//            }else if(obj.getClass().isArray()){
+//                query.setParameterList(nameParam, (Object[])obj);
+//            }else{
+//                query.setParameter(nameParam, obj);
+//            }
+//        }
+//        return query;
+//    }
+//
+//    public Integer getNameQueryCount(String countQueryName, Map<String, Object> params) {
+//        Query countQuery = getNamedQuery(countQueryName, params);
+//        setQueryNameParameters(countQuery, params);
+//
+//        List countList = countQuery.list();
+//        if(CollectionUtils.isEmpty(countList)){
+//            return 0;
+//        }
+//        Integer quertCount = ((Integer) countList.get(0));
+//        if(quertCount == null){
+//            return 0;
+//        }
+//        return quertCount;
+//    }
+//
+//    public Page<T> queryByNameQuery(Page<T> page, String queryName, Map<String, Object> params) {
+//        if(StringUtils.isNotBlank(page.getOrderBy())){
+//            params.put("orderBy", page.getOrderBy());
+//            params.put("orderType", page.getOrderType());
+//        }
+//
+//        Query query = getNamedQuery(queryName, params);
+//        setQueryNameParameters(query, params);
+//
+//        query.setFirstResult(page.getPageIndex()*page.getPageSize());
+//        query.setMaxResults(page.getPageSize());
+//        List<T> resultList = query.list();
+//        if(resultList == null){
+//            resultList = new ArrayList<>();
+//        }
+//        page.setDatas(resultList);
+//        return page;
+//    }
+//
+//
+//    public <M> Page<M> queryByNameQuery(Page<M> page, String queryName, Map<String, Object> params, ResultTransformer transformer) {
+//        params.put("orderBy", page.getOrderBy());
+//        params.put("orderType", page.getOrderType());
+//
+//        Query query = getNamedQuery(queryName, params);
+//        setQueryNameParameters(query, params);
+//        query.setFirstResult(page.getPageIndex()*page.getPageSize());
+//        query.setMaxResults(page.getPageSize());
+//        if(transformer!=null){
+//            query.setResultTransformer(transformer);
+//        }
+//        List<M> resultList = query.list();
+//        if(resultList == null){
+//            resultList = new ArrayList<>();
+//        }
+//        page.setDatas(resultList);
+//        return page;
+//    }
 
 }
