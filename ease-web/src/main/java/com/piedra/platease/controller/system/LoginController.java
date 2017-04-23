@@ -1,6 +1,7 @@
 package com.piedra.platease.controller.system;
 
 import com.piedra.platease.constants.Constants;
+import com.piedra.platease.utils.SessionHelper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -85,6 +86,7 @@ public class LoginController {
     public String logout(){
         Subject subject = SecurityUtils.getSubject();
         if (subject != null) {
+            SessionHelper.removeCurrentSession(subject.getSession());
             subject.logout();
         }
         return InternalResourceViewResolver.REDIRECT_URL_PREFIX + Constants.CONTEXT_PATH;

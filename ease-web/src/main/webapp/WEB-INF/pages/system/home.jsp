@@ -8,12 +8,19 @@
     <title>PLATEASE</title>
 </head>
 <body>
-    home page
-登录成功...
+登录成功... Home Page...
+<p>
+    $(window).unload(function () {
+    $.ajax({
+    type: 'GET',
+    async: false,
+    url: 'SomeUrl.com?id=123'
+    });
+    });
+</p>
 
-
-    <form action="/ease/logout" method="post">
-        <input type="submit" value="退出" />
-    </form>
+<form action="/ease/logout" method="post">
+    <input type="submit" value="退出" />
+</form>
 </body>
 </html>

@@ -23,23 +23,22 @@
         <!-- 相隔多久检查一次session的有效性,使用默认的20分钟 1200000  -->
         <property name="sessionValidationInterval" value="30000" />
 
-       <!--
-       <property name="sessionListeners">
+        <!-- 定义自己的session监听器，在过期的时候清空需要清空的数据 -->
+        <property name="sessionListeners">
             <list>
                 <bean class="com.piedra.platease.shiro.listener.ShiroSessionListener"/>
             </list>
         </property>
-        -->
     </bean>
 
     <!-- 缓存管理器 -->
-    <bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+    <!--<bean id="memoryCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />-->
 
     <!-- 这里主要是设置自定义的单Realm应用,若有多个Realm,可使用'realms'属性代替 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="loginAuthorizingRealm"/>
         <property name="sessionManager" ref="sessionManager"/>
-        <property name="cacheManager" ref="shiroCacheManager" />
+        <!--<property name="cacheManager" ref="memoryCacheManager" />-->
     </bean>
 
     <!-- Web应用中,Shiro可控制的Web请求必须经过Shiro主过滤器的拦截,Shiro对基于Spring的Web应用提供了完美的支持 -->
@@ -49,9 +48,11 @@
         <property name="unauthorizedUrl" value="/unAuth"/>
         <property name="filterChainDefinitions">
             <value>
-                <!--/js/** = anon-->
-                <!--/css/** = anon-->
-                <!--/images/** = anon-->
+                /js/** = anon
+                /css/** = anon
+                /images/** = anon
+                /plugins/** = anon
+                /static/** = anon
 
                 / = anon
                 /login = anon

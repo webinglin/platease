@@ -1,16 +1,20 @@
 package com.piedra.platease.shiro.realm;
 
+import com.piedra.platease.constants.SessionConstants;
 import com.piedra.platease.model.system.Function;
 import com.piedra.platease.model.system.Role;
 import com.piedra.platease.model.system.User;
 import com.piedra.platease.service.system.UserService;
 import com.piedra.platease.utils.PasswordUtil;
+import com.piedra.platease.utils.SessionHelper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,10 +44,12 @@ public class LoginAuthorizingRealm extends AuthorizingRealm {
      * @return  返回授权信息
      */
     @Override
+    @SuppressWarnings("unchecked")
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         // 因为非正常退出，即没有显式调用 SecurityUtils.getSubject().logout()(可能是关闭浏览器，或超时)，但此时缓存依旧存在(principals)，所以会自己跑到授权方法里。
+        Subject subject = SecurityUtils.getSubject();
         if (!SecurityUtils.getSubject().isAuthenticated()) {
-            doClearCache(principals);
+            SessionHelper.removeCurrentSession(subject.getSession());
             SecurityUtils.getSubject().logout();
             return null;
         }
@@ -51,21 +57,38 @@ public class LoginAuthorizingRealm extends AuthorizingRealm {
         logger.info("用户授权开始------------");
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         try {
+            Session session = subject.getSession();
+            Object permissonsObj = session.getAttribute(SessionConstants.SHIRO_PERMISSIONS);
+            // 从Session缓存获取不为空，那么就表明已经授权过了
+            if(permissonsObj!=null){
+                Object shiroRoleObj =session.getAttribute(SessionConstants.SHIRO_ROLES);
+                Set<String> roleDescs = (Set<String>) shiroRoleObj;
+                Set<String> funcUrlSet = (Set<String>) permissonsObj;
+                info.setRoles(roleDescs);
+                info.setStringPermissions(funcUrlSet);
+
+                logger.info("从缓存获取用户授权信息成功------------");
+                return info ;
+            }
+
             User user = (User) principals.getPrimaryPrincipal();
             String userId = user.getId();
 
             List<Role> roles = userService.queryUserRoles(userId);
+            Set<String> roleDescs = new HashSet<>();
+            roles.forEach(role -> roleDescs.add(role.getId()));
+            info.setRoles(roleDescs);
+
             List<Function> functions = userService.queryUserPermissions(userId);
-
-            Set<String> roleIds = new HashSet<>();
-            roles.forEach(role -> roleIds.add(role.getId()));
-
             Set<String> funcUrlSet = new HashSet<>();
             functions.forEach(function -> funcUrlSet.add(function.getFuncUrl()));
-
             info.setStringPermissions(funcUrlSet);
 
-            logger.info("用户授权成功------------");
+            // 将授权信息设置到SESSION缓存，后续登录直接获取。 不放到SHIRO的缓存，浏览器异常退出，在SESSION过期的时候无法清空
+            session.setAttribute(SessionConstants.SHIRO_ROLES, roleDescs);
+            session.setAttribute(SessionConstants.SHIRO_PERMISSIONS, funcUrlSet);
+
+            logger.info("从数据库读取用户授权信息成功------------");
         } catch (Exception e){
             logger.error("授权出错", e);
         }
