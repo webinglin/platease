@@ -7,11 +7,6 @@
 <%@include file="/WEB-INF/pages/common/common.jsp" %>
 <link rel="stylesheet" href="${URL}/css/system/login.css" />
 <body>
-<%--<form action="/ease/login" method="post">--%>
-<%--用户名： <input name="username" type="text">--%>
-<%--密码： <input name="password" type="password">--%>
-<%--<input type="submit" value="提交"/>--%>
-<%--</form>--%>
 
 <div class="modal-dialog">
     <div class="modal-content">
@@ -36,5 +31,6 @@
     </div>
 </div>
 
+<script type="text/javascript" src="${URL}/js/system/login.js"></script>
 </body>
 </html>

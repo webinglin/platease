@@ -1,6 +1,5 @@
 package com.piedra.platease.shiro.realm;
 
-import com.piedra.platease.constants.SessionConstants;
 import com.piedra.platease.model.system.Function;
 import com.piedra.platease.model.system.Role;
 import com.piedra.platease.model.system.User;
@@ -12,7 +11,6 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
@@ -33,9 +31,18 @@ public class LoginAuthorizingRealm extends AuthorizingRealm {
     private static Logger logger = LoggerFactory.getLogger(LoginAuthorizingRealm.class);
 
     private static final String REALM_NAME = "loginRealm";
+    private static final String CACHE_NAME = "plateaseCache";
 
     @Autowired
     private UserService userService;
+
+
+    public LoginAuthorizingRealm(){
+        // 认证不需要缓存
+        super.setAuthenticationCachingEnabled(false);
+        // 授权需要缓存
+        super.setAuthorizationCacheName(CACHE_NAME);
+    }
 
     /**
      * 授权操作
@@ -57,20 +64,6 @@ public class LoginAuthorizingRealm extends AuthorizingRealm {
         logger.info("用户授权开始------------");
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         try {
-            Session session = subject.getSession();
-            Object permissonsObj = session.getAttribute(SessionConstants.SHIRO_PERMISSIONS);
-            // 从Session缓存获取不为空，那么就表明已经授权过了
-            if(permissonsObj!=null){
-                Object shiroRoleObj =session.getAttribute(SessionConstants.SHIRO_ROLES);
-                Set<String> roleDescs = (Set<String>) shiroRoleObj;
-                Set<String> funcUrlSet = (Set<String>) permissonsObj;
-                info.setRoles(roleDescs);
-                info.setStringPermissions(funcUrlSet);
-
-                logger.info("从缓存获取用户授权信息成功------------");
-                return info ;
-            }
-
             User user = (User) principals.getPrimaryPrincipal();
             String userId = user.getId();
 
@@ -84,11 +77,6 @@ public class LoginAuthorizingRealm extends AuthorizingRealm {
             functions.forEach(function -> funcUrlSet.add(function.getFuncUrl()));
             info.setStringPermissions(funcUrlSet);
 
-            // 将授权信息设置到SESSION缓存，后续登录直接获取。 不放到SHIRO的缓存，浏览器异常退出，在SESSION过期的时候无法清空
-            session.setAttribute(SessionConstants.SHIRO_ROLES, roleDescs);
-            session.setAttribute(SessionConstants.SHIRO_PERMISSIONS, funcUrlSet);
-
-            logger.info("从数据库读取用户授权信息成功------------");
         } catch (Exception e){
             logger.error("授权出错", e);
         }

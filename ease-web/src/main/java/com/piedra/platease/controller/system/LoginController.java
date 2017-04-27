@@ -58,6 +58,7 @@ public class LoginController {
 //        }
 
         username = "test01";
+        // 前端用md5加密后传到后台这
         password = "f379eaf3c831b04de153469d1bec345e";
 //        password = "17b984ed10044d28597d73be336cf613";
 

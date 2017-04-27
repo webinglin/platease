@@ -1,6 +1,5 @@
 package com.piedra.platease.service;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

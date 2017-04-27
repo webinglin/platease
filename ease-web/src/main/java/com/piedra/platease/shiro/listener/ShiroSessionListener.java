@@ -14,7 +14,6 @@ public class ShiroSessionListener implements SessionListener {
 
     @Override
     public void onStart(Session session) {
-        System.out.println(1);
     }
 
     @Override

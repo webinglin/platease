@@ -7,11 +7,6 @@ package com.piedra.platease.constants;
  */
 public class SessionConstants {
 
-    /** 缓存当前用户的角色信息 */
-    public static final String SHIRO_ROLES = "shiroRoles";
-    /** 缓存当前用户的授权信息 */
-    public static final String SHIRO_PERMISSIONS = "shiroPermissions";
-
 
 
 

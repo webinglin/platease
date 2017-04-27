@@ -2,6 +2,7 @@ package com.piedra.platease.dao.impl;
 
 import com.piedra.platease.dao.BaseDao;
 import com.piedra.platease.model.Page;
+import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
@@ -12,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 import org.slf4j.Logger;
@@ -165,105 +167,44 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 
 
-//    /**
-//     * 根据sql语句的条件参数和sql语句名称获取Query对象
-//     * @param queryName 查询名称
-//     * @param params     查询参数
-//     * @return          返回查询对象
-//     */
-//    public Query getNamedQuery(String queryName, Map<String, Object> params) {
-//        Query query = getSession().getNamedQuery(queryName);
-//        Query rsQuery = null;
-//        try {
-//            Velocity.init();
-//            VelocityContext context = new VelocityContext();
-//            Set<String> keys = params.keySet();
+    /**
+     * 根据Page的排序分页信息，封装SQL语句
+     * @param sqlBuilder    sql语句
+     * @param page  分页信息
+     * @param bm    参数
+     * @return  返回添加了分页信息的sql语句
+     */
+    @SuppressWarnings("unchecked")
+    public NativeQuery createNativeQuery(StringBuilder sqlBuilder, Page page, BeanMap bm) {
+        // 封装分页信息
+        if(page!=null){
+            String orderBy = page.getOrderBy();
+            if(StringUtils.isNotBlank(orderBy)) {
+                sqlBuilder.append(" ORDER BY ").append(orderBy).append(page.getOrderType()==Page.OrderType.asc ? " ASC " : " DESC ");
+            }
+            int pageSize = page.getPageSize(), pageIndex = page.getPageIndex();
+            sqlBuilder.append(" LIMIT ").append((pageIndex-1)*pageSize).append(" , ").append(pageSize);
+        }
 
-//            //            params.forEach((s, o) ->  {
-////
-////            });
-//            for (Iterator<String> it = keys.iterator(); it.hasNext();) {
-//                String key = it.next();
-//                context.put(key, params.get(key));
-//            }
-//            StringWriter sql = new StringWriter();
-//            Velocity.evaluate(context, sql, null, query.getQueryString());
-//            rsQuery = getSession().createNativeQuery(sql.toString());
-//
-////            JavaUtil.forceSetProperty(rsQuery, "queryReturns", JavaUtil.forceGetProperty(query, "queryReturns"));
-//        } catch (Exception e) {
-//            logger.error("查询【"+queryName+"】出错", e);
-//        }
-//        return rsQuery;
-//    }
-//
-//    public Query setQueryNameParameters(Query query, Map<String, Object> params){
-//        Set<String> nameParams = query.getParameterMetadata().getNamedParameterNames();
-//        for (String nameParam : nameParams) {
-//            Object obj = params.get(nameParam);
-//            if(obj instanceof Collection){
-//                query.setParameterList(nameParam, (Collection) obj);
-//            }else if(obj.getClass().isArray()){
-//                query.setParameterList(nameParam, (Object[])obj);
-//            }else{
-//                query.setParameter(nameParam, obj);
-//            }
-//        }
-//        return query;
-//    }
-//
-//    public Integer getNameQueryCount(String countQueryName, Map<String, Object> params) {
-//        Query countQuery = getNamedQuery(countQueryName, params);
-//        setQueryNameParameters(countQuery, params);
-//
-//        List countList = countQuery.list();
-//        if(CollectionUtils.isEmpty(countList)){
-//            return 0;
-//        }
-//        Integer quertCount = ((Integer) countList.get(0));
-//        if(quertCount == null){
-//            return 0;
-//        }
-//        return quertCount;
-//    }
-//
-//    public Page<T> queryByNameQuery(Page<T> page, String queryName, Map<String, Object> params) {
-//        if(StringUtils.isNotBlank(page.getOrderBy())){
-//            params.put("orderBy", page.getOrderBy());
-//            params.put("orderType", page.getOrderType());
-//        }
-//
-//        Query query = getNamedQuery(queryName, params);
-//        setQueryNameParameters(query, params);
-//
-//        query.setFirstResult(page.getPageIndex()*page.getPageSize());
-//        query.setMaxResults(page.getPageSize());
-//        List<T> resultList = query.list();
-//        if(resultList == null){
-//            resultList = new ArrayList<>();
-//        }
-//        page.setDatas(resultList);
-//        return page;
-//    }
-//
-//
-//    public <M> Page<M> queryByNameQuery(Page<M> page, String queryName, Map<String, Object> params, ResultTransformer transformer) {
-//        params.put("orderBy", page.getOrderBy());
-//        params.put("orderType", page.getOrderType());
-//
-//        Query query = getNamedQuery(queryName, params);
-//        setQueryNameParameters(query, params);
-//        query.setFirstResult(page.getPageIndex()*page.getPageSize());
-//        query.setMaxResults(page.getPageSize());
-//        if(transformer!=null){
-//            query.setResultTransformer(transformer);
-//        }
-//        List<M> resultList = query.list();
-//        if(resultList == null){
-//            resultList = new ArrayList<>();
-//        }
-//        page.setDatas(resultList);
-//        return page;
-//    }
+        NativeQuery query = getSession().createNativeQuery(sqlBuilder.toString());
+        if(bm==null){
+            return query;
+        }
+        Set<String> keys = bm.keySet();
+        if(keys.size()==0){
+            return query;
+        }
+        keys.forEach(k -> query.setParameter(k, bm.get(k)));
+        return query;
+    }
 
+    /**
+     * 为更新的SQL语句封装参数
+     * @param sqlBuilder    更新的SQL语句
+     * @param bm    参数
+     * @return  返回Query对象
+     */
+    public NativeQuery createNativeQueryForUpdate(StringBuilder sqlBuilder, BeanMap bm){
+        return createNativeQuery(sqlBuilder, null, bm);
+    }
 }
