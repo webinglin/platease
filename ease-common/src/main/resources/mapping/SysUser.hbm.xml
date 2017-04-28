@@ -54,4 +54,60 @@
             <column name="REMARK" sql-type="varchar(255)"/>
         </property>
     </class>
+
+
+    <!-- 查询用户的角色信息 -->
+    <sql-query name="queryUserRoles">
+        <return alias="r" class="com.piedra.platease.model.system.Role" />
+        <![CDATA[
+            SELECT r.* FROM SYS_ROLE r  JOIN SYS_USER_ROLE ur ON r.ID=ur.ROLE_ID AND ur.USER_ID=:userId
+        ]]>
+    </sql-query>
+
+    <!-- 查询用户的权限信息 -->
+    <sql-query name="queryUserPermissions">
+        <return alias="f" class="com.piedra.platease.model.system.Function" />
+        <![CDATA[
+            SELECT f.* FROM SYS_FUNCTION f
+                JOIN SYS_ROLE_FUNC rf ON rf.FUNC_ID=f.FUNC_ID
+                JOIN SYS_USER_ROLE ur ON ur.ROLE_ID=rf.ROLE_ID AND ur.USER_ID=:userId
+        ]]>
+    </sql-query>
+
+    <!-- 更新用户信息 -->
+    <sql-query name="updateUser">
+        <![CDATA[
+            UPDATE SYS_USER SET ID=ID
+            #if($userName)
+                ,USER_NAME='$userName'
+            #end
+            #if($idcard)
+                ,IDCARD='$idcard'
+            #end
+            #if($realName)
+                ,REAL_NAME='$realName'
+            #end
+            #if($password)
+                ,PASSWORD='$password'
+            #end
+            #if($deptId)
+                ,DEPT_ID='$deptId'
+            #end
+            #if($deptCode)
+                ,DEPT_CODE='$deptCode'
+            #end
+            #if($telphone)
+                ,TELPHONE='$telphone'
+            #end
+            #if($homeBgurl)
+                ,HOME_BGURL='$homeBgurl'
+            #end
+            #if($remark)
+                ,REMARK='$remark'
+            #end
+            WHERE ID='$id'
+        ]]>
+    </sql-query>
+
+
 </hibernate-mapping>

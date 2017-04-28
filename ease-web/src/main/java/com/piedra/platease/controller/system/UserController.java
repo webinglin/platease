@@ -71,7 +71,6 @@ public class UserController {
         return resultModel;
     }
 
-
     /**
      * 删除用户
      * @param userDto 要删除的用户
@@ -93,8 +92,6 @@ public class UserController {
         return resultModel;
     }
 
-
-
     /**
      * 修改用户
      * @param req   HttpRequest请求对象
@@ -105,6 +102,9 @@ public class UserController {
     @ResponseBody
     public ResultModel updateUser(HttpServletRequest req, UserDTO userDto){
         ResultModel resultModel = new ResultModel();
+        if(userDto==null || StringUtils.isBlank(userDto.getId())) {
+            return resultModel.setError("更新的用户ID不能为空");
+        }
         try {
 
             userService.updateUser(userDto);

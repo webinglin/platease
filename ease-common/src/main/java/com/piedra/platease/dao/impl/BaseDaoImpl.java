@@ -2,7 +2,6 @@ package com.piedra.platease.dao.impl;
 
 import com.piedra.platease.dao.BaseDao;
 import com.piedra.platease.model.Page;
-import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
@@ -166,45 +165,184 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		return page;
 	}
 
+/* ******************************************************************************
+ *  sql-query   ----begin----
+ * ***************************************************************************** */
 
     /**
-     * 根据Page的排序分页信息，封装SQL语句
-     * @param sqlBuilder    sql语句
-     * @param page  分页信息
-     * @param bm    参数
-     * @return  返回添加了分页信息的sql语句
+     * 根据queryName获取query，并解析 velocity 模板语法为nativeSQL
+     * @param queryName 查询语句的名称
+     * @param params    参数
+     * @return  返回Query对象
      */
-    @SuppressWarnings("unchecked")
-    public NativeQuery createNativeQuery(StringBuilder sqlBuilder, Page page, BeanMap bm) {
-        // 封装分页信息
-        if(page!=null){
-            String orderBy = page.getOrderBy();
-            if(StringUtils.isNotBlank(orderBy)) {
-                sqlBuilder.append(" ORDER BY ").append(orderBy).append(page.getOrderType()==Page.OrderType.asc ? " ASC " : " DESC ");
-            }
-            int pageSize = page.getPageSize(), pageIndex = page.getPageIndex();
-            sqlBuilder.append(" LIMIT ").append((pageIndex-1)*pageSize).append(" , ").append(pageSize);
-        }
+    private NativeQuery getNamedQuery(String queryName, Map<String, Object> params) {
+        Query query = getSession().getNamedQuery(queryName);
+        NativeQuery rsQuery = null;
+        try {
+            Velocity.init();
+            VelocityContext context = new VelocityContext();
+            params.forEach((k,v) -> context.put(k, params.get(k)));
+            StringWriter sqlWriter = new StringWriter();
+            Velocity.evaluate(context, sqlWriter, null, query.getQueryString());
+            rsQuery = getSession().createNativeQuery(sqlWriter.toString());
 
-        NativeQuery query = getSession().createNativeQuery(sqlBuilder.toString());
-        if(bm==null){
-            return query;
+        } catch (Exception e) {
+            logger.error("查询命名SQL【"+queryName+"】出错！", e);
         }
-        Set<String> keys = bm.keySet();
-        if(keys.size()==0){
-            return query;
-        }
-        keys.forEach(k -> query.setParameter(k, bm.get(k)));
+        return rsQuery;
+    }
+
+    /**
+     *  设置参数到NativeSql中
+     * @param query     Query对象
+     * @param params    参数集合
+     * @return  返回Query对象
+     */
+    @SuppressWarnings("rawtypes")
+    private NativeQuery setQueryNameParameters(NativeQuery query, Map<String, Object> params){
+        Set<String> nameParams = query.getParameterMetadata().getNamedParameterNames();
+        nameParams.forEach(k -> {
+            Object obj = params.get(k);
+            if(obj instanceof Collection){
+                query.setParameterList(k, (Collection) obj);
+            }else if(obj.getClass().isArray()){
+                query.setParameterList(k, (Object[])obj);
+            }else{
+                query.setParameter(k, obj);
+            }
+        });
         return query;
     }
 
     /**
-     * 为更新的SQL语句封装参数
-     * @param sqlBuilder    更新的SQL语句
-     * @param bm    参数
-     * @return  返回Query对象
+     * 根据queryName查询数据 sql语句查询到的数据总量
+     * @param countQueryName    查数据量的sql-query名称
+     * @param params    参数集合
+     * @return  返回数据总量
      */
-    public NativeQuery createNativeQueryForUpdate(StringBuilder sqlBuilder, BeanMap bm){
-        return createNativeQuery(sqlBuilder, null, bm);
+    public Integer queryCntByNameQuery(String countQueryName, Map<String, Object> params) {
+        NativeQuery countQuery = getNamedQuery(countQueryName, params);
+        countQuery = setQueryNameParameters(countQuery, params);
+        List countList = countQuery.list();
+        if(CollectionUtils.isEmpty(countList)){
+            return 0;
+        }
+        Integer queryCount = ((Integer) countList.get(0));
+        if(queryCount == null){
+            return 0;
+        }
+        return queryCount;
     }
+
+    /**
+     * 分页查询， 不查询数据总量
+     * @param page          分页对象
+     * @param queryName     sql-query的名称
+     * @param params        参数集合
+     * @return  返回分页结果（只包含当前查询页的数据集合）
+     */
+    @SuppressWarnings({ "unchecked" })
+    public Page<T> queryByNameWithoutTotal(Page<T> page, String queryName, Map<String, Object> params) {
+        if(StringUtils.isNotBlank(page.getOrderBy())){
+            params.put("orderBy", page.getOrderBy());
+            params.put("orderType", page.getOrderType());
+        }
+        NativeQuery query = getNamedQuery(queryName, params);
+        setQueryNameParameters(query, params);
+        query.setFirstResult((page.getPageIndex()-1)*page.getPageSize());
+        query.setMaxResults(page.getPageSize());
+        List<T> resultList = query.list();
+        if(resultList == null){
+            resultList = new ArrayList<>();
+        }
+        page.setDatas(resultList);
+        return page;
+    }
+
+    /**
+     * 分页查询， 同时查出数据总量
+     * @param page          分页对象
+     * @param queryName     sql-query的名称
+     * @param params        参数集合
+     * @return  返回分页结果（包含数据总量和当前查询页的数据集合）
+     */
+    public Page<T> queryByNameWithTotal(Page<T> page, String countQueryName, String queryName, Map<String, Object> params) {
+        Integer totalCount = queryCntByNameQuery(countQueryName, params);
+        page.setTotalCount(totalCount);
+        if(totalCount==0){
+            page.setDatas(new ArrayList<>());
+            return page;
+        }
+        page = queryByNameWithoutTotal(page, queryName, params);
+        return page;
+    }
+
+    /**
+     * 根据sql-query名称查询结果，不包含数据总量，允许将结果转成非持久化的对象（根据ResultTransformer转换）
+     * @param page          分页条件
+     * @param queryName     sql-query名称
+     * @param params        参数集合
+     * @param transformer   转换对象
+     * @param <M>           新的对象类型
+     * @return  返回查询的当前页的数据集合
+     */
+    @SuppressWarnings("unchecked")
+    public<M> Page<M> queryByNameWithoutTotal(Page<M> page, String queryName, Map<String, Object> params, ResultTransformer transformer) {
+        if(StringUtils.isNotBlank(page.getOrderBy())){
+            params.put("orderBy", page.getOrderBy());
+            params.put("orderType", page.getOrderType());
+        }
+        NativeQuery query = getNamedQuery(queryName, params);
+        setQueryNameParameters(query, params);
+        query.setFirstResult((page.getPageIndex()-1)*page.getPageSize());
+        query.setMaxResults(page.getPageSize());
+        if(transformer!=null){
+            query.setResultTransformer(transformer);
+        }
+
+        List<M> resultList = query.list();
+        if(resultList == null){
+            resultList = new ArrayList<>();
+        }
+        page.setDatas(resultList);
+        return page;
+    }
+
+    /**
+     * 根据sql-query名称查询结果，包含数据总量，允许将结果转成非持久化的对象（根据ResultTransformer转换）
+     * @param page          分页条件
+     * @param queryName     sql-query名称
+     * @param params        参数集合
+     * @param transformer   转换对象
+     * @param <M>           新的对象类型
+     * @return  返回查询的当前页的数据集合，包含数据总量
+     */
+    public <M> Page<M> queryByNameWithTotal(Page<M> page, String countQueryName, String queryName, Map<String, Object> params, ResultTransformer transformer) {
+        Integer totalCnt = queryCntByNameQuery(countQueryName, params);
+        page.setTotalCount(totalCnt);
+        if(totalCnt==0){
+            page.setDatas(new ArrayList<>());
+            return page;
+        }
+
+        page = queryByNameWithoutTotal(page, queryName, params, transformer);
+        return page;
+    }
+
+    /**
+     * 执行CUD语句
+     * @param queryName sql-query的名称
+     * @param params    参数集合
+     * @return  返回执行结果
+     */
+    public int executeQueryByName(String queryName, Map<String,Object> params){
+        NativeQuery query = getNamedQuery(queryName, params);
+        query = setQueryNameParameters(query, params);
+        return query.executeUpdate();
+    }
+
+/* ******************************************************************************
+ *  sql-query   ----end----
+ * ***************************************************************************** */
+
 }

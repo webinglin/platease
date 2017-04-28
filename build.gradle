@@ -43,7 +43,8 @@ subprojects{
                 'org.hibernate:hibernate-core:5.2.9.Final'
 
 
-		testCompile "junit:junit:4+"
+		testCompile "junit:junit:4+",
+                "org.springframework:spring-test:$springVersion"
         runtime "mysql:mysql-connector-java:5.1.31"
 	}
 }

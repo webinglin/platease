@@ -2,11 +2,18 @@ package com.piedra.platease.dao;
 
 
 import com.piedra.platease.model.Page;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.query.Query;
+import org.hibernate.transform.ResultTransformer;
 
-import java.util.List;
+import java.io.StringWriter;
+import java.util.*;
 
 /**
  * Dao操作接口定义
@@ -167,4 +174,72 @@ public interface BaseDao<T> {
      * @return  分页对象
      */
      Page<T> getPage(DetachedCriteria criteria, Page<T> page);
+
+
+/* ******************************************************************************
+ *  sql-query   ----begin----
+ * ***************************************************************************** */
+
+    /**
+     * 根据queryName查询数据 sql语句查询到的数据总量
+     * @param countQueryName    查数据量的sql-query名称
+     * @param params    参数集合
+     * @return  返回数据总量
+     */
+    Integer queryCntByNameQuery(String countQueryName, Map<String, Object> params) ;
+
+    /**
+     * 分页查询， 不查询数据总量
+     * @param page          分页对象
+     * @param queryName     sql-query的名称
+     * @param params        参数集合
+     * @return  返回分页结果（只包含当前查询页的数据集合）
+     */
+    @SuppressWarnings({ "unchecked" })
+    Page<T> queryByNameWithoutTotal(Page<T> page, String queryName, Map<String, Object> params);
+
+    /**
+     * 分页查询， 同时查出数据总量
+     * @param page          分页对象
+     * @param queryName     sql-query的名称
+     * @param params        参数集合
+     * @return  返回分页结果（包含数据总量和当前查询页的数据集合）
+     */
+    Page<T> queryByNameWithTotal(Page<T> page, String countQueryName, String queryName, Map<String, Object> params) ;
+
+    /**
+     * 根据sql-query名称查询结果，不包含数据总量，允许将结果转成非持久化的对象（根据ResultTransformer转换）
+     * @param page          分页条件
+     * @param queryName     sql-query名称
+     * @param params        参数集合
+     * @param transformer   转换对象
+     * @param <M>           新的对象类型
+     * @return  返回查询的当前页的数据集合
+     */
+    @SuppressWarnings("unchecked")
+    <M> Page<M> queryByNameWithoutTotal(Page<M> page, String queryName, Map<String, Object> params, ResultTransformer transformer) ;
+
+    /**
+     * 根据sql-query名称查询结果，包含数据总量，允许将结果转成非持久化的对象（根据ResultTransformer转换）
+     * @param page          分页条件
+     * @param queryName     sql-query名称
+     * @param params        参数集合
+     * @param transformer   转换对象
+     * @param <M>           新的对象类型
+     * @return  返回查询的当前页的数据集合，包含数据总量
+     */
+    <M> Page<M> queryByNameWithTotal(Page<M> page, String countQueryName, String queryName, Map<String, Object> params, ResultTransformer transformer);
+
+    /**
+     * 执行CUD语句
+     * @param queryName sql-query的名称
+     * @param params    参数集合
+     * @return  返回执行结果
+     */
+    int executeQueryByName(String queryName, Map<String,Object> params);
+
+/* ******************************************************************************
+ *  sql-query   ----end----
+ * ***************************************************************************** */
+
 }

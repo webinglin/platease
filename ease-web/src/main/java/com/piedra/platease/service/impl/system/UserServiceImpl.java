@@ -34,16 +34,6 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	@Autowired
 	private UserDao userDao;
 
-
-	public Page<User> getUserPage(Integer pageSize,Integer pageIndex){
-		DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
-		Page<User> page = new Page<>();
-		page.setOrderBy("id");
-		page.setPageSize(pageSize);
-		page.setPageIndex(pageIndex);
-		return getBaseDao().getPage(criteria, page);
-	}
-
     @Override
     public User getByUsername(String username) throws Exception {
 	    return userDao.get("userName", username);

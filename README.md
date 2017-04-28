@@ -4,9 +4,8 @@
 
 platease框架包含：
 1. SpringVMC + Spring + Hibernate
-2. 用户，角色，功能菜单，登录认证，日志管理，配置管理  等几个基础功能
-3. 采用apache shiro权限认证框架来控制访问, 对权限的修改退出重新登录(会清空权限缓存并重新加载)
-4. 默认的系统桌面，通用的表单验证及转换提交插件，通用的表格插件 等
+2. 采用apache shiro权限认证框架来控制访问, 对权限的修改退出重新登录(会清空权限缓存并重新加载)
+3. 工具类采用 apache-common 系列
 
 
 ### ease-common说明
@@ -44,7 +43,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 
 
-### IDEA中使用Hibernate
+### 使用IDEA自动生成hbm映射文件
 1. 给 ease-common 模块添加 Hibernate 的特性。
 2. 通过Persistence视图hibernate.cfg.xml右键->Generate Persistence Mapping->By Database Schema
 来生成相应的hibernate映射文件和实体类（注意修改相应的类名或者数据类型）
@@ -52,19 +51,22 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 
 ### 命名规范	
-所有的JAVA类，变量 都采用驼峰标识		userService
+JAVA类，变量: 都采用驼峰标识	eg: `userService`
 
-所有的JSP文件命名，都用下划线分割		user-index.jsp
+JSP文件: 都用下划线分割		eg: `user-index.jsp`
 
-所有的样式文件，文件名称也用下划线分割， 具体的class样式，则用中划线分割	sys_user.css	.user-title
+CSS文件: 文件名称也用下划线分割，具体的class样式，则用中划线分割 eg: `sys_user.css` `.user-title`
 
 
 
 ### TODO
 
-1. 浏览器直接关闭？ 如何退出？	SESSION过期 -> 清空缓存	异常退出的用户权限缓存依旧存在。。。。。。
-4. 通用操作日志记录框架-->根据配置将日志信息保存到ES中去 --> 保留可扩展性
-5. 通过安装脚本一次性将需要的数据库以及相关的服务都一起安装完成
+1. 浏览器直接关闭, 如何退出？
+2. 通用操作日志记录框架-->根据配置将日志信息保存到ES中去 --> 保留可扩展性
+3. 通过安装脚本一次性将需要的数据库以及相关的服务都一起安装完成
+4. 目前页面均未处理
+5. 默认的页面样式，通用的表单验证及转换提交插件，通用的表格插件 等
+6. 用户，角色，功能菜单，日志管理，配置管理  等几个基础功能
 
 
 
