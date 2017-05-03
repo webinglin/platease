@@ -2,10 +2,12 @@ package com.piedra.platease.service;
 
 import com.piedra.platease.dao.system.UserDao;
 import com.piedra.platease.dto.UserDTO;
+import com.piedra.platease.model.Page;
 import com.piedra.platease.model.system.Function;
 import com.piedra.platease.model.system.Role;
 import com.piedra.platease.model.system.User;
 import com.piedra.platease.service.system.UserService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +59,23 @@ public class UserServiceTest {
 
 
 
+    @Test
+    public void testQueryByPage() throws Exception {
 
+        Page<User> page = new Page<>();
+        page.setPageIndex(1);
+        page.setPageSize(1);
+        page.setOrderBy("USER_NAME");
+
+        UserDTO userDto = new UserDTO();
+//        user.setId("373e146793c04c0a9b3d1dc434b2d509");
+//        user.setRealName("单元测试");
+//        userDto.setUserName("junit4");
+
+        page = userService.queryByPage(page, userDto);
+
+        Assert.assertEquals(1, page.getDatas().size());
+    }
 
 
 

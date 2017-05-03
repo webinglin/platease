@@ -23,6 +23,7 @@ import javax.annotation.Resource;
 import java.io.StringWriter;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -44,8 +45,8 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		this.entityClass = null;
 		Type type = getClass().getGenericSuperclass();
 		if (type instanceof ParameterizedType) {
-			Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-			this.entityClass = (Class<T>) parameterizedType[0];
+			Type[] parameterizedTypeArr = ((ParameterizedType) type).getActualTypeArguments();
+			this.entityClass = (Class<T>) parameterizedTypeArr[0];
 		}
 	}
 
@@ -227,11 +228,11 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         if(CollectionUtils.isEmpty(countList)){
             return 0;
         }
-        Integer queryCount = ((Integer) countList.get(0));
+        BigInteger queryCount = ((BigInteger) countList.get(0));
         if(queryCount == null){
             return 0;
         }
-        return queryCount;
+        return queryCount.intValue();
     }
 
     /**

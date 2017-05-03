@@ -110,4 +110,85 @@
     </sql-query>
 
 
+    <!-- 查询用户数据 -->
+    <sql-query name="queryUserList">
+        <return alias="u" class="com.piedra.platease.model.system.User" />
+        <![CDATA[
+            SELECT u.* FROM SYS_USER u WHERE 1=1
+            #if($userName)
+                AND u.USER_NAME='$userName'
+            #end
+            #if($idcard)
+                AND u.IDCARD='$idcard'
+            #end
+            #if($realName)
+                AND u.REAL_NAME='$realName'
+            #end
+            #if($password)
+                AND u.PASSWORD='$password'
+            #end
+            #if($deptId)
+                AND u.DEPT_ID='$deptId'
+            #end
+            #if($deptCode)
+                AND u.DEPT_CODE='$deptCode'
+            #end
+            #if($telphone)
+                AND u.TELPHONE='$telphone'
+            #end
+            #if($homeBgurl)
+                AND u.HOME_BGURL='$homeBgurl'
+            #end
+            #if($remark)
+                AND u.REMARK='$remark'
+            #end
+            #if($id)
+                AND u.ID='$id'
+            #end
+            #if($orderBy)
+                order by u.$orderBy #if($orderType) $orderType #end
+            #end
+        ]]>
+    </sql-query>
+    <!-- 查询用户数据总量 -->
+    <sql-query name="queryUserListCnt">
+        <return-scalar column="cnt" type="java.lang.Integer" />
+        <![CDATA[
+            SELECT COUNT(1) AS cnt FROM SYS_USER WHERE 1=1
+            #if($userName)
+                AND USER_NAME='$userName'
+            #end
+            #if($idcard)
+                AND IDCARD='$idcard'
+            #end
+            #if($realName)
+                AND REAL_NAME='$realName'
+            #end
+            #if($password)
+                AND PASSWORD='$password'
+            #end
+            #if($deptId)
+                AND DEPT_ID='$deptId'
+            #end
+            #if($deptCode)
+                AND DEPT_CODE='$deptCode'
+            #end
+            #if($telphone)
+                AND TELPHONE='$telphone'
+            #end
+            #if($homeBgurl)
+                AND HOME_BGURL='$homeBgurl'
+            #end
+            #if($remark)
+                AND REMARK='$remark'
+            #end
+            #if($id)
+                AND ID='$id'
+            #end
+            #if($orderBy)
+                order by $orderBy #if($orderType) $orderType #end
+            #end
+        ]]>
+    </sql-query>
+
 </hibernate-mapping>

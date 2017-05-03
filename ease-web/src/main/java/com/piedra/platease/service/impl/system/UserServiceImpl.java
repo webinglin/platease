@@ -8,14 +8,14 @@ import com.piedra.platease.model.system.Role;
 import com.piedra.platease.model.system.User;
 import com.piedra.platease.service.impl.BaseServiceImpl;
 import com.piedra.platease.service.system.UserService;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.query.Query;
+import com.piedra.platease.utils.BeanMapUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -57,13 +57,9 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
      * @return 返回用户结果信息
      */
     @Override
-    public List<User> queryByPage(Page<User> page, UserDTO userDTO) throws Exception {
-
-
-        ///TODO.. 根据对象转成相应的 DetachedCriteria 对象
-
-
-        return null;
+    public Page<User> queryByPage(Page<User> page, UserDTO userDTO) throws Exception {
+        Map<String,Object> params = BeanMapUtil.trans2Map(userDTO);
+        return userDao.queryByNameWithTotal(page, "queryUserListCnt", "queryUserList", params);
     }
 
     /**

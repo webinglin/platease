@@ -43,18 +43,4 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
         }
         executeQueryByName("updateUser", BeanMapUtil.trans2Map(user));
     }
-
-
-
-    public static void main(String[] args) {
-        User user = new User();
-        user.setRealName("a");
-        user.setDeptCode("222");
-        user.setCreateTime(new Date());
-
-        Map<String,Object> params = new HashMap<>();
-        params.putAll(new BeanMap(user));
-        System.out.println(22);
-    }
-
 }

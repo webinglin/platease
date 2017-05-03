@@ -2,6 +2,7 @@ package com.piedra.platease.dao.system;
 
 
 import com.piedra.platease.dao.BaseDao;
+import com.piedra.platease.model.Page;
 import com.piedra.platease.model.system.Function;
 import com.piedra.platease.model.system.Role;
 import com.piedra.platease.model.system.User;
@@ -34,4 +35,5 @@ public interface UserDao extends BaseDao<User> {
      * @param user  待更新的用户信息
      */
     void updateUser(User user) throws Exception ;
+
 }

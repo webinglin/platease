@@ -53,7 +53,7 @@ public interface UserService extends BaseService<User> {
      * @param userDTO   过滤参数
      * @return  返回用户结果信息
      */
-    List<User> queryByPage(Page<User> page, UserDTO userDTO) throws Exception;
+    Page<User> queryByPage(Page<User> page, UserDTO userDTO) throws Exception;
 
     /**
      * 更新用户信息

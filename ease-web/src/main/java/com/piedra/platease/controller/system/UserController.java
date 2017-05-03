@@ -39,7 +39,6 @@ public class UserController {
         return "user/user_index";
     }
 
-
     /**
      * 添加用户
      * @param req   HttpRequest请求对象
