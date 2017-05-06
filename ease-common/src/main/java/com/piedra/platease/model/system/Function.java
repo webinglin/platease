@@ -5,7 +5,7 @@ package com.piedra.platease.model.system;
  * @since 2017-04-21
  */
 public class Function {
-    private String funcId;
+    private String id;
     private String funcTitle;
     private String funcUrl;
     private String imageUrl;
@@ -15,12 +15,12 @@ public class Function {
     private String remark;
     private Integer orderNum;
 
-    public String getFuncId() {
-        return funcId;
+    public String getId() {
+        return id;
     }
 
-    public void setFuncId(String funcId) {
-        this.funcId = funcId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFuncTitle() {
@@ -94,7 +94,7 @@ public class Function {
 
         Function function = (Function) o;
 
-        if (funcId != null ? !funcId.equals(function.funcId) : function.funcId != null) return false;
+        if (id != null ? !id.equals(function.id) : function.id != null) return false;
         if (funcTitle != null ? !funcTitle.equals(function.funcTitle) : function.funcTitle != null) return false;
         if (funcUrl != null ? !funcUrl.equals(function.funcUrl) : function.funcUrl != null) return false;
         if (imageUrl != null ? !imageUrl.equals(function.imageUrl) : function.imageUrl != null) return false;
@@ -109,7 +109,7 @@ public class Function {
 
     @Override
     public int hashCode() {
-        int result = funcId != null ? funcId.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (funcTitle != null ? funcTitle.hashCode() : 0);
         result = 31 * result + (funcUrl != null ? funcUrl.hashCode() : 0);
         result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);

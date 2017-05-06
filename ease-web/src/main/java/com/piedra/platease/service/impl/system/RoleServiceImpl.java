@@ -1,19 +1,20 @@
 package com.piedra.platease.service.impl.system;
 
 import com.piedra.platease.dao.system.RoleDao;
+import com.piedra.platease.dto.RoleDTO;
+import com.piedra.platease.model.Page;
 import com.piedra.platease.model.system.Function;
 import com.piedra.platease.model.system.Role;
 import com.piedra.platease.service.impl.BaseServiceImpl;
 import com.piedra.platease.service.system.RoleService;
+import com.piedra.platease.utils.BeanMapUtil;
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -43,7 +44,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         List<Function> funcs = roleDao.queryRolePermissions(roleId);
 
         Set<String> originalFuncIds = new HashSet<>();
-        funcs.forEach(func -> originalFuncIds.add(func.getFuncId()));
+        funcs.forEach(func -> originalFuncIds.add(func.getId()));
 
         // 两者都有的，不需要改变的角色ID集合
         Collection<String> intersectionCollection = CollectionUtils.intersection(originalFuncIds, newFuncIds);
@@ -60,5 +61,44 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         if(CollectionUtils.isNotEmpty(originalFuncIds)) {
             roleDao.deleteRoleFuncs(roleId, originalFuncIds);
         }
+    }
+
+    /**
+     * 分页查询角色信息
+     *
+     * @param page    分页信息
+     * @param roleDTO 查询条件
+     * @return 返回角色信息
+     * @throws Exception 异常抛出
+     */
+    @Override
+    public Page<Role> queryRoles(Page<Role> page, RoleDTO roleDTO) throws Exception {
+        Map<String,Object> params = BeanMapUtil.trans2Map(roleDTO);
+        return roleDao.queryByNameWithTotal(page, "SysRole.queryRoleListCnt", "SysRole.queryRoleList", params);
+    }
+
+    /**
+     * 更新角色信息
+     *
+     * @param roleDTO 角色传输类
+     * @throws Exception 更新时异常
+     */
+    @Override
+    public void updateRole(RoleDTO roleDTO) throws Exception {
+        if(roleDTO==null){
+            return ;
+        }
+        Role role = new Role();
+        BeanUtils.copyProperties(roleDTO, role);
+        roleDao.updateRole(role);
+    }
+
+
+    @Override
+    public void delRole(String roleId) throws Exception {
+        roleDao.delete(roleId);
+        Map<String,Object> params = Collections.singletonMap("roleId", roleId);
+        roleDao.executeQueryByName("SysRole.delUserRoleByRoleId",params);
+        roleDao.executeQueryByName("SysRole.delRoleFuncByRoleId",params);
     }
 }

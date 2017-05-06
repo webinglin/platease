@@ -5,8 +5,8 @@
 <hibernate-mapping>
 
     <class name="com.piedra.platease.model.system.Dept" table="sys_dept" schema="platease">
-        <id name="deptId">
-            <column name="DEPT_ID" sql-type="char(32)" length="32"/>
+        <id name="id">
+            <column name="ID" sql-type="char(32)" length="32"/>
         </id>
         <property name="deptName">
             <column name="DEPT_NAME" sql-type="varchar(255)" not-null="true"/>
@@ -24,4 +24,82 @@
             <column name="REMARK" sql-type="varchar(255)" not-null="true"/>
         </property>
     </class>
+
+    <!-- 更新单位信息 -->
+    <sql-query name="SysDept.updateDept">
+        <![CDATA[
+            UPDATE sys_dept set ID=ID
+            #if($deptName)
+                ,DEPT_NAME = :deptName
+            #end
+            #if($deptCode)
+                ,DEPT_CODE = :deptCode
+            #end
+            #if($parentId)
+                ,PARENT_ID = :parentId
+            #end
+            #if($alias)
+                ,ALIAS = :alias
+            #end
+            #if($remark)
+                ,REMARK = :remark
+            #end
+            WHERE ID=:id
+        ]]>
+    </sql-query>
+
+
+    <!-- 查询单位数据 -->
+    <sql-query name="SysDept.queryDeptList">
+        <return alias="d" class="com.piedra.platease.model.system.Dept" />
+        <![CDATA[
+            SELECT d.* FROM sys_dept d WHERE 1=1
+            #if($id)
+                AND d.ID=:id
+            #end
+            #if($deptName)
+                AND d.DEPT_NAME like :deptName
+            #end
+            #if($deptCode)
+                AND d.DEPT_CODE = :deptCode
+            #end
+            #if($parentId)
+                AND d.PARENT_ID = :parentId
+            #end
+            #if($alias)
+                AND d.ALIAS = :alias
+            #end
+            #if($remark)
+                AND d.REMARK = :remark
+            #end
+            #if($orderBy)
+                order by r.$orderBy #if($orderType) $orderType #end
+            #end
+        ]]>
+    </sql-query>
+    <!-- 查询单位数据总量 -->
+    <sql-query name="SysDept.queryDeptListCnt">
+        <return-scalar column="cnt" type="java.lang.Integer" />
+        <![CDATA[
+            SELECT COUNT(1) AS cnt FROM sys_role r WHERE 1=1
+            #if($id)
+                AND d.ID=:id
+            #end
+            #if($deptName)
+                AND d.DEPT_NAME like :deptName
+            #end
+            #if($deptCode)
+                AND d.DEPT_CODE = :deptCode
+            #end
+            #if($parentId)
+                AND d.PARENT_ID = :parentId
+            #end
+            #if($alias)
+                AND d.ALIAS = :alias
+            #end
+            #if($remark)
+                AND d.REMARK = :remark
+            #end
+        ]]>
+    </sql-query>
 </hibernate-mapping>

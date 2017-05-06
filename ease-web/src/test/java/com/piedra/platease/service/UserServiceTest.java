@@ -48,8 +48,6 @@ public class UserServiceTest {
     }
 
 
-
-
     @Test
     public void testQueryRoles() throws Exception{
         String userId = "373e146793c04c0a9b3d1dc434b2d509";
@@ -63,13 +61,13 @@ public class UserServiceTest {
 
         Page<User> page = new Page<>();
         page.setPageIndex(1);
-        page.setPageSize(1);
+        page.setPageSize(3);
         page.setOrderBy("USER_NAME");
 
         UserDTO userDto = new UserDTO();
-//        user.setId("373e146793c04c0a9b3d1dc434b2d509");
-//        user.setRealName("单元测试");
-//        userDto.setUserName("junit4");
+//        userDto.setId("373e146793c04c0a9b3d1dc434b2d509");
+//        userDto.setRealName("单元测试' OR '1'='1");
+        userDto.setUserName("junit4 or 1 = 1  ");
 
         page = userService.queryByPage(page, userDto);
 
@@ -83,10 +81,10 @@ public class UserServiceTest {
     @Test
     public void testUpdateRoles() throws Exception {
         Set<String> roleIdSet = new HashSet<>();
-        roleIdSet.add("c");
+        roleIdSet.add("a");
+        roleIdSet.add("b");
+        roleIdSet.add("e");
         roleIdSet.add("f");
-        roleIdSet.add("g");
-        roleIdSet.add("h");
         userService.updateUserRoles("373e146793c04c0a9b3d1dc434b2d509", roleIdSet);
     }
 }

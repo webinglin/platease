@@ -1,5 +1,7 @@
 package com.piedra.platease.service.system;
 
+import com.piedra.platease.dto.RoleDTO;
+import com.piedra.platease.model.Page;
 import com.piedra.platease.model.system.Role;
 import com.piedra.platease.service.BaseService;
 
@@ -22,6 +24,26 @@ public interface RoleService  extends BaseService<Role> {
     void updateRoleFunctions(String roleId, Set<String> funcIds) throws Exception;
 
 
+    /**
+     * 分页查询角色信息
+     * @param page      分页信息
+     * @param roleDTO   查询条件
+     * @return  返回角色信息
+     * @throws Exception   异常抛出
+     */
+    Page<Role> queryRoles(Page<Role> page, RoleDTO roleDTO) throws Exception;
 
+    /**
+     * 更新角色信息
+     * @param roleDTO       角色传输类
+     * @throws Exception    更新时异常
+     */
+    void updateRole(RoleDTO roleDTO) throws Exception;
 
+    /**
+     * 根据角色ID删除角色信息 以及 角色相关的 关联表
+     * @param roleId        角色ID
+     * @throws Exception    异常上抛
+     */
+    void delRole(String roleId) throws Exception;
 }

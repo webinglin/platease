@@ -11,5 +11,9 @@ import com.piedra.platease.model.system.Dept;
  */
 public interface DeptDao extends BaseDao<Dept> {
 
-
+    /**
+     * 更新单位信息
+     * @param dept  单位信息
+     */
+    void updateDept(Dept dept);
 }

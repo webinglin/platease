@@ -22,18 +22,13 @@ public class RoleServiceTest {
     @Autowired
     private RoleService roleService;
 
+    // 获取所有的角色
     @Test
     public void testQuery() throws Exception{
     }
 
 
-    // 获取某个用户的所有角色
-
-    // 获取所有的角色
-
     // 更改角色
-
-    // 删除角色
 
     // 新增角色
 
@@ -42,11 +37,8 @@ public class RoleServiceTest {
     public void testUpdateRoleFuncs() throws Exception{
 
         Set<String> funcSet = new HashSet<>();
-        funcSet.add("11");
-        funcSet.add("13");
-        funcSet.add("5");
-        funcSet.add("6");
-        funcSet.add("7");
+        funcSet.add("9b8eb1bb324411e7a87db881988f4746");
+        funcSet.add("ae8c1efd324411e7a87db881988f4746");
 
         roleService.updateRoleFunctions("b", funcSet);
 

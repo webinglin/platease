@@ -1,12 +1,18 @@
 package com.piedra.platease.service.impl.system;
 
 import com.piedra.platease.dao.system.DeptDao;
+import com.piedra.platease.dto.DeptDTO;
+import com.piedra.platease.model.Page;
 import com.piedra.platease.model.system.Dept;
 import com.piedra.platease.service.impl.BaseServiceImpl;
 import com.piedra.platease.service.system.DeptService;
+import com.piedra.platease.utils.BeanMapUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 
 /**
@@ -26,8 +32,16 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept> implements DeptServic
     }
 
 
+    @Override
+    public void updateDept(DeptDTO deptDTO) throws Exception {
+        Dept dept = new Dept();
+        BeanUtils.copyProperties(deptDTO, dept);
+        deptDao.updateDept(dept);
+    }
 
-
-
-
+    @Override
+    public Page<Dept> queryDeptList(Page<Dept> page, DeptDTO deptDTO) throws Exception {
+        Map<String,Object> params = BeanMapUtil.trans2Map(deptDTO);
+        return deptDao.queryByNameWithTotal(page, "SysDept.queryDeptListCnt", "SysUser.queryDeptList", params);
+    }
 }

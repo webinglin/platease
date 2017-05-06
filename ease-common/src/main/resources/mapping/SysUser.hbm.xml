@@ -69,7 +69,7 @@
         <return alias="f" class="com.piedra.platease.model.system.Function" />
         <![CDATA[
             SELECT f.* FROM SYS_FUNCTION f
-                JOIN SYS_ROLE_FUNC rf ON rf.FUNC_ID=f.FUNC_ID
+                JOIN SYS_ROLE_FUNC rf ON rf.FUNC_ID=f.ID
                 JOIN SYS_USER_ROLE ur ON ur.ROLE_ID=rf.ROLE_ID AND ur.USER_ID=:userId
         ]]>
     </sql-query>
@@ -79,33 +79,33 @@
         <![CDATA[
             UPDATE SYS_USER SET ID=ID
             #if($userName)
-                ,USER_NAME='$userName'
+                ,USER_NAME=:userName
             #end
             #if($idcard)
-                ,IDCARD='$idcard'
+                ,IDCARD=:idcard
             #end
             #if($realName)
-                ,REAL_NAME='$realName'
+                ,REAL_NAME=:realName
             #end
             #if($password)
-                ,PASSWORD='$password'
+                ,PASSWORD=:password
             #end
             #if($deptId)
-                ,DEPT_ID='$deptId'
+                ,DEPT_ID=:deptId
             #end
             #if($deptCode)
-                ,DEPT_CODE='$deptCode'
+                ,DEPT_CODE=:deptCode
             #end
             #if($telphone)
-                ,TELPHONE='$telphone'
+                ,TELPHONE=:telphone
             #end
             #if($homeBgurl)
-                ,HOME_BGURL='$homeBgurl'
+                ,HOME_BGURL=:homeBgurl
             #end
             #if($remark)
-                ,REMARK='$remark'
+                ,REMARK=:remark
             #end
-            WHERE ID='$id'
+            WHERE ID=:id
         ]]>
     </sql-query>
 
@@ -116,34 +116,34 @@
         <![CDATA[
             SELECT u.* FROM SYS_USER u WHERE 1=1
             #if($userName)
-                AND u.USER_NAME='$userName'
+                AND u.USER_NAME=:userName
             #end
             #if($idcard)
-                AND u.IDCARD='$idcard'
+                AND u.IDCARD=:idcard
             #end
             #if($realName)
-                AND u.REAL_NAME='$realName'
+                AND u.REAL_NAME=:realName
             #end
             #if($password)
-                AND u.PASSWORD='$password'
+                AND u.PASSWORD=:password
             #end
             #if($deptId)
-                AND u.DEPT_ID='$deptId'
+                AND u.DEPT_ID=:deptId
             #end
             #if($deptCode)
-                AND u.DEPT_CODE='$deptCode'
+                AND u.DEPT_CODE=:deptCode
             #end
             #if($telphone)
-                AND u.TELPHONE='$telphone'
+                AND u.TELPHONE=:telphone
             #end
             #if($homeBgurl)
-                AND u.HOME_BGURL='$homeBgurl'
+                AND u.HOME_BGURL=:homeBgurl
             #end
             #if($remark)
-                AND u.REMARK='$remark'
+                AND u.REMARK=:remark
             #end
             #if($id)
-                AND u.ID='$id'
+                AND u.ID=:id
             #end
             #if($orderBy)
                 order by u.$orderBy #if($orderType) $orderType #end
@@ -156,52 +156,57 @@
         <![CDATA[
             SELECT COUNT(1) AS cnt FROM SYS_USER WHERE 1=1
             #if($userName)
-                AND USER_NAME='$userName'
+                AND USER_NAME=:userName
             #end
             #if($idcard)
-                AND IDCARD='$idcard'
+                AND IDCARD=:idcard
             #end
             #if($realName)
-                AND REAL_NAME='$realName'
+                AND REAL_NAME=:realName
             #end
             #if($password)
-                AND PASSWORD='$password'
+                AND PASSWORD=:password
             #end
             #if($deptId)
-                AND DEPT_ID='$deptId'
+                AND DEPT_ID=:deptId
             #end
             #if($deptCode)
-                AND DEPT_CODE='$deptCode'
+                AND DEPT_CODE=:deptCode
             #end
             #if($telphone)
-                AND TELPHONE='$telphone'
+                AND TELPHONE=:telphone
             #end
             #if($homeBgurl)
-                AND HOME_BGURL='$homeBgurl'
+                AND HOME_BGURL=:homeBgurl
             #end
             #if($remark)
-                AND REMARK='$remark'
+                AND REMARK=:remark
             #end
             #if($id)
-                AND ID='$id'
-            #end
-            #if($orderBy)
-                order by $orderBy #if($orderType) $orderType #end
+                AND ID=:id
             #end
         ]]>
     </sql-query>
 
     <!-- 新增用户角色关联 -->
-    <sql-query name="SysUser.addUserRoles">
+    <sql-query name="SysUser.addUserRole">
     <![CDATA[
-        INSERT INTO sys_user_role(USER_ID, ROLE_ID) VALUES ('$userId', '$roleId')
+        INSERT INTO sys_user_role(USER_ID, ROLE_ID) VALUES (:userId, :roleId)
+    ]]>
+    </sql-query>
+
+
+    <!-- 删除用户角色关联 -->
+    <sql-query name="SysUser.delUserRole">
+    <![CDATA[
+        DELETE FROM sys_user_role WHERE USER_ID=:userId AND ROLE_ID IN ( :roleIds )
     ]]>
     </sql-query>
 
     <!-- 删除用户角色关联 -->
-    <sql-query name="SysUser.deleteUserRoles">
-    <![CDATA[
-        DELETE FROM sys_user_role WHERE USER_ID='$userId' AND ROLE_ID IN ( $roleIds )
-    ]]>
+    <sql-query name="SysUser.delUserRoleByUserId">
+        <![CDATA[
+            DELETE FROM sys_user_role WHERE USER_ID=:userId
+        ]]>
     </sql-query>
 </hibernate-mapping>

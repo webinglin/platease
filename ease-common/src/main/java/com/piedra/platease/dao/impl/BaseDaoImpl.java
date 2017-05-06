@@ -127,9 +127,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
 	public void delete(List<T> list){
 		if(list!=null&&!list.isEmpty()){
-			list.forEach(T -> {
-				getSession().delete(T);
-			});
+			list.forEach(T -> getSession().delete(T));
 		}
 	}
 

@@ -5,8 +5,8 @@
 <hibernate-mapping>
 
     <class name="com.piedra.platease.model.system.Function" table="sys_function" schema="platease">
-        <id name="funcId">
-            <column name="FUNC_ID" sql-type="varchar(32)" length="32"/>
+        <id name="id">
+            <column name="ID" sql-type="varchar(32)" length="32"/>
         </id>
         <property name="funcTitle">
             <column name="FUNC_TITLE" sql-type="varchar(255)" not-null="true"/>
@@ -33,4 +33,100 @@
             <column name="ORDER_NUM" sql-type="int(11)" not-null="true"/>
         </property>
     </class>
+
+
+    <!-- 查询权限数据 -->
+    <sql-query name="SysFunc.queryFuncList">
+        <return alias="f" class="com.piedra.platease.model.system.Function" />
+        <![CDATA[
+            SELECT f.* FROM sys_function f WHERE 1=1
+            #if($id)
+                AND f.ID=:id
+            #end
+            #if($funcTitle)
+                AND f.FUNC_TITLE like :funcTitle
+            #end
+            #if($funcType)
+                AND f.FUNC_TYPE=:funcType
+            #end
+            #if($permission)
+                AND f.PERMISSION like :permission
+            #end
+            #if($parentId)
+                AND f.PARENT_ID=:parentId
+            #end
+            #if($remark)
+                AND f.REMARK like :remark
+            #end
+            #if($orderBy)
+                order by f.$orderBy #if($orderType) $orderType #end
+            #end
+        ]]>
+    </sql-query>
+    <!-- 查询权限数据总量 -->
+    <sql-query name="SysFunc.queryFuncListCnt">
+        <return-scalar column="cnt" type="java.lang.Integer" />
+        <![CDATA[
+            SELECT COUNT(1) AS cnt FROM sys_role r WHERE 1=1
+            #if($id)
+                AND f.ID=:id'
+            #end
+            #if($funcTitle)
+                AND f.FUNC_TITLE like :funcTitle
+            #end
+            #if($funcType)
+                AND f.FUNC_TYPE=:funcType
+            #end
+            #if($permission)
+                AND f.PERMISSION like :permission
+            #end
+            #if($parentId)
+                AND f.PARENT_ID=:parentId
+            #end
+            #if($remark)
+                AND f.REMARK like :$remark
+            #end
+        ]]>
+    </sql-query>
+
+    <!-- 更新权限信息 -->
+    <sql-query name="SysFunc.updateFunc">
+        <![CDATA[
+            UPDATE sys_function set ID=ID
+            #if($funcTitle)
+                ,FUNC_TITLE=:funcTitle
+            #end
+            #if($funcUrl)
+                ,FUNC_URL=:funcUrl
+            #end
+            #if($imageUrl)
+                ,IMAGE_URL=:imageUrl
+            #end
+            #if($funcType)
+                ,FUNC_TYPE=:funcType
+            #end
+            #if($permission)
+                ,PERMISSION=:permission
+            #end
+            #if($parentId)
+                ,PARENT_ID=:parentId
+            #end
+            #if($remark)
+                ,REMARK=:remark
+            #end
+            #if($orderNum)
+                ,ORDER_NUM=$orderNum
+            #end
+            WHERE ID=:id
+        ]]>
+    </sql-query>
+
+
+    <!-- 删除角色权限关联 -->
+    <sql-query name="SysRole.delRoleFuncByFuncId">
+        <![CDATA[
+            DELETE FROM sys_role_func WHERE FUNC_ID=:funcId
+        ]]>
+    </sql-query>
+
 </hibernate-mapping>

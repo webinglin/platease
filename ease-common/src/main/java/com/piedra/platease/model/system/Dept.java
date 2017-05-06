@@ -5,19 +5,19 @@ package com.piedra.platease.model.system;
  * @since 2017-04-21
  */
 public class Dept {
-    private String deptId;
+    private String id;
     private String deptName;
     private String deptCode;
     private String parentId;
     private String alias;
     private String remark;
 
-    public String getDeptId() {
-        return deptId;
+    public String getId() {
+        return id;
     }
 
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDeptName() {
@@ -67,7 +67,7 @@ public class Dept {
 
         Dept dept = (Dept) o;
 
-        if (deptId != null ? !deptId.equals(dept.deptId) : dept.deptId != null) return false;
+        if (id != null ? !id.equals(dept.id) : dept.id != null) return false;
         if (deptName != null ? !deptName.equals(dept.deptName) : dept.deptName != null) return false;
         if (deptCode != null ? !deptCode.equals(dept.deptCode) : dept.deptCode != null) return false;
         if (parentId != null ? !parentId.equals(dept.parentId) : dept.parentId != null) return false;
@@ -79,7 +79,7 @@ public class Dept {
 
     @Override
     public int hashCode() {
-        int result = deptId != null ? deptId.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (deptName != null ? deptName.hashCode() : 0);
         result = 31 * result + (deptCode != null ? deptCode.hashCode() : 0);
         result = 31 * result + (parentId != null ? parentId.hashCode() : 0);

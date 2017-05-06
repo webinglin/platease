@@ -35,4 +35,10 @@ public interface RoleDao extends BaseDao<Role> {
      * @param delFuncIds    要删除的权限ID
      */
     void deleteRoleFuncs(String roleId, Set<String> delFuncIds);
+
+    /**
+     * 更新角色信息
+     * @param role  角色
+     */
+    void updateRole(Role role);
 }

@@ -71,4 +71,10 @@ public interface UserService extends BaseService<User> {
      * @throws Exception    异常往上一层抛出
      */
     void updateUserRoles(String userId, Set<String> roleIds) throws Exception;
+
+    /**
+     * 删除用户 -- 要删除用户的关联信息（角色）
+     * @param userId    用户ID
+     */
+    void delUser(String userId) throws Exception;
 }

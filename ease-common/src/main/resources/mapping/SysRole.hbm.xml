@@ -17,21 +17,78 @@
     <sql-query name="SysRole.queryRoleFuncs">
         <return alias="f" class="com.piedra.platease.model.system.Function" />
         <![CDATA[
-            SELECT f.* FROM sys_role_func rf JOIN sys_function f ON f.FUNC_ID=rf.FUNC_ID AND rf.ROLE_ID=:roleId
+            SELECT f.* FROM sys_role_func rf JOIN sys_function f ON f.ID=rf.FUNC_ID AND rf.ROLE_ID=:roleId
         ]]>
     </sql-query>
 
     <!-- 新增角色权限关联 -->
     <sql-query name="SysRole.addRoleFunc">
         <![CDATA[
-            INSERT INTO sys_role_func(ROLE_ID, FUNC_ID) VALUES ('$roleId', '$funcId')
+            INSERT INTO sys_role_func(ROLE_ID, FUNC_ID) VALUES (:roleId, :funcId)
         ]]>
     </sql-query>
 
     <!-- 删除角色权限关联 -->
-    <sql-query name="SysRole.deleteRoleFuncs">
+    <sql-query name="SysRole.delRoleFunc">
         <![CDATA[
-            DELETE FROM sys_role_func WHERE ROLE_ID='$roleId' AND FUNC_ID IN ( $funcIds )
+            DELETE FROM sys_role_func WHERE ROLE_ID=:roleId AND FUNC_ID IN ( :funcIds )
+        ]]>
+    </sql-query>
+
+    <!-- 删除角色权限关联 -->
+    <sql-query name="SysRole.delRoleFuncByRoleId">
+        <![CDATA[
+            DELETE FROM sys_role_func WHERE ROLE_ID=:roleId
+        ]]>
+    </sql-query>
+
+    <!-- 删除用户角色关联 -->
+    <sql-query name="SysRole.delUserRoleByRoleId">
+        <![CDATA[
+            DELETE FROM sys_user_role WHERE ROLE_ID=:roleId
+        ]]>
+    </sql-query>
+
+
+    <!-- 更新角色信息 -->
+    <sql-query name="SysRole.updateRole">
+        <![CDATA[
+            UPDATE sys_role set ID=ID
+            #if($roleName)
+                ,ROLE_NAME = :roleName
+            #end
+            WHERE ID=:id
+        ]]>
+    </sql-query>
+
+
+    <!-- 查询角色数据 -->
+    <sql-query name="SysRole.queryRoleList">
+        <return alias="r" class="com.piedra.platease.model.system.Role" />
+        <![CDATA[
+            SELECT r.* FROM sys_role r WHERE 1=1
+            #if($id)
+                AND r.ID=:id
+            #end
+            #if($roleName)
+                AND r.ROLE_NAME like :roleName
+            #end
+            #if($orderBy)
+                order by r.$orderBy #if($orderType) $orderType #end
+            #end
+        ]]>
+    </sql-query>
+    <!-- 查询角色数据总量 -->
+    <sql-query name="SysRole.queryRoleListCnt">
+        <return-scalar column="cnt" type="java.lang.Integer" />
+        <![CDATA[
+            SELECT COUNT(1) AS cnt FROM sys_role r WHERE 1=1
+             #if($id)
+                AND r.ID=:id
+            #end
+            #if($roleName)
+                AND r.ROLE_NAME like :roleName
+            #end
         ]]>
     </sql-query>
 </hibernate-mapping>

@@ -51,7 +51,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
         params.put("userId",userId);
         newRoleIds.forEach(roleId -> {
             params.put("roleId", roleId);
-            executeQueryByName("SysUser.addUserRoles", params);
+            executeQueryByName("SysUser.addUserRole", params);
         });
     }
 
@@ -59,7 +59,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
     public void deleteUserRoles(String userId, Set<String> delRoleIds) {
         Map<String,Object> params = new HashMap<>();
         params.put("userId",userId);
-        params.put("roleIds", CollectionUtil.joinWithSingleQuotes(delRoleIds));
-        executeQueryByName("SysUser.deleteUserRoles", params);
+        params.put("roleIds", delRoleIds);
+        executeQueryByName("SysUser.delUserRole", params);
     }
 }

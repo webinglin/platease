@@ -102,4 +102,13 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
             userDao.deleteUserRoles(userId, originalRoleIds);
         }
     }
+
+    @Override
+    public void delUser(String userId) throws Exception {
+        userDao.delete(userId);
+        Map<String,Object> params = new HashMap<>();
+        params.put("userId", userId);
+        userDao.executeQueryByName("SysUser.delUserRole" +
+                "ByUserId",params);
+    }
 }

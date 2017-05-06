@@ -84,7 +84,7 @@ public class UserController {
             return resultModel.setError("需要指定删除用户的ID");
         }
         try {
-            userService.delete(userId);
+            userService.delUser(userId);
         } catch(Exception e){
             logger.error("删除用户失败", e);
         }

@@ -11,5 +11,9 @@ import com.piedra.platease.model.system.Function;
  */
 public interface FunctionDao extends BaseDao<Function> {
 
-
+    /**
+     * 更新权限
+     * @param func  权限
+     */
+    void updateFunc(Function func);
 }
