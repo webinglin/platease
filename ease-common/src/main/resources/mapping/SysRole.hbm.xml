@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.piedra.platease.model.system.Role" table="sys_role" schema="platease">
+        <id name="id">
+            <column name="ID" sql-type="char(32)" length="32"/>
+        </id>
+        <property name="roleName">
+            <column name="ROLE_NAME" sql-type="varchar(255)" not-null="true"/>
+        </property>
+    </class>
+
+    <!-- 查询角色关联的所有权限 -->
+    <sql-query name="SysRole.queryRoleFuncs">
+        <return alias="f" class="com.piedra.platease.model.system.Function" />
+        <![CDATA[
+            SELECT f.* FROM sys_role_func rf JOIN sys_function f ON f.FUNC_ID=rf.FUNC_ID AND rf.ROLE_ID=:roleId
+        ]]>
+    </sql-query>
+
+    <!-- 新增角色权限关联 -->
+    <sql-query name="SysRole.addRoleFunc">
+        <![CDATA[
+            INSERT INTO sys_role_func(ROLE_ID, FUNC_ID) VALUES ('$roleId', '$funcId')
+        ]]>
+    </sql-query>
+
+    <!-- 删除角色权限关联 -->
+    <sql-query name="SysRole.deleteRoleFuncs">
+        <![CDATA[
+            DELETE FROM sys_role_func WHERE ROLE_ID='$roleId' AND FUNC_ID IN ( $funcIds )
+        ]]>
+    </sql-query>
+</hibernate-mapping>

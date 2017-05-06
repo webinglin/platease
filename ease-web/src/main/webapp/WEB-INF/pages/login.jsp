@@ -31,6 +31,7 @@
     </div>
 </div>
 
+<script type="text/javascript" src="${URL}/js/jquery.md5.js"></script>
 <script type="text/javascript" src="${URL}/js/system/login.js"></script>
 </body>
 </html>

@@ -35,6 +35,7 @@ subprojects{
                 "org.springframework:spring-tx:$springVersion",
                 "org.springframework:spring-context-support:$springVersion",
                 'org.apache.commons:commons-lang3:3.4',
+                'org.apache.commons:commons-io:1.3.2',
                 'org.apache.logging.log4j:log4j-core:2.6.2',
                 "org.slf4j:slf4j-api:1.7.7",
                 "ch.qos.logback:logback-core:1.1.2",

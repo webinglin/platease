@@ -2,10 +2,8 @@ package com.piedra.platease.service.impl.system;
 
 import com.piedra.platease.dao.system.DeptDao;
 import com.piedra.platease.model.system.Dept;
-import com.piedra.platease.model.system.Function;
 import com.piedra.platease.service.impl.BaseServiceImpl;
-import com.piedra.platease.service.system.DetpService;
-import com.piedra.platease.service.system.FunctionService;
+import com.piedra.platease.service.system.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class DeptServiceImpl extends BaseServiceImpl<Dept> implements DetpService {
+public class DeptServiceImpl extends BaseServiceImpl<Dept> implements DeptService {
 
     @Autowired
     private DeptDao deptDao;

@@ -7,6 +7,6 @@ import com.piedra.platease.service.BaseService;
  * @author webinglin
  * @since 2017-05-03
  */
-public interface DetpService extends BaseService<Dept> {
+public interface DeptService extends BaseService<Dept> {
 
 }

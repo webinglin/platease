@@ -57,7 +57,7 @@
 
 
     <!-- 查询用户的角色信息 -->
-    <sql-query name="queryUserRoles">
+    <sql-query name="SysUser.queryUserRoles">
         <return alias="r" class="com.piedra.platease.model.system.Role" />
         <![CDATA[
             SELECT r.* FROM SYS_ROLE r  JOIN SYS_USER_ROLE ur ON r.ID=ur.ROLE_ID AND ur.USER_ID=:userId
@@ -65,7 +65,7 @@
     </sql-query>
 
     <!-- 查询用户的权限信息 -->
-    <sql-query name="queryUserPermissions">
+    <sql-query name="SysUser.queryUserPermissions">
         <return alias="f" class="com.piedra.platease.model.system.Function" />
         <![CDATA[
             SELECT f.* FROM SYS_FUNCTION f
@@ -75,7 +75,7 @@
     </sql-query>
 
     <!-- 更新用户信息 -->
-    <sql-query name="updateUser">
+    <sql-query name="SysUser.updateUser">
         <![CDATA[
             UPDATE SYS_USER SET ID=ID
             #if($userName)
@@ -111,7 +111,7 @@
 
 
     <!-- 查询用户数据 -->
-    <sql-query name="queryUserList">
+    <sql-query name="SysUser.queryUserList">
         <return alias="u" class="com.piedra.platease.model.system.User" />
         <![CDATA[
             SELECT u.* FROM SYS_USER u WHERE 1=1
@@ -151,7 +151,7 @@
         ]]>
     </sql-query>
     <!-- 查询用户数据总量 -->
-    <sql-query name="queryUserListCnt">
+    <sql-query name="SysUser.queryUserListCnt">
         <return-scalar column="cnt" type="java.lang.Integer" />
         <![CDATA[
             SELECT COUNT(1) AS cnt FROM SYS_USER WHERE 1=1
@@ -191,4 +191,17 @@
         ]]>
     </sql-query>
 
+    <!-- 新增用户角色关联 -->
+    <sql-query name="SysUser.addUserRoles">
+    <![CDATA[
+        INSERT INTO sys_user_role(USER_ID, ROLE_ID) VALUES ('$userId', '$roleId')
+    ]]>
+    </sql-query>
+
+    <!-- 删除用户角色关联 -->
+    <sql-query name="SysUser.deleteUserRoles">
+    <![CDATA[
+        DELETE FROM sys_user_role WHERE USER_ID='$userId' AND ROLE_ID IN ( $roleIds )
+    ]]>
+    </sql-query>
 </hibernate-mapping>

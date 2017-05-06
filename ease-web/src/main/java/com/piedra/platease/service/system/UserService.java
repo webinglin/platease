@@ -8,6 +8,7 @@ import com.piedra.platease.model.system.User;
 import com.piedra.platease.service.BaseService;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户业务实现类
@@ -63,4 +64,11 @@ public interface UserService extends BaseService<User> {
     void updateUser(UserDTO userDto) throws Exception;
 
 
+    /**
+     * 修改用户拥有的角色集合
+     * @param userId        用户ID
+     * @param roleIds       角色ID列表
+     * @throws Exception    异常往上一层抛出
+     */
+    void updateUserRoles(String userId, Set<String> roleIds) throws Exception;
 }

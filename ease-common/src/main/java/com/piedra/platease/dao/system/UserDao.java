@@ -8,6 +8,7 @@ import com.piedra.platease.model.system.Role;
 import com.piedra.platease.model.system.User;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Dao操作接口定义
@@ -36,4 +37,17 @@ public interface UserDao extends BaseDao<User> {
      */
     void updateUser(User user) throws Exception ;
 
+    /**
+     * 为某个用户添加角色关联
+     * @param userId        用户ID
+     * @param newRoleIds    角色ID
+     */
+    void addUserRoles(String userId, Set<String> newRoleIds);
+
+    /**
+     * 删除某个用户的角色ID
+     * @param userId       用户ID
+     * @param delRoleIds   角色ID
+     */
+    void deleteUserRoles(String userId, Set<String> delRoleIds);
 }

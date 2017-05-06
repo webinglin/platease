@@ -1,6 +1,5 @@
 package com.piedra.platease.service;
 
-import com.piedra.platease.dao.system.UserDao;
 import com.piedra.platease.dto.UserDTO;
 import com.piedra.platease.model.Page;
 import com.piedra.platease.model.system.Function;
@@ -14,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author webinglin
@@ -57,8 +58,6 @@ public class UserServiceTest {
     }
 
 
-
-
     @Test
     public void testQueryByPage() throws Exception {
 
@@ -78,6 +77,16 @@ public class UserServiceTest {
     }
 
 
-
-
+    /**
+     * 测试用户角色授权
+     */
+    @Test
+    public void testUpdateRoles() throws Exception {
+        Set<String> roleIdSet = new HashSet<>();
+        roleIdSet.add("c");
+        roleIdSet.add("f");
+        roleIdSet.add("g");
+        roleIdSet.add("h");
+        userService.updateUserRoles("373e146793c04c0a9b3d1dc434b2d509", roleIdSet);
+    }
 }

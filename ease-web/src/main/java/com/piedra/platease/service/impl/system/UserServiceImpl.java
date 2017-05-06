@@ -9,13 +9,13 @@ import com.piedra.platease.model.system.User;
 import com.piedra.platease.service.impl.BaseServiceImpl;
 import com.piedra.platease.service.system.UserService;
 import com.piedra.platease.utils.BeanMapUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -59,7 +59,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     @Override
     public Page<User> queryByPage(Page<User> page, UserDTO userDTO) throws Exception {
         Map<String,Object> params = BeanMapUtil.trans2Map(userDTO);
-        return userDao.queryByNameWithTotal(page, "queryUserListCnt", "queryUserList", params);
+        return userDao.queryByNameWithTotal(page, "SysUser.queryUserListCnt", "SysUser.queryUserList", params);
     }
 
     /**
@@ -72,5 +72,34 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         User user = new User();
         BeanUtils.copyProperties(userDto, user);
         userDao.updateUser(user);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void updateUserRoles(String userId, Set<String> newRoleIds) throws Exception {
+        if(CollectionUtils.isEmpty(newRoleIds)){
+            return ;
+        }
+
+        // 用户原有的角色集合
+        List<Role> originalUserRoles = userDao.queryUserRoles(userId);
+        Set<String> originalRoleIds = new HashSet<>();
+        originalUserRoles.forEach(role -> originalRoleIds.add(role.getId()));
+
+        // 两者都有的，不需要改变的角色ID集合
+        Collection<String> intersectionCollection = CollectionUtils.intersection(originalRoleIds, newRoleIds);
+
+        // 需要新增的用户角色
+        newRoleIds.removeAll(intersectionCollection);
+
+        // 需要删掉的用户角色
+        originalRoleIds.removeAll(intersectionCollection);
+
+        if(CollectionUtils.isNotEmpty(newRoleIds)) {
+            userDao.addUserRoles(userId, newRoleIds);
+        }
+        if(CollectionUtils.isNotEmpty(originalRoleIds)) {
+            userDao.deleteUserRoles(userId, originalRoleIds);
+        }
     }
 }
