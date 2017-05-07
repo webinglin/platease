@@ -1,6 +1,6 @@
 package com.piedra.platease.shiro;
 
-import com.piedra.platease.constants.Constants;
+import com.piedra.platease.constants.WebConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
@@ -34,10 +34,10 @@ public class AccessPermissionsAuthorizationFilter extends PermissionsAuthorizati
             uri = uri.substring(i + contextPath.length());
         }
         if (StringUtils.isBlank(uri)) {
-            uri = Constants.CONTEXT_PATH;
+            uri = WebConstants.CONTEXT_PATH;
         }
         boolean permitted;
-        if (Constants.CONTEXT_PATH.equals(uri)) {
+        if (WebConstants.CONTEXT_PATH.equals(uri)) {
             permitted = true;
         } else {
             permitted = subject.isPermitted(uri);

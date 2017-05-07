@@ -5,7 +5,7 @@ package com.piedra.platease.constants;
  * @author webinglin
  * @since 2017-04-06
  */
-public class Constants {
+public class WebConstants {
     /** 代表web返回状态 成功 */
     public static final String WEB_SUCCESS = "200";
 

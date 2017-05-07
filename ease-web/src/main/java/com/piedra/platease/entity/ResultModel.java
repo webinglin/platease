@@ -1,6 +1,6 @@
 package com.piedra.platease.entity;
 
-import com.piedra.platease.constants.Constants;
+import com.piedra.platease.constants.WebConstants;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ResultModel {
     /** 返回的状态码 */
-    private String code = Constants.WEB_SUCCESS;
+    private String code = WebConstants.WEB_SUCCESS;
     /** 返回的错误信息 */
     private String msg;
 
@@ -18,7 +18,7 @@ public class ResultModel {
         if(null == msg){
             msg = StringUtils.EMPTY;
         }
-        this.code = Constants.WEB_FAIL;
+        this.code = WebConstants.WEB_FAIL;
         this.msg = msg;
         return this;
     }

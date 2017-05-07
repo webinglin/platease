@@ -1,6 +1,6 @@
 package com.piedra.platease.controller.system;
 
-import com.piedra.platease.constants.Constants;
+import com.piedra.platease.constants.WebConstants;
 import com.piedra.platease.utils.SessionHelper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -43,7 +43,7 @@ public class LoginController {
      */
     @RequestMapping(value="/login", method=RequestMethod.POST)
     public String login(HttpServletRequest request){
-        String resultURL = Constants.CONTEXT_PATH ;
+        String resultURL = WebConstants.CONTEXT_PATH ;
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -83,14 +83,14 @@ public class LoginController {
     /**
      * 退出系统
      */
-    @RequestMapping(value="/logout", method=RequestMethod.POST)
+    @RequestMapping(value="/logout")
     public String logout(){
         Subject subject = SecurityUtils.getSubject();
         if (subject != null) {
             SessionHelper.removeCurrentSession(subject.getSession());
             subject.logout();
         }
-        return InternalResourceViewResolver.REDIRECT_URL_PREFIX + Constants.CONTEXT_PATH;
+        return InternalResourceViewResolver.REDIRECT_URL_PREFIX + WebConstants.CONTEXT_PATH;
     }
 
     /**

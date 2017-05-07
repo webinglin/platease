@@ -26,18 +26,4 @@ public class CollectionUtil {
         return strBuilder.toString().substring(1);
     }
 
-    /**
-     * 将集合转成逗号分割的字符串    字符串用单引号包含
-     * @param set   待转换集合
-     * @return  返回逗号分割的字符串
-     */
-    public static String joinWithSingleQuotes(Set<String> set){
-        if(CollectionUtils.isEmpty(set)){
-            return StringUtils.EMPTY;
-        }
-        StringBuilder strBuilder = new StringBuilder();
-        set.forEach(str -> strBuilder.append(",'").append(str).append("'"));
-        return strBuilder.toString().substring(1);
-    }
-
 }

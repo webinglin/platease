@@ -4,5 +4,14 @@
 
 
 $(function () {
-    $('body').layout({ applyDefaultStyles: true });
+    $(".content").width($("body").width()-55);
+
+
+    $("a.link").click(function(){
+        var url = $(this).attr("data-url");
+        $.post(url, function(data){
+            $("#content").empty();
+            $("#content").html(data);
+        });
+    });
 });
