@@ -4,7 +4,7 @@
 
 
 $(function () {
-    $(".content").width($("body").width()-55);
+    $(".content").width($("body").width()-195);
 
 
     $("a.link").click(function(){
@@ -14,4 +14,14 @@ $(function () {
             $("#content").html(data);
         });
     });
+
+
+    // 如何判断是否是刷新?
+    // $(window).unload(function () {
+    //     $.ajax({
+    //         type: 'POST',
+    //         async: false,
+    //         url: basePath+'/logout'
+    //     });
+    // });
 });

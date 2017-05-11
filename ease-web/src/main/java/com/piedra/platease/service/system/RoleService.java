@@ -2,9 +2,11 @@ package com.piedra.platease.service.system;
 
 import com.piedra.platease.dto.RoleDTO;
 import com.piedra.platease.model.Page;
+import com.piedra.platease.model.system.Function;
 import com.piedra.platease.model.system.Role;
 import com.piedra.platease.service.BaseService;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -46,4 +48,10 @@ public interface RoleService  extends BaseService<Role> {
      * @throws Exception    异常上抛
      */
     void delRole(String roleId) throws Exception;
+
+    /**
+     * 查询角色对应的权限
+     * @param roleId    角色ID
+     */
+    List<Function> queryRolePermissions(String roleId);
 }

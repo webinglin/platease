@@ -77,7 +77,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     @SuppressWarnings("unchecked")
     @Override
     public void updateUserRoles(String userId, Set<String> newRoleIds) throws Exception {
-        if(CollectionUtils.isEmpty(newRoleIds)){
+        if(newRoleIds==null){
             return ;
         }
 

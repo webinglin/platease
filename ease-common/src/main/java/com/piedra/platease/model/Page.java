@@ -1,99 +1,109 @@
 package com.piedra.platease.model;
 
+import com.piedra.platease.constants.Constants;
+
+import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.criterion.MatchMode;
-
-import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * 分页对象
- * @param <T>   分页对象
+ * @param <M>   分页对象
  * @since 2017-04-05 by webinglin
  */
-public class Page<T> {
+public class Page<M> {
+    private Class<M> entityClass ;
 
-    public enum OrderType {
-        asc, desc
-    }
 
     /** 分页数据 */
-    private List<T> datas;
-
-    /** 分页大小 */
-    private Integer pageSize = 10;
-
-    /** 分页页码 */
-    private Integer pageIndex = 1;
-
-    /** 总条数 */
-    private Integer totalCount = 0;
-
+    private List<M> datas = new ArrayList<>();
     /** 总页数 */
-    private Integer totalPageSize = 0;
+    private Integer total = 0;
+    /** 总条数 */
+    private Integer records = 0;
 
+
+    /* * 前端请求参数 ***/
+
+    /** 当前第几页 */
+    private int page = 1;
+    /** 每页几条记录 */
+    private int rows = 10;
     /** 排序字段 */
-    @JSONField(serialize = false)
-    private String orderBy;
+    private String sidx;
+    /** 排序顺序 */
+    private String sord = Constants.Order.ASC;
 
-    /** 排序方式 */
-    @JSONField(serialize = false)
-    private OrderType orderType = OrderType.asc;
 
-    public List<T> getDatas() {
+    public Page(){
+    }
+
+    public Page(int page, int rows){
+        this.page = page;
+        this.rows = rows;
+    }
+
+    public List<M> getDatas() {
         return datas;
     }
 
-    public void setDatas(List<T> datas) {
+    public void setDatas(List<M> datas) {
         this.datas = datas;
     }
 
-    public Integer getPageSize() {
-        return pageSize;
+    public Integer getTotal() {
+        this.total = this.records%this.rows==0 ? (this.records/this.rows) : (this.records/this.rows+1);
+        return this.total;
     }
 
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
-    public String getOrderBy() {
-        return orderBy;
+    public Integer getRecords() {
+        return records;
     }
 
-    public void setOrderBy(String orderBy) {
-        this.orderBy = orderBy;
+    public void setRecords(Integer records) {
+        this.records = records;
     }
 
-    public Integer getTotalCount() {
-        return totalCount;
+    public int getPage() {
+        return page;
     }
 
-    public void setTotalCount(Integer totalCount) {
-        this.totalCount = totalCount;
+    public void setPage(int page) {
+        this.page = page;
     }
 
-    public Integer getTotalPageSize() {
-        this.totalPageSize = this.totalCount / this.pageSize;
-        return this.totalCount % this.pageSize > 0 ? ++this.totalPageSize : this.totalPageSize;
+    public int getRows() {
+        return rows;
     }
 
-    public void setTotalPageSize(Integer totalPageSize) {
-        this.totalPageSize = totalPageSize;
+    public void setRows(int rows) {
+        this.rows = rows;
     }
 
-    public OrderType getOrderType() {
-        return orderType;
+    public String getSidx() {
+        return sidx;
     }
 
-    public void setOrderType(OrderType orderType) {
-        this.orderType = orderType;
+    public void setSidx(String sidx) {
+        this.sidx = sidx;
     }
 
-    public Integer getPageIndex() {
-        return pageIndex;
+    public String getSord() {
+        return sord;
     }
 
-    public void setPageIndex(Integer pageIndex) {
-        this.pageIndex = pageIndex;
+    public void setSord(String sord) {
+        this.sord = sord;
+    }
+
+    public Class getEntityClass() {
+        return entityClass;
+    }
+
+    public void setEntityClass(Class entityClass) {
+        this.entityClass = entityClass;
     }
 }

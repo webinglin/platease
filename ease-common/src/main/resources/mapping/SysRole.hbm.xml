@@ -11,6 +11,9 @@
         <property name="roleName">
             <column name="ROLE_NAME" sql-type="varchar(255)" not-null="true"/>
         </property>
+        <property name="remark">
+            <column name="REMARK" sql-type="varchar(255)" />
+        </property>
     </class>
 
     <!-- 查询角色关联的所有权限 -->
@@ -73,8 +76,8 @@
             #if($roleName)
                 AND r.ROLE_NAME like :roleName
             #end
-            #if($orderBy)
-                order by r.$orderBy #if($orderType) $orderType #end
+            #if($sidx)
+                order by r.$sidx #if($sord) $sord #end
             #end
         ]]>
     </sql-query>

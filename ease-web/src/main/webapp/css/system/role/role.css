@@ -1,0 +1,25 @@
+/*@since 2017-05-11 by webinglin*/
+
+.role-table {
+    width:550px;
+    float:left;
+}
+
+.role-funcs {
+    width:600px;
+    float:left;
+    overflow-y: auto;
+}
+
+
+.ui-margin-8{
+    margin-top:8px;
+}
+
+.role-funcs-btn{
+    padding-top: 15px;
+}
+
+.float-right{
+    float: right;
+}

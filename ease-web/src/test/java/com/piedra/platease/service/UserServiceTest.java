@@ -60,9 +60,9 @@ public class UserServiceTest {
     public void testQueryByPage() throws Exception {
 
         Page<User> page = new Page<>();
-        page.setPageIndex(1);
-        page.setPageSize(3);
-        page.setOrderBy("USER_NAME");
+        page.setPage(1);
+        page.setRows(3);
+        page.setSidx("USER_NAME");
 
         UserDTO userDto = new UserDTO();
 //        userDto.setId("373e146793c04c0a9b3d1dc434b2d509");

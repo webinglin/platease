@@ -36,7 +36,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     @SuppressWarnings("unchecked")
     @Override
     public void updateRoleFunctions(String roleId, Set<String> newFuncIds) throws Exception {
-        if(CollectionUtils.isEmpty(newFuncIds)){
+        if(newFuncIds==null){
             return ;
         }
 
@@ -100,5 +100,10 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         Map<String,Object> params = Collections.singletonMap("roleId", roleId);
         roleDao.executeQueryByName("SysRole.delUserRoleByRoleId",params);
         roleDao.executeQueryByName("SysRole.delRoleFuncByRoleId",params);
+    }
+
+    @Override
+    public List<Function> queryRolePermissions(String roleId) {
+        return roleDao.queryRolePermissions(roleId);
     }
 }

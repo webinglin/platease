@@ -1,0 +1,18 @@
+
+
+
+.user-tree{
+    width:250px;
+    height:600px;
+    background-color: #d8e5e3;
+    float: left;
+}
+.search-condition {
+    background-color: #d8e5e3;
+    height:100px;
+    width:1000px;
+}
+.user-mgr-table {
+    float: left;
+    overflow: hidden;
+}

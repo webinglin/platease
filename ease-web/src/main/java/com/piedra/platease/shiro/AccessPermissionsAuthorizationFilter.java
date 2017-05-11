@@ -43,6 +43,10 @@ public class AccessPermissionsAuthorizationFilter extends PermissionsAuthorizati
             permitted = subject.isPermitted(uri);
         }
 
+        if(!permitted) {
+            logger.error("无权限访问:{}", uri);
+        }
+
         return permitted;
     }
 }

@@ -4,6 +4,7 @@ import com.piedra.platease.constants.StatusConstants;
 import com.piedra.platease.dto.UserDTO;
 import com.piedra.platease.entity.ResultModel;
 import com.piedra.platease.model.Page;
+import com.piedra.platease.model.system.Role;
 import com.piedra.platease.model.system.User;
 import com.piedra.platease.service.system.UserService;
 import com.piedra.platease.utils.PasswordUtil;
@@ -117,7 +118,7 @@ public class UserController {
 
     /**
      * 查询用户
-     * @param page  分页信息
+     * @param page    分页信息
      * @param userDto 用户数据--过滤条件
      * @return  返回结果
      */
@@ -125,7 +126,8 @@ public class UserController {
     @ResponseBody
     public Page<User> queryUsers(Page<User> page, UserDTO userDto){
         try {
-            userService.queryByPage(page, userDto);
+            page.setEntityClass(User.class);
+            page = userService.queryByPage(page, userDto);
         } catch(Exception e){
             logger.error("查询用户失败", e);
         }

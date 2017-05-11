@@ -8,6 +8,15 @@ package com.piedra.platease.dto;
 public class RoleDTO {
     private String id;
     private String roleName;
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public String getId() {
         return id;

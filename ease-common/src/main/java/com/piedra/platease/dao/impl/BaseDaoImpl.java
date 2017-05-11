@@ -1,5 +1,6 @@
 package com.piedra.platease.dao.impl;
 
+import com.piedra.platease.constants.Constants;
 import com.piedra.platease.dao.BaseDao;
 import com.piedra.platease.model.Page;
 import org.apache.commons.collections.CollectionUtils;
@@ -151,16 +152,16 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 
 	public Page<T> getPage(DetachedCriteria criteria, Page<T> page) {
-		page.setTotalCount(queryCount(criteria));
+		page.setRecords(queryCount(criteria));
 		criteria.setProjection(null);
-		if(page.getOrderBy()!=null){
-			if(page.getOrderType().equals(Page.OrderType.asc)){
-				criteria.addOrder(Order.asc(page.getOrderBy()));
+		if(page.getSidx()!=null){
+			if(page.getSord().equals(Constants.Order.ASC)){
+				criteria.addOrder(Order.asc(page.getSidx()));
 			}else{
-				criteria.addOrder(Order.desc(page.getOrderBy()));
+				criteria.addOrder(Order.desc(page.getSidx()));
 			}
 		}
-		page.setDatas(page(criteria, page.getPageSize(), page.getPageIndex()));
+		page.setDatas(page(criteria, page.getRows(), page.getPage()));
 		return page;
 	}
 
@@ -184,7 +185,6 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
             StringWriter sqlWriter = new StringWriter();
             Velocity.evaluate(context, sqlWriter, null, query.getQueryString());
             rsQuery = getSession().createNativeQuery(sqlWriter.toString());
-
         } catch (Exception e) {
             logger.error("查询命名SQL【"+queryName+"】出错！", e);
         }
@@ -241,16 +241,22 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
      * @return  返回分页结果（只包含当前查询页的数据集合）
      */
     @SuppressWarnings({ "unchecked" })
-    public Page<T> queryByNameWithoutTotal(Page<T> page, String queryName, Map<String, Object> params) {
-        if(StringUtils.isNotBlank(page.getOrderBy())){
-            params.put("orderBy", page.getOrderBy());
-            params.put("orderType", page.getOrderType());
+    public<M> Page<M> queryByNameWithoutTotal(Page<M> page, String queryName, Map<String, Object> params) {
+        if(StringUtils.isNotBlank(page.getSidx())){
+            params.put("sidx", page.getSidx());
+            params.put("sord", page.getSord());
         }
         NativeQuery query = getNamedQuery(queryName, params);
         setQueryNameParameters(query, params);
-        query.setFirstResult((page.getPageIndex()-1)*page.getPageSize());
-        query.setMaxResults(page.getPageSize());
-        List<T> resultList = query.list();
+        query.setFirstResult((page.getPage()-1)*page.getRows());
+        query.setMaxResults(page.getRows());
+        if(page.getEntityClass()==null){
+            logger.error("[[[Page实体的泛型类型没有设定，需要通过 page.setEntityClass 来指定，这样Page返回的实体可以有明确的返回类型。]]]");
+        }
+        if(page.getEntityClass()!=null) {
+            query.addEntity(page.getEntityClass());
+        }
+        List<M> resultList = query.list();
         if(resultList == null){
             resultList = new ArrayList<>();
         }
@@ -265,9 +271,9 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
      * @param params        参数集合
      * @return  返回分页结果（包含数据总量和当前查询页的数据集合）
      */
-    public Page<T> queryByNameWithTotal(Page<T> page, String countQueryName, String queryName, Map<String, Object> params) {
+    public<M> Page<M> queryByNameWithTotal(Page<M> page, String countQueryName, String queryName, Map<String, Object> params) {
         Integer totalCount = queryCntByNameQuery(countQueryName, params);
-        page.setTotalCount(totalCount);
+        page.setRecords(totalCount);
         if(totalCount==0){
             page.setDatas(new ArrayList<>());
             return page;
@@ -287,14 +293,14 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
      */
     @SuppressWarnings("unchecked")
     public<M> Page<M> queryByNameWithoutTotal(Page<M> page, String queryName, Map<String, Object> params, ResultTransformer transformer) {
-        if(StringUtils.isNotBlank(page.getOrderBy())){
-            params.put("orderBy", page.getOrderBy());
-            params.put("orderType", page.getOrderType());
+        if(StringUtils.isNotBlank(page.getSidx())){
+            params.put("sidx", page.getSidx());
+            params.put("sord", page.getSord());
         }
         NativeQuery query = getNamedQuery(queryName, params);
         setQueryNameParameters(query, params);
-        query.setFirstResult((page.getPageIndex()-1)*page.getPageSize());
-        query.setMaxResults(page.getPageSize());
+        query.setFirstResult((page.getPage()-1)*page.getRows());
+        query.setMaxResults(page.getRows());
         if(transformer!=null){
             query.setResultTransformer(transformer);
         }
@@ -318,7 +324,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
      */
     public <M> Page<M> queryByNameWithTotal(Page<M> page, String countQueryName, String queryName, Map<String, Object> params, ResultTransformer transformer) {
         Integer totalCnt = queryCntByNameQuery(countQueryName, params);
-        page.setTotalCount(totalCnt);
+        page.setRecords(totalCnt);
         if(totalCnt==0){
             page.setDatas(new ArrayList<>());
             return page;

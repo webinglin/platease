@@ -8,26 +8,24 @@
 <link rel="stylesheet" href="${URL}/css/system/login.css" />
 <body>
 
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="text-center">PLATEASE</h1>
-        </div>
-        <div class="modal-body">
-            <form action="${URL}/login" method="post">
-                <div class="form-group">
-                    <input type="text"  name="username" class="form-control input-lg" placeholder="用户名"/>
-                </div>
+<div class="login-dialog">
+    <div class="modal-header">
+        <h1 class="text-center">PLATEASE</h1>
+    </div>
+    <div class="modal-body">
+        <form action="${URL}/login" method="post">
+            <div class="form-group">
+                <input type="text"  name="username" class="form-control input-lg" placeholder="用户名"/>
+            </div>
 
-                <div class="form-group">
-                    <input type="password"  name="password" class="form-control input-lg" placeholder="密码"/>
-                </div>
+            <div class="form-group">
+                <input type="password"  name="password" class="form-control input-lg" placeholder="密码"/>
+            </div>
 
-                <div class="form-group">
-                    <input type="submit" class="btn btn-block btn-lg btn-primary" value="登录"/>
-                </div>
-            </form>
-        </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-block btn-lg btn-primary" value="登录"/>
+            </div>
+        </form>
     </div>
 </div>
 

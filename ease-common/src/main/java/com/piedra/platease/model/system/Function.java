@@ -10,10 +10,13 @@ public class Function {
     private String funcUrl;
     private String imageUrl;
     private String funcType;
+
+    /** 目前permission并没有实际的用途，但是在查询权限的时候可以有效的分组  select * from sys_function order by  PERMISSION, ORDER_NUM ; */
     private String permission;
+
     private String parentId;
     private String remark;
-    private Integer orderNum;
+    private String orderStr;
 
     public String getId() {
         return id;
@@ -79,45 +82,11 @@ public class Function {
         this.remark = remark;
     }
 
-    public Integer getOrderNum() {
-        return orderNum;
+    public String getOrderStr() {
+        return orderStr;
     }
 
-    public void setOrderNum(Integer orderNum) {
-        this.orderNum = orderNum;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Function function = (Function) o;
-
-        if (id != null ? !id.equals(function.id) : function.id != null) return false;
-        if (funcTitle != null ? !funcTitle.equals(function.funcTitle) : function.funcTitle != null) return false;
-        if (funcUrl != null ? !funcUrl.equals(function.funcUrl) : function.funcUrl != null) return false;
-        if (imageUrl != null ? !imageUrl.equals(function.imageUrl) : function.imageUrl != null) return false;
-        if (funcType != null ? !funcType.equals(function.funcType) : function.funcType != null) return false;
-        if (permission != null ? !permission.equals(function.permission) : function.permission != null) return false;
-        if (parentId != null ? !parentId.equals(function.parentId) : function.parentId != null) return false;
-        if (remark != null ? !remark.equals(function.remark) : function.remark != null) return false;
-        if (orderNum != null ? !orderNum.equals(function.orderNum) : function.orderNum != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (funcTitle != null ? funcTitle.hashCode() : 0);
-        result = 31 * result + (funcUrl != null ? funcUrl.hashCode() : 0);
-        result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
-        result = 31 * result + (funcType != null ? funcType.hashCode() : 0);
-        result = 31 * result + (permission != null ? permission.hashCode() : 0);
-        result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
-        result = 31 * result + (remark != null ? remark.hashCode() : 0);
-        result = 31 * result + (orderNum != null ? orderNum.hashCode() : 0);
-        return result;
+    public void setOrderStr(String orderStr) {
+        this.orderStr = orderStr;
     }
 }

@@ -15,4 +15,12 @@ public class Constants {
     public static final String VERTICALLINE = "|";
     public static final String SLASH = "/";
 
+    /** 顶级节点的ID */
+    public static final String PARENT_ID = "00000000000000000000000000000000";
+
+
+    public static class Order {
+        public static final String DESC = "desc";
+        public static final String ASC = "asc";
+    }
 }

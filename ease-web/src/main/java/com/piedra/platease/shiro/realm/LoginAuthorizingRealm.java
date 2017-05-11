@@ -1,5 +1,6 @@
 package com.piedra.platease.shiro.realm;
 
+import com.piedra.platease.constants.SessionConstants;
 import com.piedra.platease.model.system.Function;
 import com.piedra.platease.model.system.Role;
 import com.piedra.platease.model.system.User;
@@ -76,6 +77,8 @@ public class LoginAuthorizingRealm extends AuthorizingRealm {
             Set<String> funcUrlSet = new HashSet<>();
             functions.forEach(function -> funcUrlSet.add(function.getFuncUrl()));
             info.setStringPermissions(funcUrlSet);
+
+            subject.getSession().setAttribute(SessionConstants.USER_PERMISSIONS,functions);
 
         } catch (Exception e){
             logger.error("授权出错", e);

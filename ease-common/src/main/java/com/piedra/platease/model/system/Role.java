@@ -7,6 +7,7 @@ package com.piedra.platease.model.system;
 public class Role {
     private String id;
     private String roleName;
+    private String remark;
 
     public String getId() {
         return id;
@@ -24,23 +25,11 @@ public class Role {
         this.roleName = roleName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Role role = (Role) o;
-
-        if (id != null ? !id.equals(role.id) : role.id != null) return false;
-        if (roleName != null ? !roleName.equals(role.roleName) : role.roleName != null) return false;
-
-        return true;
+    public String getRemark() {
+        return remark;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (roleName != null ? roleName.hashCode() : 0);
-        return result;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

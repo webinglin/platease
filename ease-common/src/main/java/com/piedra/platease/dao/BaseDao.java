@@ -2,18 +2,13 @@ package com.piedra.platease.dao;
 
 
 import com.piedra.platease.model.Page;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.query.Query;
 import org.hibernate.transform.ResultTransformer;
 
-import java.io.StringWriter;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Dao操作接口定义
@@ -196,7 +191,7 @@ public interface BaseDao<T> {
      * @return  返回分页结果（只包含当前查询页的数据集合）
      */
     @SuppressWarnings({ "unchecked" })
-    Page<T> queryByNameWithoutTotal(Page<T> page, String queryName, Map<String, Object> params);
+    <M> Page<M> queryByNameWithoutTotal(Page<M> page, String queryName, Map<String, Object> params);
 
     /**
      * 分页查询， 同时查出数据总量
@@ -205,7 +200,7 @@ public interface BaseDao<T> {
      * @param params        参数集合
      * @return  返回分页结果（包含数据总量和当前查询页的数据集合）
      */
-    Page<T> queryByNameWithTotal(Page<T> page, String countQueryName, String queryName, Map<String, Object> params) ;
+    <M> Page<M> queryByNameWithTotal(Page<M> page, String countQueryName, String queryName, Map<String, Object> params) ;
 
     /**
      * 根据sql-query名称查询结果，不包含数据总量，允许将结果转成非持久化的对象（根据ResultTransformer转换）

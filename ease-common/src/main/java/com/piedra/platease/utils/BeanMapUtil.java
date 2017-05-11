@@ -27,6 +27,9 @@ public class BeanMapUtil {
      */
     public static Map<String,Object> trans2Map(Object obj){
         Map<String, Object> map = new HashMap<>();
+        if(obj==null){
+            return map;
+        }
         try {
             Class<?> clazz = obj.getClass();
             Field[] fields = clazz.getDeclaredFields();

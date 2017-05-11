@@ -145,8 +145,8 @@
             #if($id)
                 AND u.ID=:id
             #end
-            #if($orderBy)
-                order by u.$orderBy #if($orderType) $orderType #end
+            #if($sidx)
+                order by u.$sidx #if($sord) $sord #end
             #end
         ]]>
     </sql-query>

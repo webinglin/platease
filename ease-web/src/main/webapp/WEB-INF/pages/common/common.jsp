@@ -13,7 +13,7 @@ Date: 2017/4/23
 <script type="text/javascript" src="${URL}/plugins/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 --%>
 <link rel="stylesheet" href="${URL}/plugins/jquery-ui-1.12.1/jquery-ui.css" >
-<script type="text/javascript" src="${URL}/js/jquery.js"></script>
+<script type="text/javascript" src="${URL}/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="${URL}/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 
 <script type="text/javascript">

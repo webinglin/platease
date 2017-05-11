@@ -36,8 +36,15 @@
         <property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
     </bean>
 
+    <!-- 自定义权限解析器 -->
+    <bean id="caseSensitivePermissionResolver" class="com.piedra.platease.shiro.permission.CaseSensitiveWildcardPermissionResolver" />
+    <bean id="authorizer" class="org.apache.shiro.authz.ModularRealmAuthorizer">
+        <property name="permissionResolver" ref="caseSensitivePermissionResolver" />
+    </bean>
+
     <!-- 这里主要是设置自定义的单Realm应用,若有多个Realm,可使用'realms'属性代替 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="authorizer" ref="authorizer" />
         <property name="realm" ref="loginAuthorizingRealm"/>
         <property name="sessionManager" ref="sessionManager"/>
         <property name="cacheManager" ref="ehcacheManager" />

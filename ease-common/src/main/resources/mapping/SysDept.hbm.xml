@@ -72,8 +72,8 @@
             #if($remark)
                 AND d.REMARK = :remark
             #end
-            #if($orderBy)
-                order by r.$orderBy #if($orderType) $orderType #end
+            #if($sidx)
+                order by r.$sidx #if($sord) $sord #end
             #end
         ]]>
     </sql-query>
