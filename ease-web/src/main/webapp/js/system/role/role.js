@@ -21,7 +21,7 @@ $(function () {
         ],
         pager: '#rolePager',
         width: 530,
-        height: 400,
+        height: 560,
         rowNum: 20,
         rowList: [20, 50, 100],
         sortname: 'ROLE_NAME',

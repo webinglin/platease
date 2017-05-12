@@ -28,10 +28,17 @@ public interface FunctionService extends BaseService<Function> {
     Page<Function> queryFunctionList(Page<Function> page, FunctionDTO functionDTO) throws Exception;
 
     /**
-     * 根据权限ID 删除权限信息以及 关联表
-     * @param funcId        权限ID
+     * 根据ID删除菜单权限
+     * 如果是 0.....[32] 为顶级节点ID，提示抛出异常，不允许删除，只能通过数据库脚本删除
+     * 如果ID不是0....0 那么可以删除，删除的时候除了删除自身，还需要将parentId为该ID的也一起删除
+     * @param funcId    菜单ID
      * @throws Exception    异常上抛
      */
     void delFunction(String funcId) throws Exception;
 
+    /**
+     * 添加权限
+     * @param functionDTO   权限
+     */
+    Function addFunc(FunctionDTO functionDTO) throws Exception;
 }

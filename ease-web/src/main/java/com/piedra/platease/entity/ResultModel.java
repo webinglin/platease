@@ -14,6 +14,9 @@ public class ResultModel {
     /** 返回的错误信息 */
     private String msg;
 
+    /** 需要处理的返回数据 */
+    private Object data;
+
     public ResultModel setError(String msg){
         if(null == msg){
             msg = StringUtils.EMPTY;
@@ -37,5 +40,13 @@ public class ResultModel {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }

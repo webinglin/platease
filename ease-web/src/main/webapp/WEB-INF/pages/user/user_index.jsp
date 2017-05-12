@@ -3,12 +3,14 @@
   Date: 2017/4/19
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>--%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%
+    request.setAttribute("URL", request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath());
+%>
 <html>
 <head>
     <title>PLATEASE</title>
-    <link rel="stylesheet" href="css/system/user/userMgr.css"/>
+    <link rel="stylesheet" href="${URL}/css/system/user/user.css"/>
 </head>
 
 <body>
@@ -42,5 +44,5 @@ xx
 </div>
 </body>
 
-<script type="text/javascript" src="js/system/userMgr.js"></script>
+<script type="text/javascript" src="${URL}/js/system/user/user.js"></script>
 </html>

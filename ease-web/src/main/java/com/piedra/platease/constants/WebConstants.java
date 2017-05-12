@@ -18,4 +18,7 @@ public class WebConstants {
 
 
 
+    /** 请求来源构造Tree的请求，需要加上一个根节点 */
+    public static final String FROM_TREE = "tree";
+
 }

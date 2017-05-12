@@ -3,13 +3,14 @@
   Date: 2017/4/19
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%
+    request.setAttribute("URL", request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath());
+%>
 <html>
 <head>
     <title>角色管理</title>
-    <link rel="stylesheet" href="css/system/role/role.css"/>
+    <link rel="stylesheet" href="${URL}/css/system/role/role.css"/>
 </head>
 <body>
 
@@ -20,6 +21,7 @@
 </div>
 
 <div class="role-funcs">
+    <div class="role-funcs-legend">
 <c:forEach var="legend" items="${funcLegends}">
     <fieldset>
         <legend>${legend.legend}</legend>
@@ -30,7 +32,7 @@
         </c:forEach>
     </fieldset>
 </c:forEach>
-
+    </div>
     <div class="role-funcs-btn">
         <button class="btn" id="roleFuncChoseAll">全选</button>
         <button class="btn" id="roleFuncDisChoseAll">反选</button>
@@ -39,6 +41,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="js/system/role.js"></script>
+<script type="text/javascript" src="${URL}/js/system/role/role.js"></script>
 </body>
 </html>

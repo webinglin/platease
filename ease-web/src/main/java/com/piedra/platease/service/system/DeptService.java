@@ -27,4 +27,11 @@ public interface DeptService extends BaseService<Dept> {
      */
     Page<Dept> queryDeptList(Page<Dept> page, DeptDTO deptDTO) throws Exception;
 
+    /**
+     * 删除单位 逻辑删除
+     * @param deptId    单位ID
+     * @throws Exception    异常上抛
+     */
+    void deleteDept(String deptId) throws  Exception;
+
 }

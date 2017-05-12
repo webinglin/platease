@@ -15,5 +15,11 @@ public interface FunctionDao extends BaseDao<Function> {
      * 更新权限
      * @param func  权限
      */
-    void updateFunc(Function func);
+    void updateFunc(Function func) throws Exception;
+
+    /**
+     * 根据父节点ID删除权限
+     * @param funcId    权限ID
+     */
+    void deleteByParentId(String funcId)  throws Exception;
 }

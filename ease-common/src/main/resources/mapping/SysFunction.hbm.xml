@@ -67,7 +67,7 @@
     <sql-query name="SysFunc.queryFuncListCnt">
         <return-scalar column="cnt" type="java.lang.Integer" />
         <![CDATA[
-            SELECT COUNT(1) AS cnt FROM sys_role r WHERE 1=1
+            SELECT COUNT(1) AS cnt FROM sys_function f WHERE 1=1
             #if($id)
                 AND f.ID=:id'
             #end
@@ -121,12 +121,19 @@
         ]]>
     </sql-query>
 
-
-    <!-- 删除角色权限关联 -->
-    <sql-query name="SysRole.delRoleFuncByFuncId">
+    <!-- 根据PARENT_ID删除权限 -->
+    <sql-query name="SysFunc.deleteByParentId">
         <![CDATA[
-            DELETE FROM sys_role_func WHERE FUNC_ID=:funcId
+            DELETE FROM sys_function WHERE PARENT_ID=:parentId
         ]]>
     </sql-query>
+
+    <!-- 删除角色权限关联 -->
+    <sql-query name="SysFunc.delRoleFuncByFuncIds">
+        <![CDATA[
+            DELETE FROM sys_role_func WHERE FUNC_ID IN ( :funcIds )
+        ]]>
+    </sql-query>
+
 
 </hibernate-mapping>

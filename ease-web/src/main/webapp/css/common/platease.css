@@ -1,0 +1,33 @@
+/*
+    PLATEASE通用样式
+ */
+
+/* 表单的行 */
+.form-line{
+    width:100%;
+    height:40px;
+    margin-top: 5px;
+}
+
+.form-line> label {
+    width:120px;
+    display: inline-block;
+    text-align: left;
+}
+
+
+.form-line> input, .form-line> textarea, .form-line> select {
+    width:200px;
+}
+
+.form-line> input, .form-line> select {
+    height: 32px;
+}
+
+.form-line> textarea {
+    height: 100px;
+}
+
+.form-line> select {
+    margin-left: -5px;
+}

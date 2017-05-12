@@ -44,4 +44,15 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept> implements DeptServic
         Map<String,Object> params = BeanMapUtil.trans2Map(deptDTO);
         return deptDao.queryByNameWithTotal(page, "SysDept.queryDeptListCnt", "SysUser.queryDeptList", params);
     }
+
+    /**
+     * 删除单位 逻辑删除
+     *
+     * @param deptId 单位ID
+     * @throws Exception 异常上抛
+     */
+    @Override
+    public void deleteDept(String deptId) throws Exception {
+
+    }
 }

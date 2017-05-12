@@ -13,8 +13,10 @@ public class FunctionDTO {
     private String permission;
     private String parentId;
     private String remark;
-    private Integer orderNum;
+    private String orderStr ;
 
+    /** from - tree 表示属性结构  其他*/
+    private String from;
 
     public String getId() {
         return id;
@@ -80,11 +82,19 @@ public class FunctionDTO {
         this.remark = remark;
     }
 
-    public Integer getOrderNum() {
-        return orderNum;
+    public String getFrom() {
+        return from;
     }
 
-    public void setOrderNum(Integer orderNum) {
-        this.orderNum = orderNum;
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getOrderStr() {
+        return orderStr;
+    }
+
+    public void setOrderStr(String orderStr) {
+        this.orderStr = orderStr;
     }
 }

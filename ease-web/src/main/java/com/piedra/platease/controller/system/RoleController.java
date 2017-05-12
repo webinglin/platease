@@ -57,7 +57,11 @@ public class RoleController {
                     legendMap.put(func.getId(), legend);
                     continue ;
                 }
-                legendMap.get(func.getParentId()).getFuncs().add(func);
+                FuncLegend funcLegend = legendMap.get(func.getParentId());
+                if(funcLegend==null){
+                    continue;
+                }
+                funcLegend.getFuncs().add(func);
             }
             List<FuncLegend> legends = new ArrayList<>();
             legendMap.values().forEach(funcLegend -> legends.add(funcLegend));

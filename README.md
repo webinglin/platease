@@ -5,10 +5,10 @@
 [TOC]
 
 ### platease
-1. SpringVMC + Spring + Hibernate+Velocity
+1. SpringVMC + Spring + Hibernate + Velocity
 2. 采用apache shiro权限认证框架来控制访问，利用Ehcache对用户权限资源进行缓存
-3. 工具类采用 apache-common 系列
-
+3. 工具类采用 apache-commons 系列
+4. 前端：JS框架：JQuery、 UI风格：JQueryUI、表格插件：jqGrid、树插件：ztree、表单验证插件：
 
 ### 自定义service+dao
 对于新添加的Dao，需要定义一个实现BaseDao的接口，同时实现类继承了BaseDaoImpl. service的定义也是类似的实现BaseService和继承BaseServiceImpl
@@ -179,6 +179,31 @@ dao层和service的异常信息都直接往上一层抛出，不作处理，当�
 事务控制不做到对具体方法的控制，直接使用@Transaction注解对Service的实现类进行注解，全局控制事务
 所有涉及到事务的操作（比如一个操作包含了对两个表的非查询类的操作），那么必须将这一组dao操作放在service的一个方法中
 
+
+### 四大基础模块理念
+> 四个模块都包含基本的CRUD操作
+
+#### 用户管理
+添加用户，对于设定的密码必须使用MD5加密，传输到后台之后，后台根据随机生成一个字符串，在和MD5加密过的密码再次进行HASH运算，作为
+最终用户的密码，同时数据库也需要保存那一串用于Hash的随机字符串（即Salt）
+
+删除为逻辑删除，通过标记为来表示用户已经无效
+
+#### 角色管理
+
+角色的授权操作，采用 fieldset的形式，对每个模块的资源进行划分，用checkbox的方式进行授权
+
+角色删除为直接删除
+
+#### 权限管理
+
+权限分级管理，通过 菜单（PARENT_ID为0000....的） 父节点ID非0...的为 按钮，链接 等其他的类型的权限
+
+删除为直接删除
+
+#### 单位管理
+
+同权限管理页面
 
 
 ### TODO

@@ -19,6 +19,8 @@ public class Constants {
     public static final String PARENT_ID = "00000000000000000000000000000000";
 
 
+    public static final String CHAR = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     public static class Order {
         public static final String DESC = "desc";
         public static final String ASC = "asc";
