@@ -34,4 +34,10 @@ public interface DeptService extends BaseService<Dept> {
      */
     void deleteDept(String deptId) throws  Exception;
 
+    /**
+     * 添加单位信息
+     * @param dto   要添加的单位信息
+     * @return  返回添加后的单位信息-包含ID
+     */
+    Dept addDept(DeptDTO dto) throws  Exception;
 }

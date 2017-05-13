@@ -3,8 +3,10 @@
  */
 
 $(function () {
+    var rootId = "00000000000000000000000000000000";
+    var userDeptTree ;
 
-    // $("#userTabs").tabs();
+    $(".btn").button();
 
     $("#userManagerTable").jqGrid({
         url: basePath + "/user/queryUsers",
@@ -28,7 +30,7 @@ $(function () {
             // }}
         ],
         pager : '#userManagerPager',
-        width:1000,
+        width:800,
         height:400,
         rowNum : 10,
         rowList : [ 10, 20, 30 ],
@@ -39,7 +41,54 @@ $(function () {
             root: "datas",
             repeatitems:false
         },
-        caption : "用户信息列表"
+        caption : "用户信息列表",
+        onSelectRow: function (rowid, status) {
+            $("#userSelectedRowId").val(rowid);
+        },
+        beforeRequest: function () {
+            var params = {};
+            if(''!=$("#userDeptCode").val()){
+                params['deptCode'] = $("#userDeptCode").val();
+            }
+            $("#userManagerTable").jqGrid('setGridParam', {postData: params});
+        }
     });
+
+    initDeptTree();
+
+    function initDeptTree() {
+        var setting = {
+            view: {
+                dblClickExpand: false,
+                showLine: true,
+                selectedMulti: false
+            },
+            data: {
+                key: {
+                    name: "deptName"
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "parentId",
+                    rootPId: rootId
+                }
+            },
+            callback: {
+                beforeClick: function (treeId, treeNode) {
+                    debugger;
+                    $("#userDeptCode").val(treeNode['deptCode']);
+                    $("#userManagerTable").trigger("reloadGrid");
+                }
+            }
+        };
+
+
+        $.post(basePath + "/dept/queryDepts", {"rows": 9999, "from": "tree"}, function (data) {
+            userDeptTree = $.fn.zTree.init($("#userDeptTree"), setting, data['datas']);
+            userDeptTree.expandAll(true);
+        });
+    }
+
 
 });

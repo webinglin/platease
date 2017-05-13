@@ -14,8 +14,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SystemController {
 
 
+    /**
+     * 系统管理页面
+     */
+    @RequestMapping(value="/manage")
+    public String manage(){
+        // TODO 获取一系列的个性化菜单配置   Request域即可
+
+        return "/system/manage";
+    }
 
 
+
+    /**
+     * 未授权
+     */
+    @RequestMapping(value="/unAuth")
+    public String unAuth(){
+        return "error/unauth";
+    }
 
 
 }

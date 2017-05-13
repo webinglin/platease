@@ -1,6 +1,7 @@
 package com.piedra.platease.service.impl.system;
 
 import com.piedra.platease.dao.system.UserDao;
+import com.piedra.platease.dto.DeptDTO;
 import com.piedra.platease.dto.UserDTO;
 import com.piedra.platease.model.Page;
 import com.piedra.platease.model.system.Function;
@@ -10,6 +11,7 @@ import com.piedra.platease.service.impl.BaseServiceImpl;
 import com.piedra.platease.service.system.UserService;
 import com.piedra.platease.utils.BeanMapUtil;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,6 +60,10 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
      */
     @Override
     public Page<User> queryByPage(Page<User> page, UserDTO userDTO) throws Exception {
+        if(userDTO!=null && StringUtils.isNotBlank(userDTO.getDeptCode())) {
+            userDTO.setDeptCode(StringUtils.removePattern(userDTO.getDeptCode(),"0*$")+"%");
+        }
+
         Map<String,Object> params = BeanMapUtil.trans2Map(userDTO);
         return userDao.queryByNameWithTotal(page, "SysUser.queryUserListCnt", "SysUser.queryUserList", params);
     }

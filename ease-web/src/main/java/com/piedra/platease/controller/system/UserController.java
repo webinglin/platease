@@ -37,7 +37,7 @@ public class UserController {
 
     @RequestMapping("/index")
     public String index(){
-        return "user/user_index";
+        return "system/user/user_index";
     }
 
     /**

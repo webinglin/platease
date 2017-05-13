@@ -11,7 +11,7 @@
 </head>
 
 <%@include file="/WEB-INF/pages/common/common.jsp" %>
-<link rel="stylesheet" href="${URL}/css/system/home/home.css"/>
+<link rel="stylesheet" href="${URL}/css/system/manage.css"/>
 <link rel="stylesheet" href="${URL}/plugins/jqgrid/ui.jqgrid.css"/>
 
 <body>
@@ -87,6 +87,6 @@
 
 <script type="text/javascript" src="${URL}/plugins/jqgrid/grid.locale-cn.js"></script>
 <script type="text/javascript" src="${URL}/plugins/jqgrid/jquery.jqGrid.min.js"></script>
-<script type="text/javascript" src="${URL}/js/system/home.js"></script>
+<script type="text/javascript" src="${URL}/js/system/manage.js"></script>
 </body>
 </html>

@@ -43,6 +43,12 @@ public class BeanMapUtil {
                     continue ;
                 }
 
+                // 字符串类型，为空的话也不转化
+                if(val instanceof String && "".equals(val)) {
+                    continue ;
+                }
+
+
                 //TODO 转成具体的类型？ 然后继续判断是否需要添加到Map中？  全都转成字符串， 为空的不处理 实体类型全用Integer对象类型，不用int有默认值0的类型
                 map.put(fieldName, val);
             }

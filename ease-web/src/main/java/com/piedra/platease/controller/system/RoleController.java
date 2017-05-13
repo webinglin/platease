@@ -70,7 +70,7 @@ public class RoleController {
         } catch (Exception e) {
             logger.error("加载所有的权限出错", e);
         }
-        return "role/role_index";
+        return "system/role/role_index";
     }
 
     /**

@@ -131,7 +131,7 @@
                 AND u.DEPT_ID=:deptId
             #end
             #if($deptCode)
-                AND u.DEPT_CODE=:deptCode
+                AND u.DEPT_CODE like :deptCode
             #end
             #if($telphone)
                 AND u.TELPHONE=:telphone
@@ -171,7 +171,7 @@
                 AND DEPT_ID=:deptId
             #end
             #if($deptCode)
-                AND DEPT_CODE=:deptCode
+                AND DEPT_CODE like :deptCode
             #end
             #if($telphone)
                 AND TELPHONE=:telphone

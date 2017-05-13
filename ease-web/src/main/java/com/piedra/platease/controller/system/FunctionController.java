@@ -30,7 +30,7 @@ public class FunctionController {
 
     @RequestMapping("/index")
     public String index(){
-        return "func/func_index";
+        return "system/func/func_index";
     }
 
 

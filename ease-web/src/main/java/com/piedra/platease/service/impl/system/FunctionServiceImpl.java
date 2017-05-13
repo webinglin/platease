@@ -11,6 +11,7 @@ import com.piedra.platease.service.system.FunctionService;
 import com.piedra.platease.utils.BeanMapUtil;
 import com.piedra.platease.utils.UUIDUtil;
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.apache.bcel.classfile.Constant;
 import org.hibernate.criterion.Criterion;
@@ -21,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -94,31 +92,53 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
         Function func = new Function();
         BeanUtils.copyProperties(functionDTO, func);
 
-        // 1. 查询ID为parentId的权限的 顺序字符串
         String pid = func.getParentId();
         if(StringUtils.isBlank(pid)) {
             throw new Exception("父节点ID不能为空");
         }
 
+        // 1. 查询ID为parentId的权限的 顺序字符串
         String pOrderStr = StringUtils.EMPTY;
         if(!Constants.PARENT_ID.equals(pid)) {
             Function parentFunc = funcDao.get(pid);
             pOrderStr = parentFunc.getOrderStr();
         }
-
-        DetachedCriteria criteria = DetachedCriteria.forClass(Function.class);
-        criteria.add(Restrictions.eq("parentId",pid));
-        int cnt = funcDao.queryCount(criteria)+1;
-        String suffix = ""+cnt;
-        if(StringUtils.isBlank(pOrderStr) && cnt>=10 && Constants.CHAR.length()>=(cnt-10)) {
-            suffix = Character.toString(Constants.CHAR.charAt(cnt-10));
+        List<Function> parentFuncList = funcDao.getList("parentId",pid);
+        if(StringUtils.isBlank(pOrderStr)) {
+            Set<String> orderStrSet = new HashSet<>();
+            parentFuncList.forEach(parentFunc -> orderStrSet.add(parentFunc.getOrderStr()));
+            pOrderStr = nextUseableChar(orderStrSet);
+        } else {
+            int cnt = parentFuncList.size();
+            if(cnt>Constants.CHAR.length()){
+                cnt = Constants.CHAR.length();
+            }
+            pOrderStr = pOrderStr + Character.toString(Constants.CHAR.charAt(cnt));
         }
-        func.setOrderStr(pOrderStr + suffix);
+        func.setOrderStr(pOrderStr);
 
         func.setId(UUIDUtil.generateUUID());
-
         funcDao.save(func);
 
         return func;
+    }
+
+
+    private String nextUseableChar(Set<String> orderStrSet) {
+        String newOrderStr = StringUtils.EMPTY;
+        for(int i = 0, len = Constants.CHAR.length(); i<len; i++){
+            String tmpStr = Character.toString(Constants.CHAR.charAt(i));
+            if(orderStrSet.contains(tmpStr)){
+                continue ;
+            }
+            newOrderStr = tmpStr;
+            i=len;
+        }
+
+        // 如果最后还是为空 那么就随机生成5个字符, 因为orderStr有8个字符的长度
+        if(StringUtils.isBlank(newOrderStr)){
+            newOrderStr = "f" + RandomStringUtils.random(5);
+        }
+        return newOrderStr;
     }
 }

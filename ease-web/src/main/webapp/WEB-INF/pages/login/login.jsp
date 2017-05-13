@@ -5,7 +5,7 @@
     <title>PLATEASE</title>
 </head>
 <%@include file="/WEB-INF/pages/common/common.jsp" %>
-<link rel="stylesheet" href="${URL}/css/system/login.css" />
+<link rel="stylesheet" href="${URL}/css/login/login.css" />
 <body>
 
 <div class="login-dialog">
@@ -30,6 +30,6 @@
 </div>
 
 <script type="text/javascript" src="${URL}/js/common/jquery.md5.js"></script>
-<script type="text/javascript" src="${URL}/js/system/login.js"></script>
+<script type="text/javascript" src="${URL}/js/login/login.js"></script>
 </body>
 </html>

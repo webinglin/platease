@@ -60,6 +60,7 @@
         <div class="form-line">
             <label>权限类型</label>
             <select name="funcType">
+                <option value="DESKTOP-MENU">桌面菜单</option>
                 <option value="MENU">菜单</option>
                 <option value="LINK" selected>链接</option>
                 <option value="BUTTON">按钮</option>

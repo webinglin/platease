@@ -34,7 +34,7 @@ public class LoginController {
     @RequestMapping(value="/")
     public String loginPage(ModelMap modelMap){
         // 可能会读取一堆的配置信息
-        return "login";
+        return "login/login";
     }
 
     /**
@@ -66,7 +66,8 @@ public class LoginController {
         Subject currentUser = SecurityUtils.getSubject();
         try {
             currentUser.login(token);
-            resultURL = "/home";
+//            resultURL = "/desktop";
+            resultURL = "/system/manage";
         }catch(UnknownAccountException uae){
             logger.error("对用户[{}]进行登录验证..验证未通过,未知账户", username);
             request.setAttribute("error_message", "未知账户");
@@ -78,6 +79,17 @@ public class LoginController {
             token.clear();
         }
         return InternalResourceViewResolver.REDIRECT_URL_PREFIX + resultURL;
+    }
+
+
+    /**
+     * 桌面
+     */
+    @RequestMapping(value="/desktop")
+    public String desktop(){
+        // TODO 获取一系列的个性化菜单配置   Request域即可
+
+        return "/desktop/desktop";
     }
 
     /**
@@ -92,25 +104,4 @@ public class LoginController {
         }
         return InternalResourceViewResolver.REDIRECT_URL_PREFIX + WebConstants.CONTEXT_PATH;
     }
-
-    /**
-     * 系统首页面
-     */
-    @RequestMapping(value="/home")
-    public String home(){
-        // TODO 获取一系列的个性化菜单配置   Request域即可
-
-        return "/system/home";
-    }
-
-
-    /**
-     * 未授权
-     */
-    @RequestMapping(value="/unAuth")
-    public String unAuth(){
-        return "system/unauth";
-    }
-
-
 }

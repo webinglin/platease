@@ -7,6 +7,7 @@ import com.piedra.platease.model.system.Dept;
 import com.piedra.platease.service.impl.BaseServiceImpl;
 import com.piedra.platease.service.system.DeptService;
 import com.piedra.platease.utils.BeanMapUtil;
+import com.piedra.platease.utils.UUIDUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,17 +43,27 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept> implements DeptServic
     @Override
     public Page<Dept> queryDeptList(Page<Dept> page, DeptDTO deptDTO) throws Exception {
         Map<String,Object> params = BeanMapUtil.trans2Map(deptDTO);
-        return deptDao.queryByNameWithTotal(page, "SysDept.queryDeptListCnt", "SysUser.queryDeptList", params);
+        return deptDao.queryByNameWithTotal(page, "SysDept.queryDeptListCnt", "SysDept.queryDeptList", params);
     }
 
     /**
-     * 删除单位 逻辑删除
+     * 删除单位
      *
      * @param deptId 单位ID
      * @throws Exception 异常上抛
      */
     @Override
     public void deleteDept(String deptId) throws Exception {
+        // 预留-- 逻辑删除之类的
+    }
 
+    @Override
+    public Dept addDept(DeptDTO dto) throws Exception {
+        Dept dept = new Dept();
+        BeanUtils.copyProperties(dto, dept);
+        dept.setId(UUIDUtil.generateUUID());
+        deptDao.save(dept);
+
+        return dept;
     }
 }

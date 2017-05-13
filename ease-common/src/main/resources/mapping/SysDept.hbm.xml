@@ -73,7 +73,7 @@
                 AND d.REMARK = :remark
             #end
             #if($sidx)
-                order by r.$sidx #if($sord) $sord #end
+                order by d.$sidx #if($sord) $sord #end
             #end
         ]]>
     </sql-query>
@@ -81,7 +81,7 @@
     <sql-query name="SysDept.queryDeptListCnt">
         <return-scalar column="cnt" type="java.lang.Integer" />
         <![CDATA[
-            SELECT COUNT(1) AS cnt FROM sys_role r WHERE 1=1
+            SELECT COUNT(1) AS cnt FROM sys_dept d WHERE 1=1
             #if($id)
                 AND d.ID=:id
             #end
