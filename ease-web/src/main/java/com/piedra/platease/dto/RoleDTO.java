@@ -10,6 +10,16 @@ public class RoleDTO {
     private String roleName;
     private String remark;
 
+    private String searchCont;
+
+    public String getSearchCont() {
+        return searchCont;
+    }
+
+    public void setSearchCont(String searchCont) {
+        this.searchCont = searchCont;
+    }
+
     public String getRemark() {
         return remark;
     }

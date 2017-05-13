@@ -18,6 +18,7 @@ $(function () {
     $("#deptTable").jqGrid({
         url: basePath + "/dept/queryDepts",
         datatype: "json",
+        mtype:"POST",
         colNames: ['id', '单位名称', '单位编码', '单位别名', '备注'],
         colModel: [
             {name: 'id', index: 'ID', hidden: true, width: 60},
@@ -28,27 +29,26 @@ $(function () {
         ],
         pager: '#deptPager',
         width: 800,
-        height: 400,
+        height: 490,
         rowNum: 20,
         rowList: [20, 50, 100],
         sortname: 'DEPT_NAME',
         sortorder: "asc",
         viewrecords: true,
+        multiselect:true,
+        multiboxonly:true,
         jsonReader: {
             root: "datas",
             repeatitems: false
         },
         caption: "单位信息",
-        onSelectRow: function (rowid, status) {
-            $("#deptSelectedRowId").val(rowid);
-        },
         beforeRequest: function () {
             var pid = $("#deptParentId").val();
             if ('' == pid) {
                 pid = rootId;
             }
 
-            var params = {'parentId': pid};
+            var params = {'parentId': pid , 'searchCont':$("#deptSearchCont").val()};
             $("#deptTable").jqGrid('setGridParam', {postData: params});
         }
     });
@@ -74,23 +74,28 @@ $(function () {
             },
             callback: {
                 beforeClick: function (treeId, treeNode) {
-
                     $("#deptParentId").val(treeNode['id']);
                     $("#deptTable").trigger("reloadGrid");
                 }
             }
         };
 
-
-        $.post(basePath + "/dept/queryDepts", {"rows": 9999, "from": "tree"}, function (data) {
+        $.post(basePath + "/dept/queryDepts", {"rows": 9999 }, function (data) {
             deptTree = $.fn.zTree.init($("#deptTree"), setting, data['datas']);
             deptTree.expandAll(true);
         });
     }
 
 
+
+    // 表单验证
+    var addFormValidator = $("#addDeptForm").Validform({tiptype: 3});
+    var updateFormValidator = $("#updateDeptForm").Validform({tiptype: 3});
+
+
     $("#addDeptDialog").dialog({
         autoOpen:false,
+        appendTo:"#content",
         width:500,
         height:500,
         modal: true,
@@ -98,13 +103,17 @@ $(function () {
         buttons: [{
             text: "保存",
             click: function () {
+                if (!addFormValidator.check()) {
+                    return false;
+                }
+
                 $.post(basePath+"/dept/addDept", web.form.getValues($("#addDeptForm")), function (data) {
                     if("200"==data['code']) {
                         alert("添加单位成功");
 
                         // 根节点添加的子节点，重新构造树
                         var selectedTreeDeptId = $("#deptParentId").val();
-                        deptTree.addNodes(deptTree.getNodeByParam("id",selectedTreeDeptId), data['data']);
+                        deptTree.addNodes(deptTree.getNodeByParam("id",selectedTreeDeptId), -1, data['data']);
 
                         $("#deptTable").trigger("reloadGrid");
                         $("#addDeptDialog").dialog("close");
@@ -125,48 +134,104 @@ $(function () {
         ]
     });
 
+    $("#updateDeptDialog").dialog({
+        autoOpen: false,
+        appendTo: "#content",
+        width: 500,
+        height: 500,
+        modal: true,
+        title: "修改单位",
+        buttons: [{
+            text: "确认修改",
+            click: function () {
+                if (!updateFormValidator.check()) {
+                    return false;
+                }
+
+                var formData = web.form.getValues($("#updateDeptForm"));
+                $.post(basePath + "/dept/updateDept", formData, function (data) {
+                    if ("200" == data['code']) {
+                        alert("修改成功");
+
+                        $("#deptTable").trigger("reloadGrid");
+                        $("#updateDeptDialog").dialog("close");
+                        web.form.reset($("#updateDeptForm"));
+
+                        var zNode = deptTree.getNodeByParam("id",formData['id'] );
+                        if(zNode!=null){
+                            zNode['deptName'] = formData['deptName'];
+                            deptTree.updateNode(zNode);
+                        }
+                    } else if ("500" == data['code']) {
+                        alert(data['msg']);
+                    }
+                });
+            }
+        }, {
+            text: "取消", click: function () {
+                $(this).dialog("close");
+            }
+        }
+        ]
+    });
 
     function listenEvents() {
         $("#deptReset").click(function () {
             $("#deptSearchCont").val("");
-            $("#deptParentId").val(rootId);
             $("#deptTable").trigger("reloadGrid");
         });
 
 
         // 搜索
         $("#deptSearch").click(function () {
-
+            var searchCont = $("#deptSearchCont").val();
+            if('' == searchCont){
+                alert("搜索内容不能为空");
+                return false;
+            }
+            $("#deptTable").trigger("reloadGrid");
         });
 
 
         // 添加权限
         $("#addDept").click(function () {
             if(''==$("#deptParentId").val()){
-                alert("请先从左侧选择顶级菜单再添加权限");
+                alert("请先从左侧选择上级单位");
                 return false;
             }
+            addFormValidator.resetForm();
             $("#addDeptDialog").dialog("open");
         });
 
         // 修改权限
         $("#updateDept").click(function () {
+            var selectedRowIds = $("#deptTable").jqGrid('getGridParam', 'selarrrow');
+            if (selectedRowIds.length != 1) {
+                alert("必须且只能选择一条记录进行修改");
+                return;
+            }
 
+            var formData = $("#deptTable").jqGrid('getRowData', selectedRowIds[0]);
+            web.form.setValues($("#updateDeptForm"), formData);
+
+            $("#updateDeptDialog").dialog("open");
         });
 
         // 删除权限
         $("#delDept").click(function () {
-            var deptId = $("#deptSelectedRowId").val();
-            if(""==deptId){
+            var selectedRowIds = $("#deptTable").jqGrid('getGridParam','selarrrow');
+            if(selectedRowIds.length==0){
                 alert("请从表格中选择要删除的单位");
                 return false;
             }
             
             if(confirm("删除之后子单位将会一并删除！确认删除?")){
-                $.post(basePath+"/dept/delDept", {"id":deptId}, function (data) {
+                $.post(basePath+"/dept/delDept", {"id":selectedRowIds.join(",")}, function (data) {
                     if('200'==data['code']) {
                         $("#deptTable").trigger("reloadGrid");
-                        deptTree.removeNode(deptTree.getNodeByParam("id",deptId));
+                        for(var i=0,len=selectedRowIds.length; i<len; i++) {
+                            deptTree.removeNode(deptTree.getNodeByParam("id",selectedRowIds[i]));
+                        }
                         alert("删除成功");
                     } else if('500'==data['code']) {
                         alert(data['msg']);

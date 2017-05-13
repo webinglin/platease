@@ -25,6 +25,48 @@ public class UserDTO {
     private String homeBgurl;
     /** 备注 */
     private String remark;
+    /** 单位名称 */
+    private String deptName;
+    /** 创建者姓名 */
+    private String creatorName;
+    /** 创建时间 */
+    private String createTimeStr;
+    /** 最后登录时间 */
+    private String lastLoginTimeStr;
+    /** 最后登录IP */
+    private String lastLoginIp;
+    /** 拥有的角色 */
+    private String roleNames;
+
+
+    /** 用户拥有的角色ID */
+    private String roleIds;
+
+    private String searchCont;
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
+
+    public String getSearchCont() {
+        return searchCont;
+    }
+
+    public void setSearchCont(String searchCont) {
+        this.searchCont = searchCont;
+    }
 
     public String getId() {
         return id;
@@ -104,5 +146,45 @@ public class UserDTO {
 
     public void setDeptCode(String deptCode) {
         this.deptCode = deptCode;
+    }
+
+    public String getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds;
+    }
+
+    public String getCreateTimeStr() {
+        return createTimeStr;
+    }
+
+    public void setCreateTimeStr(String createTimeStr) {
+        this.createTimeStr = createTimeStr;
+    }
+
+    public String getLastLoginTimeStr() {
+        return lastLoginTimeStr;
+    }
+
+    public void setLastLoginTimeStr(String lastLoginTimeStr) {
+        this.lastLoginTimeStr = lastLoginTimeStr;
+    }
+
+    public String getLastLoginIp() {
+        return lastLoginIp;
+    }
+
+    public void setLastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp;
+    }
+
+    public String getRoleNames() {
+        return roleNames;
+    }
+
+    public void setRoleNames(String roleNames) {
+        this.roleNames = roleNames;
     }
 }

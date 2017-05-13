@@ -64,13 +64,13 @@
                 /static/** = anon
 
                 / = anon
+                /system/intro = anon
                 /login = anon
                 /logout = user
                 /system/unAuth = anon
 
                 <!-- 只要登录就可以访问 -->
                 /desktop = user
-                <!--/system/manage = user-->
 
                 <!-- 不是权限细粒度的资源请求，可以通过加上ajax这样的规则跳过资源的验证，而只进行用户登录验证. 如果不加，那么将会继续进行权限认证-->
                 /**/ajax/** = user

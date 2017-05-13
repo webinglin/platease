@@ -24,7 +24,14 @@ public class SystemController {
         return "/system/manage";
     }
 
-
+    /**
+     * 平台介绍页面
+     * @return
+     */
+    @RequestMapping(value="/intro")
+    public String intro(){
+        return "/system/intro";
+    }
 
     /**
      * 未授权

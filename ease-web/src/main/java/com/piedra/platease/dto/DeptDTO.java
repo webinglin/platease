@@ -13,14 +13,14 @@ public class DeptDTO {
     private String alias;
     private String remark;
 
-    private String from ;
+    private String searchCont;
 
-    public String getFrom() {
-        return from;
+    public String getSearchCont() {
+        return searchCont;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setSearchCont(String searchCont) {
+        this.searchCont = searchCont;
     }
 
     public String getId() {

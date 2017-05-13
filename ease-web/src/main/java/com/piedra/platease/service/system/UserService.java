@@ -77,4 +77,17 @@ public interface UserService extends BaseService<User> {
      * @param userId    用户ID
      */
     void delUser(String userId) throws Exception;
+
+    /**
+     * 新增用户信息
+     * @param userDto   用户数据
+     * @throws Exception 异常往上一层抛出
+     */
+    void addUser(UserDTO userDto) throws Exception ;
+
+    /**
+     * 根据用户Id数组删除 指定的用户
+     * @param userIds 用户ID列表
+     */
+    void delUsers(String[] userIds)  throws Exception ;
 }

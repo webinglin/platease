@@ -16,7 +16,7 @@ public class PasswordUtil {
      * @param salt          盐
      * @return  返回再度加密的密码
      */
-    public static String encryptPassword(String md5Password, String salt){
+    public static String encryptMd5Password(String md5Password, String salt){
         return new Md5Hash(md5Password, salt, 1).toString();
     }
 
@@ -32,7 +32,7 @@ public class PasswordUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println( encryptPassword("f379eaf3c831b04de153469d1bec345e","asd"));
+        System.out.println( encryptMd5Password("f379eaf3c831b04de153469d1bec345e","asd"));
     }
 
 

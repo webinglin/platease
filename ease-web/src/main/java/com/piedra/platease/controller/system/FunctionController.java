@@ -45,6 +45,12 @@ public class FunctionController {
     public Page<Function> queryFuncs(Page<Function> page, FunctionDTO dto){
         try {
             page.setEntityClass(Function.class);
+
+            if(StringUtils.isNotBlank(dto.getSearchCont())){
+                dto.setParentId(null);  // 搜索的不限制
+                dto.setSearchCont(Constants.PERCENT + dto.getSearchCont() + Constants.PERCENT);
+            }
+
             page = functionService.queryFunctionList(page, dto);
 
             // 来源构造树的请求
@@ -70,7 +76,7 @@ public class FunctionController {
     public ResultModel addFunc(FunctionDTO functionDTO){
         ResultModel resultModel = new ResultModel();
         try {
-            Function func = functionService.addFunc(functionDTO);
+            Function func = functionService.addFunction(functionDTO);
             resultModel.setData(func);
         } catch(Exception e){
             resultModel.setError("添加权限出错:" + e.getMessage());
@@ -92,7 +98,7 @@ public class FunctionController {
             return resultModel.setError("要删除的权限ID不能为空");
         }
         try {
-            functionService.delFunction(functionDTO.getId());
+            functionService.delFunctions(functionDTO.getId().split(Constants.COMMA));
         } catch(Exception e){
             resultModel.setError("删除权限出错:" + e.getMessage());
             logger.error("删除权限出错", e);
@@ -100,4 +106,22 @@ public class FunctionController {
         return resultModel;
     }
 
+
+    /**
+     * 修改权限
+     * @param functionDTO   权限
+     * @return  返回添加反馈结果
+     */
+    @RequestMapping("/updateFunc")
+    @ResponseBody
+    public ResultModel updateFunc(FunctionDTO functionDTO){
+        ResultModel resultModel = new ResultModel();
+        try {
+            functionService.updateFunction(functionDTO);
+        } catch(Exception e){
+            resultModel.setError("修改权限出错:" + e.getMessage());
+            logger.error("修改权限出错", e);
+        }
+        return resultModel;
+    }
 }

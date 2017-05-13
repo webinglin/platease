@@ -50,8 +50,15 @@ public interface RoleService  extends BaseService<Role> {
     void delRole(String roleId) throws Exception;
 
     /**
+     * 批量删除角色
+     * @param roleIds 要删除的角色ID
+     */
+    void delRole(String[] roleIds) throws Exception ;
+
+    /**
      * 查询角色对应的权限
      * @param roleId    角色ID
      */
     List<Function> queryRolePermissions(String roleId);
+
 }

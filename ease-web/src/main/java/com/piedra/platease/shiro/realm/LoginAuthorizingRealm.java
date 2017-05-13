@@ -110,7 +110,7 @@ public class LoginAuthorizingRealm extends AuthorizingRealm {
         }
 
         // 用户存在之后，获取用户的salt值，并进行salt加密，重新设置到token中
-        upToken.setPassword(PasswordUtil.encryptPassword(new String(upToken.getPassword()), user.getSalt()).toCharArray());
+        upToken.setPassword(PasswordUtil.encryptMd5Password(new String(upToken.getPassword()), user.getSalt()).toCharArray());
 
         //TODO 处理密码错误缓存 错误多少次 不让登录
 

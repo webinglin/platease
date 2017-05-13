@@ -115,6 +115,9 @@
         <return alias="u" class="com.piedra.platease.model.system.User" />
         <![CDATA[
             SELECT u.* FROM SYS_USER u WHERE 1=1
+            #if($searchCont)
+                AND ( u.USER_NAME like :searchCont OR u.IDCARD like :searchCont OR  u.REAL_NAME like :searchCont OR u.TELPHONE like :searchCont)
+            #end
             #if($userName)
                 AND u.USER_NAME=:userName
             #end
@@ -155,6 +158,9 @@
         <return-scalar column="cnt" type="java.lang.Integer" />
         <![CDATA[
             SELECT COUNT(1) AS cnt FROM SYS_USER WHERE 1=1
+            #if($searchCont)
+                AND ( USER_NAME like :searchCont OR IDCARD like :searchCont OR  REAL_NAME like :searchCont OR TELPHONE like :searchCont)
+            #end
             #if($userName)
                 AND USER_NAME=:userName
             #end

@@ -3,6 +3,7 @@ package com.piedra.platease.utils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,6 +24,15 @@ public class CollectionUtil {
         }
         StringBuilder strBuilder = new StringBuilder();
         set.forEach(str -> strBuilder.append(",").append(str));
+        return strBuilder.toString().substring(1);
+    }
+
+    public static String join(List<String> list){
+        if(CollectionUtils.isEmpty(list)){
+            return StringUtils.EMPTY;
+        }
+        StringBuilder strBuilder = new StringBuilder();
+        list.forEach(str -> strBuilder.append(",").append(str));
         return strBuilder.toString().substring(1);
     }
 

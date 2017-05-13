@@ -55,6 +55,41 @@ web.form = {
         });
     },
 
+    setTexts: function (selector, data) {
+        var $parent, $temp;
+        if ( typeof selector === "string" ) {
+            if(selector.indexOf("#")==-1){
+                selector = "#" + selector;
+            }
+            $parent = $(selector);
+        }
+        if ( selector.selector !== undefined ) {
+            $parent = selector;
+        }
+        if (!$parent) {
+            return false;
+        }
+
+        $.each(data, function (name, value) {
+            if(null==value){
+                return true;
+            }
+            $temp = $parent.find("[name=" + name + "]");
+            if ($temp.is(":radio")) {
+                value = value === true ? 1 : value === false ? 0 : value;
+                $temp.filter("[value=" + value + "]").prop("checked", true);
+            } else if ($temp.is(":checkbox")) {
+                if (value === true) {
+                    $temp.prop("checked", true);
+                } else {
+                    $temp.filter("[value=" + value + "]").prop("checked", true);
+                }
+            } else {
+                $temp.text(value);
+            }
+        });
+    },
+
     /**
      * 将input，textarea 的值都清空
      * @param selector  选择器

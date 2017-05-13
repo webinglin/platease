@@ -4,6 +4,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+
 <%
     request.setAttribute("URL", request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath());
 %>
@@ -15,7 +17,29 @@
 <body>
 
 <div class="role-table">
-    <input type="hidden" id="selectedRoleId">
+
+    <form onsubmit="return false">
+        <input type="text" name="searchCont" id="roleSearchCont" placeholder="角色名称">
+
+        <a class="btn" id="roleSearch">过滤</a>
+        <a class="btn" id="roleReset">重置</a>
+    </form>
+
+    <div class="btn-group">
+        <shiro:hasPermission name="/role/addRole">
+            <button class="btn" id="addRole">新增</button>
+        </shiro:hasPermission>
+
+        <shiro:hasPermission name="/role/updateRole">
+            <button class="btn" id="updateRole">修改</button>
+        </shiro:hasPermission>
+
+        <shiro:hasPermission name="/role/delRole">
+            <button class="btn" id="delRole">删除</button>
+        </shiro:hasPermission>
+    </div>
+
+
     <table id="roleTable"></table>
     <div id="rolePager"></div>
 </div>
@@ -40,6 +64,27 @@
         <button class="btn float-right" id="roleFuncSave">保存修改</button>
     </div>
 </div>
+
+
+<div id="addRoleDialog" style="display: none;">
+    <form id="addRoleForm" >
+        <div class="form-line">
+            <label>角色名称</label><input type="text" name="roleName" maxlength="125" datatype="*2-125" errormsg="角色名称至少2个字符" >
+        </div>
+        <div class="form-line"><label>备注</label><textarea name="remark" maxlength="125"></textarea></div>
+    </form>
+</div>
+
+<div id="updateRoleDialog" style="display: none;">
+    <form id="updateRoleForm" >
+        <input type="hidden" name="id" >
+        <div class="form-line">
+            <label>角色名称</label><input type="text" name="roleName" maxlength="125" datatype="*2-125" errormsg="角色名称至少2个字符" >
+        </div>
+        <div class="form-line"><label>备注</label><textarea name="remark" maxlength="125"></textarea></div>
+    </form>
+</div>
+
 
 <script type="text/javascript" src="${URL}/js/system/role/role.js"></script>
 </body>

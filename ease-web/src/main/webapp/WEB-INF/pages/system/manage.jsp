@@ -13,6 +13,7 @@
 <%@include file="/WEB-INF/pages/common/common.jsp" %>
 <link rel="stylesheet" href="${URL}/css/system/manage.css"/>
 <link rel="stylesheet" href="${URL}/plugins/jqgrid/ui.jqgrid.css"/>
+<link rel="stylesheet" href="${URL}/plugins/validate/validform.css"/>
 
 <body>
 
@@ -22,9 +23,9 @@
     <div class="settings">系统管理</div>
     <ul>
         <li>
-            <a class="link" data-url="${URL}/welcome">
-                <i class="fa fa-lg icon-home"></i>
-                <span class="nav-text">HOME</span>
+            <a class="link plat-intro" data-url="${URL}/system/intro">
+                <i class="fa fa-lg icon-plat"></i>
+                <span class="nav-text">平台介绍</span>
             </a>
         </li>
 
@@ -82,11 +83,11 @@
 </nav>
 
 <div class="content" id="content">
-       WELCOME TO PLATEASE
 </div>
 
 <script type="text/javascript" src="${URL}/plugins/jqgrid/grid.locale-cn.js"></script>
 <script type="text/javascript" src="${URL}/plugins/jqgrid/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="${URL}/plugins/validate/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript" src="${URL}/js/system/manage.js"></script>
 </body>
 </html>

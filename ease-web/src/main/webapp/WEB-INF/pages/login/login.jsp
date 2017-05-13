@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE HTML>
-<html>
+<html id="$LOGIN_PAGE">
 <head>
     <title>PLATEASE</title>
 </head>

@@ -43,6 +43,9 @@
             #if($id)
                 AND f.ID=:id
             #end
+            #if($searchCont)
+                AND ( f.FUNC_TITLE like :searchCont OR f.PERMISSION like :searchCont )
+            #end
             #if($funcTitle)
                 AND f.FUNC_TITLE like :funcTitle
             #end
@@ -70,6 +73,9 @@
             SELECT COUNT(1) AS cnt FROM sys_function f WHERE 1=1
             #if($id)
                 AND f.ID=:id'
+            #end
+            #if($searchCont)
+                AND ( f.FUNC_TITLE like :searchCont OR f.PERMISSION like :searchCont )
             #end
             #if($funcTitle)
                 AND f.FUNC_TITLE like :funcTitle

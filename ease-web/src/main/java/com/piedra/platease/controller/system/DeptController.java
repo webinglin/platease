@@ -45,15 +45,14 @@ public class DeptController {
     public Page<Dept> queryDepts(Page<Dept> page, DeptDTO dto){
         try {
             page.setEntityClass(Dept.class);
+
+            if(StringUtils.isNotBlank(dto.getSearchCont())){
+                dto.setParentId(null);  // 搜索的不限制
+                dto.setSearchCont(Constants.PERCENT + dto.getSearchCont() + Constants.PERCENT);
+            }
+
             page = deptService.queryDeptList(page, dto);
 
-            // 来源构造树的请求
-            if(WebConstants.FROM_TREE.equals(dto.getFrom())){
-                Dept rootDept = new Dept();
-                rootDept.setId(Constants.PARENT_ID);
-                rootDept.setDeptName("单位");
-                page.getDatas().add(rootDept);
-            }
         } catch (Exception e){
             logger.error("权限单位失败", e);
         }
@@ -62,7 +61,7 @@ public class DeptController {
 
     /**
      * 添加单位
-     * @param dto   权限
+     * @param dto  单位dto
      * @return  返回添加反馈结果
      */
     @RequestMapping("/addDept")
@@ -81,7 +80,7 @@ public class DeptController {
 
     /**
      * 删除单位
-     * @param dto   权限
+     * @param dto   单位dto
      * @return  返回添加反馈结果
      */
     @RequestMapping("/delDept")
@@ -92,7 +91,7 @@ public class DeptController {
             return resultModel.setError("要删除的单位ID不能为空");
         }
         try {
-            deptService.delete(dto.getId());
+            deptService.delete(dto.getId().split(Constants.COMMA));
         } catch(Exception e){
             resultModel.setError("删除单位出错:" + e.getMessage());
             logger.error("删除单位出错", e);
@@ -100,6 +99,24 @@ public class DeptController {
         return resultModel;
     }
 
+
+    /**
+     * 修改单位信息
+     * @param dto   单位dto
+     * @return  返回添加反馈结果
+     */
+    @RequestMapping("/updateDept")
+    @ResponseBody
+    public ResultModel updateDept(DeptDTO dto){
+        ResultModel resultModel = new ResultModel();
+        try {
+            deptService.updateDept(dto);
+        } catch(Exception e){
+            resultModel.setError("修改单位出错:" + e.getMessage());
+            logger.error("修改单位出错", e);
+        }
+        return resultModel;
+    }
 
 
 }

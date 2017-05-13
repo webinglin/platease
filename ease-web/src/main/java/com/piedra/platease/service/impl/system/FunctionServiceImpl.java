@@ -1,6 +1,5 @@
 package com.piedra.platease.service.impl.system;
 
-import com.alibaba.druid.sql.visitor.functions.Char;
 import com.piedra.platease.constants.Constants;
 import com.piedra.platease.dao.system.FunctionDao;
 import com.piedra.platease.dto.FunctionDTO;
@@ -10,13 +9,8 @@ import com.piedra.platease.service.impl.BaseServiceImpl;
 import com.piedra.platease.service.system.FunctionService;
 import com.piedra.platease.utils.BeanMapUtil;
 import com.piedra.platease.utils.UUIDUtil;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.aspectj.apache.bcel.classfile.Constant;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +38,9 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
 
     @Override
     public void updateFunction(FunctionDTO functionDTO) throws Exception {
+        if(functionDTO==null || StringUtils.isBlank(functionDTO.getId())) {
+            throw new Exception("要修改的权限ID不能为空");
+        }
         Function func = new Function();
         BeanUtils.copyProperties(functionDTO,func);
         funcDao.updateFunc(func);
@@ -88,7 +85,7 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
     }
 
     @Override
-    public Function addFunc(FunctionDTO functionDTO) throws Exception {
+    public Function addFunction(FunctionDTO functionDTO) throws Exception {
         Function func = new Function();
         BeanUtils.copyProperties(functionDTO, func);
 
@@ -121,6 +118,17 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
         funcDao.save(func);
 
         return func;
+    }
+
+    @Override
+    public void delFunctions(String[] funcIds) throws Exception{
+        if(funcIds==null || funcIds.length==0){
+            return ;
+        }
+        for(String funcId : funcIds){
+            this.delFunction(funcId);
+        }
+
     }
 
 

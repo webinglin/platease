@@ -57,6 +57,9 @@
             #if($id)
                 AND d.ID=:id
             #end
+            #if($searchCont)
+                AND ( d.DEPT_NAME like :searchCont OR d.ALIAS like :searchCont OR  d.DEPT_CODE like :searchCont)
+            #end
             #if($deptName)
                 AND d.DEPT_NAME like :deptName
             #end
@@ -84,6 +87,9 @@
             SELECT COUNT(1) AS cnt FROM sys_dept d WHERE 1=1
             #if($id)
                 AND d.ID=:id
+            #end
+            #if($searchCont)
+                AND ( d.DEPT_NAME like :searchCont OR d.ALIAS like :searchCont OR  d.DEPT_CODE like :searchCont)
             #end
             #if($deptName)
                 AND d.DEPT_NAME like :deptName

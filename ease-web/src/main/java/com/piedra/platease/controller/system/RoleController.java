@@ -11,10 +11,12 @@ import com.piedra.platease.model.system.Function;
 import com.piedra.platease.model.system.Role;
 import com.piedra.platease.service.system.FunctionService;
 import com.piedra.platease.service.system.RoleService;
+import com.piedra.platease.utils.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -84,6 +86,10 @@ public class RoleController {
     public Page<Role> queryRoles(Page<Role> page, RoleDTO roleDTO){
         try {
             page.setEntityClass(Role.class);
+            if(StringUtils.isNotBlank(roleDTO.getSearchCont())){
+                roleDTO.setRoleName(Constants.PERCENT + roleDTO.getSearchCont() + Constants.PERCENT);
+            }
+
             page = roleService.queryRoles(page,roleDTO);
         } catch (Exception e){
             logger.error("查询角色分页信息出错", e);
@@ -130,14 +136,72 @@ public class RoleController {
                     funcIdSet.add(funcId);
                 }
             }
-
             roleService.updateRoleFunctions(roleId, funcIdSet);
-
         } catch (Exception e){
             result.setError(e.getMessage());
             logger.error("为角色分配权限出错", e);
         }
         return result;
+    }
+
+    /**
+     * 添加角色
+     * @param dto 角色
+     * @return  返回添加反馈结果
+     */
+    @RequestMapping("/addRole")
+    @ResponseBody
+    public ResultModel addRole(RoleDTO dto){
+        ResultModel resultModel = new ResultModel();
+        try {
+            Role role = new Role();
+            BeanUtils.copyProperties(dto, role);
+            role.setId(UUIDUtil.generateUUID());
+            roleService.save(role);
+        } catch(Exception e){
+            resultModel.setError("添加角色出错:" + e.getMessage());
+            logger.error("添加角色出错", e);
+        }
+        return resultModel;
+    }
+
+    /**
+     * 修改角色
+     * @param dto 角色
+     * @return  返回添加反馈结果
+     */
+    @RequestMapping("/updateRole")
+    @ResponseBody
+    public ResultModel updateRole(RoleDTO dto){
+        ResultModel resultModel = new ResultModel();
+        try {
+            roleService.updateRole(dto);
+        } catch(Exception e){
+            resultModel.setError("修改角色出错:" + e.getMessage());
+            logger.error("修改角色出错", e);
+        }
+        return resultModel;
+    }
+
+    /**
+     * 删除角色
+     * @param dto 角色
+     * @return  返回添加反馈结果
+     */
+    @RequestMapping("/delRole")
+    @ResponseBody
+    public ResultModel delRole(RoleDTO dto){
+        ResultModel resultModel = new ResultModel();
+        if(dto==null || StringUtils.isBlank(dto.getId())){
+            return resultModel.setError("删除的角色ID不能为空");
+        }
+        try {
+            roleService.delRole(dto.getId().split(Constants.COMMA));
+        } catch(Exception e){
+            resultModel.setError("修改角色出错:" + e.getMessage());
+            logger.error("修改角色出错", e);
+        }
+        return resultModel;
     }
 
 }

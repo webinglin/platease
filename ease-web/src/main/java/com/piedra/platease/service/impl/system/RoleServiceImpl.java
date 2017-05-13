@@ -103,6 +103,17 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     }
 
     @Override
+    public void delRole(String[] roleIds) throws Exception {
+        if(roleIds == null || roleIds.length==0){
+            return ;
+        }
+
+        for(String roleId : roleIds){
+            this.delRole(roleId);
+        }
+    }
+
+    @Override
     public List<Function> queryRolePermissions(String roleId) {
         return roleDao.queryRolePermissions(roleId);
     }

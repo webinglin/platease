@@ -18,6 +18,17 @@ public class FunctionDTO {
     /** from - tree 表示属性结构  其他*/
     private String from;
 
+    /** 搜索内容 */
+    private String searchCont;
+
+    public String getSearchCont() {
+        return searchCont;
+    }
+
+    public void setSearchCont(String searchCont) {
+        this.searchCont = searchCont;
+    }
+
     public String getId() {
         return id;
     }

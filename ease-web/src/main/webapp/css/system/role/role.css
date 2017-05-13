@@ -1,7 +1,20 @@
 /*@since 2017-05-11 by webinglin*/
 
+
+.btn-group{
+    margin-bottom: 10px;
+}
+
+
+.btn {
+    height: 26px;
+    line-height: 26px;
+    padding: 0 8 ;
+}
+
+
 .role-table {
-    width:550px;
+    width:500px;
     float:left;
 }
 

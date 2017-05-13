@@ -14,10 +14,13 @@ public class Constants {
     public static final String UNDERLINE = "_";
     public static final String VERTICALLINE = "|";
     public static final String SLASH = "/";
+    public static final String PERCENT = "%";
+
+    /** 用户默认密码 */
+    public static final String DEFAULT_PASSWORD = "Plat-Ease-666";
 
     /** 顶级节点的ID */
     public static final String PARENT_ID = "00000000000000000000000000000000";
-
 
     public static final String CHAR = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -25,4 +28,13 @@ public class Constants {
         public static final String DESC = "desc";
         public static final String ASC = "asc";
     }
+
+    /**  状态码 */
+    public static class Status {
+        /** 可用 */
+        public static final byte AVAILABLE = 1;
+        /** 删除 */
+        public static final byte DELETE = 2;
+    }
+
 }

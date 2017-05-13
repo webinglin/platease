@@ -60,6 +60,9 @@
             #if($roleName)
                 ,ROLE_NAME = :roleName
             #end
+            #if($remark)
+                ,REMARK = :remark
+            #end
             WHERE ID=:id
         ]]>
     </sql-query>
@@ -76,6 +79,9 @@
             #if($roleName)
                 AND r.ROLE_NAME like :roleName
             #end
+             #if($remark)
+                ,REMARK = :remark
+            #end
             #if($sidx)
                 order by r.$sidx #if($sord) $sord #end
             #end
@@ -91,6 +97,9 @@
             #end
             #if($roleName)
                 AND r.ROLE_NAME like :roleName
+            #end
+             #if($remark)
+                ,REMARK = :remark
             #end
         ]]>
     </sql-query>

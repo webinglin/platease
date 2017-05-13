@@ -40,5 +40,11 @@ public interface FunctionService extends BaseService<Function> {
      * 添加权限
      * @param functionDTO   权限
      */
-    Function addFunc(FunctionDTO functionDTO) throws Exception;
+    Function addFunction(FunctionDTO functionDTO) throws Exception;
+
+    /**
+     * 根据funcIds数组删除所有的权限   调用delFunction
+     * @param funcIds   权限ID列表
+     */
+    void delFunctions(String[] funcIds) throws Exception;
 }
