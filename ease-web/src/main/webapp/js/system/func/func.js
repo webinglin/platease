@@ -166,17 +166,19 @@ $(function () {
                 return false;
             }
 
-            $.post(basePath+"/func/delFunc", {"id":funcId}, function (data) {
-                if('200'==data['code']) {
-                    $("#funcTable").trigger("reloadGrid");
-                    if(rootId== $("#parentId").val()) {
-                        funcTree.removeNode(funcTree.getNodeByParam("id",funcId));
+            if(confirm("删除之后子菜单/权限将会一并删除！确认删除?")){
+                $.post(basePath+"/func/delFunc", {"id":funcId}, function (data) {
+                    if('200'==data['code']) {
+                        $("#funcTable").trigger("reloadGrid");
+                        if(rootId== $("#parentId").val()) {
+                            funcTree.removeNode(funcTree.getNodeByParam("id",funcId));
+                        }
+                        alert("删除成功");
+                    } else if('500'==data['code']) {
+                        alert(data['msg']);
                     }
-                    alert("删除成功");
-                } else if('500'==data['code']) {
-                    alert(data['msg']);
-                }
-            });
+                });
+            }
         });
     }
 

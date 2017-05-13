@@ -162,7 +162,7 @@ $(function () {
                 return false;
             }
             
-            confirm("删除之后子单位将会一并删除！确认删除?",function () {
+            if(confirm("删除之后子单位将会一并删除！确认删除?")){
                 $.post(basePath+"/dept/delDept", {"id":deptId}, function (data) {
                     if('200'==data['code']) {
                         $("#deptTable").trigger("reloadGrid");
@@ -172,7 +172,7 @@ $(function () {
                         alert(data['msg']);
                     }
                 });
-            });
+            }
         });
     }
 
