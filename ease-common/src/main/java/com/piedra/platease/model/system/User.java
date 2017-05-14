@@ -25,6 +25,8 @@ public class User {
     private Date createTime;
     private String remark;
 
+    private String deptName;
+
     public String getId() {
         return id;
     }

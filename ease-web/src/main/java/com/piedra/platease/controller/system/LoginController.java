@@ -57,9 +57,9 @@ public class LoginController {
 //            return resultPageURL;
 //        }
 
-        username = "junit4";
+        username = "platease";
         // 前端用md5加密后传到后台这
-        password = "f379eaf3c831b04de153469d1bec345e";
+        password = "3068de31b70b1f2cf433ead658c144cb";
 //        password = "17b984ed10044d28597d73be336cf613";
 
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);

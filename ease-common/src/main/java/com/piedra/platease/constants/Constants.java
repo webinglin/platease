@@ -8,6 +8,7 @@ package com.piedra.platease.constants;
 public class Constants {
 
     public static final String COMMA = ",";
+    public static final String PAUSE = "、";
     public static final String SEMICOLON = ";";
     public static final String SINGLE_QUOTES="'";
     public static final String MIDDLELINE = "-";

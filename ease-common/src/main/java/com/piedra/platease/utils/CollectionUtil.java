@@ -19,12 +19,16 @@ public class CollectionUtil {
      * @return  返回逗号分割的字符串
      */
     public static String join(Set<String> set){
+        return join(set, ",");
+    }
+
+    public static String join(Set<String> set, String splitor){
         if(CollectionUtils.isEmpty(set)){
             return StringUtils.EMPTY;
         }
         StringBuilder strBuilder = new StringBuilder();
-        set.forEach(str -> strBuilder.append(",").append(str));
-        return strBuilder.toString().substring(1);
+        set.forEach(str -> strBuilder.append(splitor).append(str));
+        return strBuilder.toString().substring(splitor.length());
     }
 
     public static String join(List<String> list){

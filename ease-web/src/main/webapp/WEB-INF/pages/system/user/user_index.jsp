@@ -12,6 +12,8 @@
     <title>PLATEASE</title>
     <link rel="stylesheet" href="${URL}/css/system/user/user.css"/>
     <link rel="stylesheet" href="${URL}/plugins/ztree/style/zTreeStyle.css"/>
+    <link rel="stylesheet" href="${URL}/plugins/jquery-ui-multiselect/jquery.multiselect.css"/>
+    <%--<link rel="stylesheet" href="${URL}/plugins/jquery-ui-multiselect/jquery.multiselect.filter.css"/>--%>
 </head>
 
 <body>
@@ -68,8 +70,11 @@
         </div>
         <div class="form-line"><label>备注</label><textarea name="remark" maxlength="125"></textarea></div>
 
-
-        需要分配的角色，下拉多选
+        <div class="form-line-role">
+            <label>角色</label>
+            <select class='user-role-multi-select' id="addUserMultiSelect" multiple="multiple">
+            </select>
+        </div>
 
     </form>
 </div>
@@ -89,15 +94,15 @@
             <label>姓名</label><input type="text" name="realName" maxlength="125" >
         </div>
         <div class="form-line">
-            <label>密码</label><input type="password" name="password" maxlength="125" >
-        </div>
-        <div class="form-line">
             <label>联系方式</label><input type="text" name="telphone" maxlength="125" datatype="m" errormsg="请输入正确手机号码" >
         </div>
         <div class="form-line"><label>备注</label><textarea name="remark" maxlength="125"></textarea></div>
 
-        需要分配的角色，下拉多选
-
+        <div class="form-line-role">
+            <label>角色</label>
+            <select class='user-role-multi-select' id='updateUserMultiSelect' multiple="multiple">
+            </select>
+        </div>
     </form>
 </div>
 
@@ -139,11 +144,13 @@
     </form>
 </div>
 
-
+<div id="userAppendToDiv" style="display: none;"></div>
 
 </body>
 
 <script type="text/javascript" src="${URL}/js/common/jquery.md5.js"></script>
 <script type="text/javascript" src="${URL}/plugins/ztree/jquery.ztree.all.min.js"></script>
+<%--<script type="text/javascript" src="${URL}/plugins/jquery-ui-multiselect/jquery.multiselect.filter.js"></script>--%>
+<script type="text/javascript" src="${URL}/plugins/jquery-ui-multiselect/jquery.multiselect.min.js"></script>
 <script type="text/javascript" src="${URL}/js/system/user/user.js"></script>
 </html>

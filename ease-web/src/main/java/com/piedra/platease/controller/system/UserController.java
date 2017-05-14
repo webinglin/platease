@@ -17,6 +17,7 @@ import com.piedra.platease.utils.CollectionUtil;
 import com.piedra.platease.utils.Md5Util;
 import com.piedra.platease.utils.PasswordUtil;
 import com.piedra.platease.utils.UUIDUtil;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,10 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 系统用户控制层
@@ -76,6 +74,13 @@ public class UserController {
             }
 
             page = userService.queryByPage(page, userDto);
+
+            // 设置单位
+//            List<User> users = page.getDatas();
+//            for(User u : users){
+//                // TODO 单位缓存, 获取单位ID
+//            }
+
         } catch(Exception e){
             logger.error("查询用户失败", e);
         }
@@ -108,7 +113,7 @@ public class UserController {
             if(CollectionUtils.isNotEmpty(roles)) {
                 Set<String> roleNames = new HashSet<>();
                 roles.forEach(role -> roleNames.add(role.getRoleName()));
-                userDto.setRoleNames(CollectionUtil.join(roleNames));
+                userDto.setRoleNames(CollectionUtil.join(roleNames, Constants.PAUSE));
             }
             // 设置创建者名称
             if(StringUtils.isNotBlank(u.getCreatorId())) {
@@ -194,6 +199,22 @@ public class UserController {
         return resultModel;
     }
 
+    /**
+     * 查询用户拥有的角色
+     * @param userId    用户ID
+     * @return      返回角色列表
+     */
+    @RequestMapping("/queryUserRoles")
+    @ResponseBody
+    public List<Role> queryUserRoles(String userId){
+        List<Role> roleList = new ArrayList<>();
+        try {
+            roleList = userService.queryUserRoles(userId);
+        } catch(Exception e){
+            logger.error("查询角色列表出错", e);
+        }
+        return roleList;
+    }
 
 
 }

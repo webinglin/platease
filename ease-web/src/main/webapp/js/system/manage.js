@@ -13,6 +13,11 @@ $(function () {
         $("a.link").css(nativeCss);
         $(this).css(activeCss);
 
+        // 删除multi-select元素, multi-select的bug
+        if($(".ui-multiselect-menu").length){
+            $(".ui-multiselect-menu").remove();
+        }
+
         var url = $(this).attr("data-url");
         $.post(url, function(data){
             if(hasOutofDate(data)){

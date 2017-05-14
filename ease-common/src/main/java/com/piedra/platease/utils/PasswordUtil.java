@@ -32,7 +32,7 @@ public class PasswordUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println( encryptMd5Password("f379eaf3c831b04de153469d1bec345e","asd"));
+        System.out.println( encryptMd5Password("3068de31b70b1f2cf433ead658c144cb","pXGsoLtU"));
     }
 
 

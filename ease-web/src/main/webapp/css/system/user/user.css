@@ -22,3 +22,14 @@
     width:900px;
     float: left;
 }
+
+
+.form-line-role{
+    height: 100px;
+    display: inline-block;
+    margin-top: 25px;
+}
+.form-line-role>label{
+    display:inline-block;
+    width:110px;
+}

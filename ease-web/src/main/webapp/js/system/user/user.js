@@ -12,10 +12,9 @@ $(function () {
         url: basePath + "/user/queryUsers",
         datatype: "json",
         mtype:"POST",
-        colNames:['id','pwd','用户名', '姓名', '证件号码','单位ID','单位','用户状态',"联系方式","最后登录IP","最后登录时间","备注", "操作"],
+        colNames:['id','用户名', '姓名', '证件号码','单位ID','单位','用户状态',"联系方式","最后登录IP","最后登录时间","备注", "操作"],
         colModel:[
             {name:'id', hidden:true, width:60},
-            {name:'password',hidden:true, width:60},
             {name:'userName',index:'USER_NAME', width:120},
             {name:'realName',index:'REAL_NAME', width:120},
             {name:'idcard',index:'IDCARD', width:200},
@@ -23,11 +22,11 @@ $(function () {
             {name:'deptName',index:'DEPT_ID', width:240},
             {name:'status',index:'STATUS', width:120},
             {name:'telphone',index:'TELPHONE', width:200},
-            {name:'lastLoginIp',index:'LAST_LOGIN_IP', width:140},
-            {name:'lastLoginTime',index:'LAST_LOGIN_TIME', width:140},
-            {name:'remark',index:'REMARK', hidden:true, width:80},
-            {name:'op',formatter:function (cellvalue, options, rowData) {
-                return "<a class='a-see' data-id='"+rowData['id']+"'>查看</a>";
+            {name:'lastLoginIp', sortable:false, index:'LAST_LOGIN_IP', width:200},
+            {name:'lastLoginTime',index:'LAST_LOGIN_TIME', width:200},
+            {name:'remark', sortable:false, index:'REMARK', hidden:true, width:80},
+            {name:'op', sortable:false, formatter:function (cellvalue, options, rowData) {
+                return "<a class='link-see' style='color:#912213;padding-left:10px;' data-id='"+rowData['id']+"'>查看</a>";
             }}
         ],
         pager : '#userPager',
@@ -98,7 +97,7 @@ $(function () {
         autoOpen: false,
         appendTo: "#content",
         width: 500,
-        height: 500,
+        height: 550,
         modal: true,
         title: "新增用户",
         buttons: [{
@@ -109,6 +108,12 @@ $(function () {
                 }
 
                 var formData = web.form.getValues($("#addUserForm"));
+                // 加上选择的角色ID，逗号分割
+                var selectedRoleIds = $("#addUserMultiSelect").val();
+                if(selectedRoleIds) {
+                    formData['roleIds'] = selectedRoleIds.join(",");
+                }
+
                 formData['password'] = $.md5(formData['password']);
                 $.post(basePath + "/user/addUser", formData, function (data) {
                     if ("200" == data['code']) {
@@ -116,7 +121,13 @@ $(function () {
 
                         $("#userTable").trigger("reloadGrid");
                         $("#addUserDialog").dialog("close");
+
+                        // 保留parentDeptId和parentDeptCode不能清除
+                        var userDeptId = $("#userDeptId").val();
+                        var userDeptCode = $("#userDeptCode").val();
                         web.form.reset($("#addUserForm"));
+                        $("#userDeptId").val(userDeptId);
+                        $("#userDeptCode").val(userDeptCode);
 
                     } else if ("500" == data['code']) {
                         alert(data['msg']);
@@ -135,7 +146,7 @@ $(function () {
         autoOpen: false,
         appendTo: "#content",
         width: 500,
-        height: 500,
+        height: 550,
         modal: true,
         title: "修改用户",
         buttons: [{
@@ -146,15 +157,25 @@ $(function () {
                 }
 
                 var formData = web.form.getValues($("#updateUserForm"));
-                // 对密码加密
-                formData['password'] = $.md5(formData['password']);
+                // 加上选择的角色ID，逗号分割
+                var selectedRoleIds = $("#updateUserMultiSelect").val();
+                if(selectedRoleIds) {
+                    formData['roleIds'] = selectedRoleIds.join(",");
+                }
+
                 $.post(basePath + "/user/updateUser", formData, function (data) {
                     if ("200" == data['code']) {
                         alert("修改成功");
 
                         $("#userTable").trigger("reloadGrid");
                         $("#updateUserDialog").dialog("close");
+
+                        // 保留parentDeptId和parentDeptCode不能清除
+                        var userDeptId = $("#userDeptId").val();
+                        var userDeptCode = $("#userDeptCode").val();
                         web.form.reset($("#updateUserForm"));
+                        $("#userDeptId").val(userDeptId);
+                        $("#userDeptCode").val(userDeptCode);
 
                     } else if ("500" == data['code']) {
                         alert(data['msg']);
@@ -176,6 +197,40 @@ $(function () {
         height: 600,
         modal: true,
         title: "用户信息"
+    });
+
+
+    // 加载所有的角色列表
+    $.post(basePath+"/role/queryRoles",{"rows":99999}, function (data) {
+        if(!data){
+            return false;
+        }
+        var roleList = data['datas'];
+        for(var i=0,len=roleList.length; i<len; i++){
+            $('#addUserMultiSelect').append($("<option value='"+roleList[i]['id']+"'>"+roleList[i]['roleName']+"</option>"));
+            $('#updateUserMultiSelect').append($("<option value='"+roleList[i]['id']+"'>"+roleList[i]['roleName']+"</option>"));
+        }
+
+        // 初始化下拉多选框
+        $('#addUserMultiSelect,#updateUserMultiSelect').multiselect({
+            header: true,
+            height: 175,
+            minWidth: 202,
+            classes: '',
+            checkAllText: '选中全部',
+            uncheckAllText: '取消全选',
+            noneSelectedText: '请选择角色',
+            selectedText: '# 选中',
+            selectedList: 20,
+            show: null,
+            hide: null,
+            autoOpen: false,
+            multiple: true,
+            position: {},
+            appendTo: "#userAppendToDiv",
+            menuWidth:null
+        });
+
     });
 
     // 监听事件
@@ -218,6 +273,20 @@ $(function () {
                 return;
             }
 
+            // 获取角色 重新设置数组['1','2'] 到multiselect里面 .val([]); 然后刷新界面显示
+            // $("#updateUserForm .user-role-multi-select").multiselect("refresh")
+            $.post(basePath+"/user/queryUserRoles",{"userId":selectedRowIds[0]}, function (data) {
+                if(data==null){
+                    return false;
+                }
+                var roleIds = [];
+                for(var i=0,len=data.length; i<len; i++){
+                    roleIds.push(data[i]['id']);
+                }
+                $("#updateUserMultiSelect").val(roleIds);
+                $("#updateUserMultiSelect").multiselect("refresh");
+            });
+
             // 将表格一行的数据取出来修改
             var formData = $("#userTable").jqGrid('getRowData', selectedRowIds[0]);
             web.form.setValues($("#updateUserForm"), formData);
@@ -248,7 +317,7 @@ $(function () {
 
         /* ****************************查看链接************************** */
 
-        $(document).on("click",".a-see",function () {
+        $(document).on("click",".link-see",function () {
             var userId = $(this).attr("data-id");
             if(''==userId){
                 alert("用户ID为空，无法查看数据");

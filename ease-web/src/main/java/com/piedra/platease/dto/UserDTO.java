@@ -1,5 +1,7 @@
 package com.piedra.platease.dto;
 
+import java.util.Date;
+
 /**
  * @author webinglin
  * @since 2017-04-26
@@ -27,6 +29,17 @@ public class UserDTO {
     private String remark;
     /** 单位名称 */
     private String deptName;
+
+    /** 状态 */
+    private Byte status;
+    /** 最后登录时间 */
+    private Date lastLoginTime;
+    /** 创建者ID */
+    private String creatorId;
+    /** 创建时间 */
+    private Date createTime;
+
+
     /** 创建者姓名 */
     private String creatorName;
     /** 创建时间 */
@@ -186,5 +199,37 @@ public class UserDTO {
 
     public void setRoleNames(String roleNames) {
         this.roleNames = roleNames;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }
