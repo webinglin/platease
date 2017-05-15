@@ -206,11 +206,28 @@ dao层和service的异常信息都直接往上一层抛出，不作处理，当�
 同权限管理页面
 
 
+
+### 效果预览--（待优化）
+
+![登录](https://github.com/webinglin/blogImages/blob/master/platease/login.png?raw=true)
+
+![预览](https://github.com/webinglin/blogImages/blob/master/platease/preview.png?raw=true)
+
+![用户管理](https://github.com/webinglin/blogImages/blob/master/platease/user.png?raw=true)
+
+![角色管理](https://github.com/webinglin/blogImages/blob/master/platease/role.png?raw=true)
+
+![权限管理](https://github.com/webinglin/blogImages/blob/master/platease/func.png?raw=true)
+
+![单位管理](https://github.com/webinglin/blogImages/blob/master/platease/dept.png?raw=true)
+
+
+
+
 ### TODO
 
 1. 通用操作日志记录框架-->根据配置将日志信息保存到ES中去 --> 保留可扩展性
 2. 通过安装脚本一次性将需要的数据库以及相关的服务都一起安装完成
-3. 用户，角色，功能菜单，日志管理，配置管理  等几个基础功能
 
 
 

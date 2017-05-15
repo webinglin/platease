@@ -151,6 +151,7 @@ public class UserController {
         try {
             userService.addUser(userDto);
         } catch(Exception e){
+            resultModel.setError("添加用户出错"+e.getMessage());
             logger.error("添加用户失败", e);
         }
         return resultModel;
@@ -172,6 +173,7 @@ public class UserController {
         try {
             userService.delUsers(userId.split(Constants.COMMA));
         } catch(Exception e){
+            resultModel.setError("删除用户失败"+e.getMessage());
             logger.error("删除用户失败", e);
         }
         return resultModel;
@@ -194,6 +196,7 @@ public class UserController {
             userService.updateUser(userDto);
 
         } catch(Exception e){
+            resultModel.setError("修改用户失败"+e.getMessage());
             logger.error("修改用户失败", e);
         }
         return resultModel;
