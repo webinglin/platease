@@ -3,27 +3,36 @@
 <html id="$LOGIN_PAGE">
 <head>
     <title>PLATEASE</title>
+    <meta charset="utf-8">
+    <%@include file="/WEB-INF/pages/common/common.jsp" %>
+    <link rel="stylesheet" href="${URL}/css/login/login.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<%@include file="/WEB-INF/pages/common/common.jsp" %>
-<link rel="stylesheet" href="${URL}/css/login/login.css" />
+
 <body>
-
 <div class="login-dialog">
-    <div class="modal-header">
-        <h1 class="text-center">PLATEASE</h1>
-    </div>
-    <div class="modal-body">
-        <form action="${URL}/login" method="post">
-            <div class="form-group">
-                <input type="text"  name="username" class="form-control input-lg" placeholder="用户名"/>
-            </div>
-
-            <div class="form-group">
-                <input type="password"  name="password" class="form-control input-lg" placeholder="密码"/>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" class="btn btn-block btn-lg btn-primary" value="登录"/>
+    <div class="login-form">
+        <div class="head">
+            <img src="${URL}/images/login/mem.png" alt=""/>
+        </div>
+        <div class="plat-title">基础平台(Platease)</div>
+        <form action="${URL}/login" method="POST">
+            <li>
+                <input type="text" name="userName" id="userName" class="text" value="用户名"
+                       onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '用户名';}">
+                <span class="icon user"></span>
+            </li>
+            <li>
+                <input type="password" name="password" id="password" value="Password"
+                       onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+                <span class="icon lock"></span>
+            </li>
+            <div class="p-container">
+                <input type="submit" id="loginBtn" value="登&nbsp;&nbsp;录">
+                <div class="clear"></div>
+                <div>
+                    ${error_message}
+                </div>
             </div>
         </form>
     </div>

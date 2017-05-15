@@ -8,5 +8,8 @@ package com.piedra.platease.constants;
 public class SessionConstants {
 
     /** 用户的权限集合 */
-    public static final Object USER_PERMISSIONS = "userPermissions";
+    public static final String USER_PERMISSIONS = "userPermissions";
+
+    /** 用户登录信息 */
+    public static final String ERROR_MSG = "message_login";
 }
