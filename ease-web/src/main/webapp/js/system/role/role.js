@@ -18,7 +18,7 @@ $(function () {
         colModel: [
             {name: 'id', index: 'ID', hidden: true, width: 60},
             {name: 'roleName', index: 'ROLE_NAME', width: 100},
-            {name: 'remark', index: 'REMARK', width: 80}
+            {name: 'remark', index: 'REMARK', sortable:false, width: 80}
         ],
         pager: '#rolePager',
         width: 530,
@@ -196,7 +196,6 @@ $(function () {
         $("#roleSearch").click(function () {
             var searchCont = $("#roleSearchCont").val();
             if('' == searchCont){
-                alert("搜索内容不能为空");
                 return false;
             }
             $("#roleTable").trigger("reloadGrid");

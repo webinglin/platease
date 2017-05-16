@@ -25,21 +25,21 @@
     <form onsubmit="return false">
         <input type="text" name="searchCont" style="width:240px;" id="userSearchCont" placeholder="用户名/用户姓名/证件号码/手机号码">
 
-        <a class="btn" id="userSearch">过滤</a>
-        <a class="btn" id="userReset">重置</a>
+        <a class="btn" id="userSearch"><i class="icon-search"></i> 过滤</a>
+        <a class="btn" id="userReset"><i class="icon-spinner"></i> 重置</a>
     </form>
 
     <div class="btn-group">
         <shiro:hasPermission name="/user/addUser">
-            <button class="btn" id="addUser">新增</button>
+            <button class="btn" id="addUser"><i class="icon-plus"></i> 新增</button>
         </shiro:hasPermission>
 
         <shiro:hasPermission name="/user/updateUser">
-            <button class="btn" id="updateUser">修改</button>
+            <button class="btn" id="updateUser"><i class="icon-edit"></i> 修改</button>
         </shiro:hasPermission>
 
         <shiro:hasPermission name="/user/delUser">
-            <button class="btn" id="delUser">删除</button>
+            <button class="btn" id="delUser"><i class="icon-trash"></i> 删除</button>
         </shiro:hasPermission>
     </div>
 

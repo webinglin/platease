@@ -18,49 +18,38 @@
 <body>
 
 <nav class="main-menu">
-    <div class="logo">LOGO</div>
-
-    <div class="settings">系统管理</div>
-    <ul>
+    <div class="settings"><i class="icon-cogs"></i> 系统管理</div>
+    <ul class="nav nav-list">
         <li>
             <a class="link plat-intro" data-url="${URL}/system/intro">
-                <i class="fa fa-lg icon-plat"></i>
-                <span class="nav-text">平台介绍</span>
+                <i class="icon-home"></i> 平台介绍
             </a>
         </li>
-
         <shiro:hasPermission name="/user/index">
         <li>
             <a class="link" data-url="${URL}/user/index">
-                <i class="fa fa-lg icon-user"></i>
-                <span class="nav-text">用户管理</span>
+                <i class="icon-user"></i> 用户管理
             </a>
         </li>
         </shiro:hasPermission>
-
         <shiro:hasPermission name="/role/index">
         <li>
             <a class="link" data-url="${URL}/role/index">
-                <i class="fa fa-lg icon-role"></i>
-                <span class="nav-text">角色管理</span>
+                <i class="icon-qrcode"></i> 角色管理
             </a>
         </li>
         </shiro:hasPermission>
-
         <shiro:hasPermission name="/func/index">
         <li>
             <a class="link" data-url="${URL}/func/index">
-                <i class="fa fa-lg icon-func"></i>
-                <span class="nav-text">权限管理</span>
+                <i class="icon-magic"></i> 权限管理
             </a>
         </li>
         </shiro:hasPermission>
-
         <shiro:hasPermission name="/dept/index">
         <li>
             <a class="link" data-url="${URL}/dept/index">
-                <i class="fa fa-lg icon-dept"></i>
-                <span class="nav-text">单位管理</span>
+                <i class="icon-sitemap"></i> 单位管理
             </a>
         </li>
         </shiro:hasPermission>
@@ -69,14 +58,12 @@
     <ul class="logout">
         <li>
             <a href="http://webinglin.github.io" target="_blank">
-                <i class="fa fa-lg icon-link"></i>
-                <span class="nav-text">WEBINGLIN</span>
+                <i class="icon-link"></i> WEBINGLIN
             </a>
         </li>
         <li>
             <a href="${URL}/logout" target="_self">
-                <i class="fa fa-lg icon-exit"></i>
-                <span class="nav-text">退出系统</span>
+                <i class="icon-signout"></i> 退出系统
             </a>
         </li>
     </ul>

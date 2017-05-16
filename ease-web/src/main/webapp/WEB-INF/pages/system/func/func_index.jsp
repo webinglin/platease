@@ -23,19 +23,19 @@
     <form onsubmit="return false">
         <input type="text" name="searchCont" id="funcSearchCont" placeholder="权限名称/权限字符串">
 
-        <a class="btn" id="funcSearch">过滤</a>
-        <a class="btn" id="funcReset">重置</a>
+        <a class="btn" id="funcSearch"><i class="icon-search"></i> 过滤</a>
+        <a class="btn" id="funcReset"><i class="icon-spinner"></i> 重置</a>
     </form>
 
     <div class="btn-group">
         <shiro:hasPermission name="/func/addFunc">
-            <button class="btn" id="addFunc">添加</button>
-        </shiro:hasPermission>
-        <shiro:hasPermission name="/func/delFunc">
-            <button class="btn" id="delFunc">删除</button>
+            <button class="btn" id="addFunc"><i class="icon-plus"></i> 添加</button>
         </shiro:hasPermission>
         <shiro:hasPermission name="/func/updateFunc">
-            <button class="btn" id="updateFunc">修改</button>
+            <button class="btn" id="updateFunc"><i class="icon-edit"></i> 修改</button>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="/func/delFunc">
+            <button class="btn" id="delFunc"><i class="icon-trash"></i> 删除</button>
         </shiro:hasPermission>
     </div>
 

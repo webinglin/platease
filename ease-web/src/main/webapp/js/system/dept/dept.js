@@ -25,14 +25,14 @@ $(function () {
             {name: 'deptName', index: 'DEPT_NAME', width: 120},
             {name: 'deptCode', index: 'DEPT_CODE', width: 120},
             {name: 'alias', index: 'ALIAS', width: 120},
-            {name: 'remark', index: 'REMARK', width: 80}
+            {name: 'remark', index: 'REMARK', sortable:false, width: 80}
         ],
         pager: '#deptPager',
         width: 800,
         height: 490,
         rowNum: 20,
         rowList: [20, 50, 100],
-        sortname: 'DEPT_NAME',
+        sortname: 'DEPT_CODE',
         sortorder: "asc",
         viewrecords: true,
         multiselect:true,
@@ -43,12 +43,7 @@ $(function () {
         },
         caption: "单位信息",
         beforeRequest: function () {
-            var pid = $("#deptParentId").val();
-            if ('' == pid) {
-                pid = rootId;
-            }
-
-            var params = {'parentId': pid , 'searchCont':$("#deptSearchCont").val()};
+            var params = {'searchDeptCode':$("#searchDeptCode").val(), 'searchCont':$("#deptSearchCont").val()};
             $("#deptTable").jqGrid('setGridParam', {postData: params});
         }
     });
@@ -75,6 +70,7 @@ $(function () {
             callback: {
                 beforeClick: function (treeId, treeNode) {
                     $("#deptParentId").val(treeNode['id']);
+                    $("#searchDeptCode").val(treeNode['deptCode']);
                     $("#deptTable").trigger("reloadGrid");
                 }
             }
@@ -186,7 +182,6 @@ $(function () {
         $("#deptSearch").click(function () {
             var searchCont = $("#deptSearchCont").val();
             if('' == searchCont){
-                alert("搜索内容不能为空");
                 return false;
             }
             $("#deptTable").trigger("reloadGrid");

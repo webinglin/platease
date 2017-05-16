@@ -21,21 +21,21 @@
     <form onsubmit="return false">
         <input type="text" name="searchCont" id="roleSearchCont" placeholder="角色名称">
 
-        <a class="btn" id="roleSearch">过滤</a>
-        <a class="btn" id="roleReset">重置</a>
+        <a class="btn" id="roleSearch"><i class="icon-search"></i> 过滤</a>
+        <a class="btn" id="roleReset"><i class="icon-spinner"></i> 重置</a>
     </form>
 
     <div class="btn-group">
         <shiro:hasPermission name="/role/addRole">
-            <button class="btn" id="addRole">新增</button>
+            <button class="btn" id="addRole"><i class="icon-plus"></i> 新增</button>
         </shiro:hasPermission>
 
         <shiro:hasPermission name="/role/updateRole">
-            <button class="btn" id="updateRole">修改</button>
+            <button class="btn" id="updateRole"><i class="icon-edit"></i> 修改</button>
         </shiro:hasPermission>
 
         <shiro:hasPermission name="/role/delRole">
-            <button class="btn" id="delRole">删除</button>
+            <button class="btn" id="delRole"><i class="icon-trash"></i> 删除</button>
         </shiro:hasPermission>
     </div>
 
@@ -58,10 +58,10 @@
 </c:forEach>
     </div>
     <div class="role-funcs-btn">
-        <button class="btn" id="roleFuncChoseAll">全选</button>
-        <button class="btn" id="roleFuncDisChoseAll">反选</button>
+        <button class="btn" id="roleFuncChoseAll"><i class="icon-check"></i> 全选</button>
+        <button class="btn" id="roleFuncDisChoseAll"><i class="icon-check-empty"></i> 反选</button>
 
-        <button class="btn float-right" id="roleFuncSave">保存修改</button>
+        <button class="btn float-right" id="roleFuncSave"><i class="icon-save"></i> 保存修改</button>
     </div>
 </div>
 

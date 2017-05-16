@@ -26,7 +26,7 @@ $(function () {
             {name:'lastLoginTime',index:'LAST_LOGIN_TIME', width:200},
             {name:'remark', sortable:false, index:'REMARK', hidden:true, width:80},
             {name:'op', sortable:false, formatter:function (cellvalue, options, rowData) {
-                return "<a class='link-see' style='color:#912213;padding-left:10px;' data-id='"+rowData['id']+"'>查看</a>";
+                return "<a class='link-see' style='padding-left:10px;' data-id='"+rowData['id']+"'><i class='icon-eye-open'></i> 查看</a>";
             }}
         ],
         pager : '#userPager',
@@ -247,7 +247,6 @@ $(function () {
         $("#userSearch").click(function () {
             var searchCont = $("#userSearchCont").val();
             if('' == searchCont){
-                alert("搜索内容不能为空");
                 return false;
             }
             $("#userTable").trigger("reloadGrid");

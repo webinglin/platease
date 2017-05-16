@@ -26,7 +26,13 @@ Date: 2017/4/23
     }
 </script>
 
+<link rel="shortcut icon" href="${URL}/images/favicon.ico">
+
 <link rel="stylesheet" href="${URL}/css/common/platease.css" >
+<link rel="stylesheet" href="${URL}/css/common/awesome/css/font-awesome.min.css" >
+<%--<!--[if IE 7]>--%>
+<%--<link rel="stylesheet" href="${URL}/css/common/awesome/css/font-awesome-ie7.min.css">--%>
+<%--<![endif]-->--%>
 <link rel="stylesheet" href="${URL}/plugins/jquery-ui-1.12.1/jquery-ui.css" >
 <script type="text/javascript" src="${URL}/js/common/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="${URL}/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>

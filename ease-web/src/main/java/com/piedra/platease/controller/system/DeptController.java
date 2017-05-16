@@ -42,6 +42,7 @@ public class DeptController {
      */
     @RequestMapping("/queryDepts")
     @ResponseBody
+
     public Page<Dept> queryDepts(Page<Dept> page, DeptDTO dto){
         try {
             page.setEntityClass(Dept.class);
@@ -49,6 +50,9 @@ public class DeptController {
             if(StringUtils.isNotBlank(dto.getSearchCont())){
                 dto.setParentId(null);  // 搜索的不限制
                 dto.setSearchCont(Constants.PERCENT + dto.getSearchCont() + Constants.PERCENT);
+            }
+            if(StringUtils.isNotBlank(dto.getSearchDeptCode())){
+                dto.setSearchDeptCode(dto.getSearchDeptCode().replaceAll("0*$","") + Constants.PERCENT);
             }
 
             page = deptService.queryDeptList(page, dto);

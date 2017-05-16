@@ -23,19 +23,19 @@
     <form onsubmit="return false">
         <input type="text" name="searchCont" id="deptSearchCont" placeholder="单位名称/别名/编码">
 
-        <a class="btn" id="deptSearch">过滤</a>
-        <a class="btn" id="deptReset">重置</a>
+        <a class="btn" id="deptSearch"><i class="icon-search"></i> 过滤</a>
+        <a class="btn" id="deptReset"><i class="icon-spinner"></i> 重置</a>
     </form>
 
     <div class="btn-group">
         <shiro:hasPermission name="/dept/addDept">
-            <button class="btn" id="addDept">添加</button>
-        </shiro:hasPermission>
-        <shiro:hasPermission name="/dept/delDept">
-            <button class="btn" id="delDept">删除</button>
+            <button class="btn" id="addDept"><i class="icon-plus"></i> 添加</button>
         </shiro:hasPermission>
         <shiro:hasPermission name="/dept/updateDept">
-            <button class="btn" id="updateDept">修改</button>
+            <button class="btn" id="updateDept"><i class="icon-edit"></i> 修改</button>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="/dept/delDept">
+            <button class="btn" id="delDept"><i class="icon-trash"></i> 删除</button>
         </shiro:hasPermission>
     </div>
 
@@ -43,7 +43,7 @@
     <div id="deptPager"></div>
 </div>
 
-
+<input type="hidden" id="searchDeptCode">
 <div id="addDeptDialog" style="display: none;">
     <form id="addDeptForm">
         <%-- 父节点ID --%>

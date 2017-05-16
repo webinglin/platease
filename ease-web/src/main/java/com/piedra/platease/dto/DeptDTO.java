@@ -14,6 +14,15 @@ public class DeptDTO {
     private String remark;
 
     private String searchCont;
+    private String searchDeptCode;
+
+    public String getSearchDeptCode() {
+        return searchDeptCode;
+    }
+
+    public void setSearchDeptCode(String searchDeptCode) {
+        this.searchDeptCode = searchDeptCode;
+    }
 
     public String getSearchCont() {
         return searchCont;

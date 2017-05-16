@@ -28,7 +28,7 @@ $(function () {
             {name: 'funcType', index: 'FUNC_TYPE', width: 100},
             {name: 'permission', index: 'PERMISSION', width: 120},
             {name: 'orderStr', index: 'ORDER_STR', width: 100},
-            {name: 'remark', index: 'REMARK', width: 80}
+            {name: 'remark', index: 'REMARK', sortable:false, width: 80}
         ],
         pager: '#funcPager',
         width: 800,
@@ -193,7 +193,6 @@ $(function () {
         $("#funcSearch").click(function () {
             var searchCont = $("#funcSearchCont").val();
             if('' == searchCont){
-                alert("搜索内容不能为空");
                 return false;
             }
             $("#funcTable").trigger("reloadGrid");
