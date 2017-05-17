@@ -57,7 +57,7 @@
             <label>用户名</label><input type="text" name="userName" maxlength="125" datatype="*4-125" errormsg="用户名至少4个字符" >
         </div>
         <div class="form-line">
-            <label>证件号码</label><input type="text" name="idcard" maxlength="125" datatype="n15-32" errormsg="证件号码至少15位" >
+            <label>证件号码</label><input type="text" name="idcard" maxlength="125" datatype="idcardRequired" errormsg="请填写正确的证件号" >
         </div>
         <div class="form-line">
             <label>姓名</label><input type="text" name="realName" maxlength="125" >
@@ -66,7 +66,7 @@
             <label>密码</label><input type="password" name="password" maxlength="125" >
         </div>
         <div class="form-line">
-            <label>联系方式</label><input type="text" name="telphone" maxlength="125" datatype="m" errormsg="请输入正确手机号码" >
+            <label>联系方式</label><input type="text" name="telphone" maxlength="125" datatype="phoneRequired" errormsg="请填写正确手机号码" >
         </div>
         <div class="form-line"><label>备注</label><textarea name="remark" maxlength="125"></textarea></div>
 
@@ -88,13 +88,13 @@
             <label>用户名</label><input type="text" name="userName" maxlength="125" datatype="*4-125" errormsg="用户名至少4个字符" >
         </div>
         <div class="form-line">
-            <label>证件号码</label><input type="text" name="idcard" maxlength="125" datatype="n15-32" errormsg="证件号码至少15位数字" >
+            <label>证件号码</label><input type="text" name="idcard" maxlength="125" datatype="idcardRequired" errormsg="请填写正确的证件号" >
         </div>
         <div class="form-line">
             <label>姓名</label><input type="text" name="realName" maxlength="125" >
         </div>
         <div class="form-line">
-            <label>联系方式</label><input type="text" name="telphone" maxlength="125" datatype="m" errormsg="请输入正确手机号码" >
+            <label>联系方式</label><input type="text" name="telphone" maxlength="125" datatype="phoneRequired" errormsg="请填写正确手机号码" >
         </div>
         <div class="form-line"><label>备注</label><textarea name="remark" maxlength="125"></textarea></div>
 

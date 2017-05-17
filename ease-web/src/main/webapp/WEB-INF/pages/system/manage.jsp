@@ -74,6 +74,7 @@
 
 <script type="text/javascript" src="${URL}/plugins/jqgrid/grid.locale-cn.js"></script>
 <script type="text/javascript" src="${URL}/plugins/jqgrid/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="${URL}/plugins/validate/valideRules.js"></script>
 <script type="text/javascript" src="${URL}/plugins/validate/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript" src="${URL}/js/system/manage.js"></script>
 </body>

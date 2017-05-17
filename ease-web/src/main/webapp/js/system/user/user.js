@@ -12,19 +12,29 @@ $(function () {
         url: basePath + "/user/queryUsers",
         datatype: "json",
         mtype:"POST",
-        colNames:['id','用户名', '姓名', '证件号码','单位ID','单位','用户状态',"联系方式","最后登录IP","最后登录时间","备注", "操作"],
+        colNames:['id','status','用户名','姓名','证件号码','单位ID','单位','状态',"联系方式","备注", "操作"], //"最后登录IP","最后登录时间",
         colModel:[
             {name:'id', hidden:true, width:60},
+            {name:'status', hidden:true, width:60},
             {name:'userName',index:'USER_NAME', width:120},
             {name:'realName',index:'REAL_NAME', width:120},
             {name:'idcard',index:'IDCARD', width:200},
             {name:'deptId',index:'DEPT_ID', hidden:true, width:60},
             {name:'deptName',index:'DEPT_ID', width:240},
-            {name:'status',index:'STATUS', width:120},
-            {name:'telphone',index:'TELPHONE', width:200},
-            {name:'lastLoginIp', sortable:false, index:'LAST_LOGIN_IP', width:200},
-            {name:'lastLoginTime',index:'LAST_LOGIN_TIME', width:200},
-            {name:'remark', sortable:false, index:'REMARK', hidden:true, width:80},
+            {name:'statusCn',index:'STATUS', width:100,  formatter:function (cellvalue, options, rowData) {
+                var status = rowData['status'];
+                if('1'==status){
+                    return '有效';
+                } else if('2'==status){
+                    return '删除';
+                } else {
+                    return '';
+                }
+            }},
+            {name:'telphone',index:'TELPHONE', width:180},
+            // {name:'lastLoginIp', sortable:false, index:'LAST_LOGIN_IP', width:200},
+            // {name:'lastLoginTime',index:'LAST_LOGIN_TIME', width:220},
+            {name:'remark', sortable:false, index:'REMARK', hidden:true, width:60},
             {name:'op', sortable:false, formatter:function (cellvalue, options, rowData) {
                 return "<a class='link-see' style='padding-left:10px;' data-id='"+rowData['id']+"'><i class='icon-eye-open'></i> 查看</a>";
             }}
@@ -89,9 +99,17 @@ $(function () {
         });
     }
 
+    var setting = {
+        tiptype: 3,
+        datatype:{
+            "idcardRequired": rules.idcardRequired ,
+            "phoneRequired": rules.phoneRequired
+        }
+    };
+
     // 表单验证
-    var addFormValidator = $("#addUserForm").Validform({tiptype: 3});
-    var updateFormValidator = $("#updateUserForm").Validform({tiptype: 3});
+    var addFormValidator = $("#addUserForm").Validform(setting);
+    var updateFormValidator = $("#updateUserForm").Validform(setting);
 
     $("#addUserDialog").dialog({
         autoOpen: false,

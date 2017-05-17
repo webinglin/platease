@@ -19,13 +19,26 @@ $(function () {
         url: basePath + "/func/queryFuncs",
         datatype: "json",
         mtype:"POST",
-        colNames: ['id', '权限名称', '权限URL', '权限图标URL', '权限类型', '权限字符描述', '权限顺序', '备注'],
+        colNames: ['id','funcType', '权限名称', '权限URL', '权限图标URL', '权限类型', '权限字符描述', '权限顺序', '备注'],
         colModel: [
-            {name: 'id', index: 'ID', hidden: true, width: 60},
+            {name: 'id', hidden: true, width: 60},
+            {name: 'funcType', hidden: true, width: 60},
             {name: 'funcTitle', index: 'FUNC_TITLE', width: 100},
             {name: 'funcUrl', index: 'FUNC_URL', width: 120},
-            {name: 'imageUrl', index: 'IMAGE_URL', width: 100},
-            {name: 'funcType', index: 'FUNC_TYPE', width: 100},
+            {name: 'imageUrl', index: 'IMAGE_URL',  sortable:false, width: 100},
+            {name: 'funcTypeCn', index: 'FUNC_TYPE', width: 100 , formatter:function (cellvalue, options, rowData) {
+                var funcType = rowData['funcType'];
+                if('DESKTOP-MENU'==funcType){
+                    return "桌面菜单";
+                } else if('MENU'==funcType) {
+                    return "菜单";
+                } else if('LINK'==funcType){
+                    return "链接";
+                } else if('BUTTON'==funcType){
+                    return "按钮";
+                }
+                return "";
+            }},
             {name: 'permission', index: 'PERMISSION', width: 120},
             {name: 'orderStr', index: 'ORDER_STR', width: 100},
             {name: 'remark', index: 'REMARK', sortable:false, width: 80}

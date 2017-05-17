@@ -30,8 +30,8 @@
             <div class="p-container">
                 <input type="submit" id="loginBtn" value="登&nbsp;&nbsp;录">
                 <div class="clear"></div>
-                <div>
-                    ${error_message}
+                <div style="color: red;">
+                    ${error_msg}
                 </div>
             </div>
         </form>

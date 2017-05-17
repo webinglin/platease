@@ -11,5 +11,5 @@ public class SessionConstants {
     public static final String USER_PERMISSIONS = "userPermissions";
 
     /** 用户登录信息 */
-    public static final String ERROR_MSG = "message_login";
+    public static final String ERROR_MSG = "error_msg";
 }
