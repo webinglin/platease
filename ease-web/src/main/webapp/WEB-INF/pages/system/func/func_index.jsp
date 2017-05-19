@@ -24,7 +24,7 @@
         <input type="text" name="searchCont" id="funcSearchCont" placeholder="权限名称/权限字符串">
 
         <a class="btn" id="funcSearch"><i class="icon-search"></i> 过滤</a>
-        <a class="btn" id="funcReset"><i class="icon-spinner"></i> 重置</a>
+        <a class="btn" id="funcReset"><i class="icon-undo"></i> 重置</a>
     </form>
 
     <div class="btn-group">

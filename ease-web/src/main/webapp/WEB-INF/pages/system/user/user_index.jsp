@@ -26,7 +26,7 @@
         <input type="text" name="searchCont" style="width:240px;" id="userSearchCont" placeholder="用户名/用户姓名/证件号码/手机号码">
 
         <a class="btn" id="userSearch"><i class="icon-search"></i> 过滤</a>
-        <a class="btn" id="userReset"><i class="icon-spinner"></i> 重置</a>
+        <a class="btn" id="userReset"><i class="icon-undo"></i> 重置</a>
     </form>
 
     <div class="btn-group">

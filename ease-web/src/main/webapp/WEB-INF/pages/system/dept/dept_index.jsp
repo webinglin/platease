@@ -24,7 +24,7 @@
         <input type="text" name="searchCont" id="deptSearchCont" placeholder="单位名称/别名/编码">
 
         <a class="btn" id="deptSearch"><i class="icon-search"></i> 过滤</a>
-        <a class="btn" id="deptReset"><i class="icon-spinner"></i> 重置</a>
+        <a class="btn" id="deptReset"><i class="icon-undo"></i> 重置</a>
     </form>
 
     <div class="btn-group">

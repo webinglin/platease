@@ -22,7 +22,7 @@
         <input type="text" name="searchCont" id="roleSearchCont" placeholder="角色名称">
 
         <a class="btn" id="roleSearch"><i class="icon-search"></i> 过滤</a>
-        <a class="btn" id="roleReset"><i class="icon-spinner"></i> 重置</a>
+        <a class="btn" id="roleReset"><i class="icon-undo"></i> 重置</a>
     </form>
 
     <div class="btn-group">
