@@ -150,6 +150,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         user.setId(UUIDUtil.generateUUID());
         // 对密码再度进行加盐HASH
         user.setSalt(RandomStringUtils.randomAlphanumeric(8));
+        // TODO 密码的传输过程采用 RSA非对称加密算法进行传输
         user.setPassword(PasswordUtil.encryptMd5Password(user.getPassword(), user.getSalt()));
 
         user.setStatus(StatusConstants.USER_AVAILABLE);

@@ -1,9 +1,13 @@
 package com.piedra.platease.controller.system;
 
+import com.piedra.platease.constants.Constants;
 import com.piedra.platease.constants.SessionConstants;
 import com.piedra.platease.constants.WebConstants;
 import com.piedra.platease.dto.UserDTO;
+import com.piedra.platease.utils.Md5Util;
+import com.piedra.platease.utils.RSAUtil;
 import com.piedra.platease.utils.SessionHelper;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -18,6 +22,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import java.util.Map;
 
 /**
  * 登录页面
@@ -35,6 +41,18 @@ public class LoginController {
      */
     @RequestMapping(value="/")
     public String loginPage(ModelMap modelMap){
+
+        try {
+            // 每一次登录之后，这个过程传输加密信息都用同一个密钥对
+            Map<String,String> keyPairMap = RSAUtil.generateKeyPair();
+            SecurityUtils.getSubject().getSession().setAttribute(SessionConstants.KEY_PRIVATE, keyPairMap.get(Constants.PRIVATE_KEY));
+            SecurityUtils.getSubject().getSession().setAttribute(SessionConstants.KEY_PUBLIC, keyPairMap.get(Constants.PUBLIC_KEY));
+            modelMap.put(Constants.PUBLIC_KEY,keyPairMap.get(Constants.PUBLIC_KEY));
+        } catch(Exception e){
+            logger.error("生成密钥对出错", e);
+            return "login/500";
+        }
+
         // 可能会读取一堆的配置信息
         return "login/login";
     }
@@ -53,30 +71,32 @@ public class LoginController {
             session.setAttribute(SessionConstants.ERROR_MSG, "用户名不能少于4位");
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX + resultURL;
         }
-        if(StringUtils.isBlank(password) || userName.length()<6){
+        if(StringUtils.isBlank(password)){
+            session.setAttribute(SessionConstants.ERROR_MSG, "密码不能为空");
+            return InternalResourceViewResolver.REDIRECT_URL_PREFIX  + resultURL;
+        }
+
+        /* 利用session中保存的密钥进行解密 */
+        try {
+            String privateKey = session.getAttribute(SessionConstants.KEY_PRIVATE).toString();
+            password = RSAUtil.decryptByPrivate(password,privateKey);
+        } catch (Exception e) {
+            logger.error("利用私钥对密码解密出错,密码设置为空", e);
+            password = StringUtils.EMPTY;
+        }
+        if(password.length()<6){
             session.setAttribute(SessionConstants.ERROR_MSG, "密码不能少于6位");
             return InternalResourceViewResolver.REDIRECT_URL_PREFIX  + resultURL;
         }
 
-//        // 获取HttpSession中的验证码
-//        String verifyCode = (String)request.getSession().getAttribute("verifyCode");
-//        // 获取用户请求表单中输入的验证码
-//        String submitCode = request.getParameter("verifyCode");
-//        if (StringUtils.isEmpty(submitCode) || !StringUtils.equals(verifyCode, submitCode.toLowerCase())){
-//            request.setAttribute("message_login", "验证码不正确");
-//            return InternalResourceViewResolver.REDIRECT_URL_PREFIX + resultURL;
-//        }
-
-//        username = "platease";
-//        password = "3068de31b70b1f2cf433ead658c144cb"; // md5加密
-
-        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(userName, Md5Util.getMd5(password));
         Subject currentUser = SecurityUtils.getSubject();
         try {
             currentUser.login(token);
 //            resultURL = "/desktop";
             resultURL = "/system/manage";
 
+            /* 登录成功后，移除session中的错误信息 */
             session.removeAttribute(SessionConstants.ERROR_MSG);
         }catch(UnknownAccountException uae){
             logger.error("对用户[{}]进行登录验证..验证未通过,未知账户", userName);
@@ -91,14 +111,12 @@ public class LoginController {
         return InternalResourceViewResolver.REDIRECT_URL_PREFIX + resultURL;
     }
 
-
     /**
      * 桌面
      */
     @RequestMapping(value="/desktop")
     public String desktop(){
         // TODO 获取一系列的个性化菜单配置   Request域即可
-
         return "/desktop/desktop";
     }
 

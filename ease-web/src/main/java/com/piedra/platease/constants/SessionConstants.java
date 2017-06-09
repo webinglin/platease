@@ -12,4 +12,9 @@ public class SessionConstants {
 
     /** 用户登录信息 */
     public static final String ERROR_MSG = "error_msg";
+
+    /** 密钥信息 */
+    public static final String KEY_PRIVATE = "key_private";
+    /** 公钥信息 */
+    public static final String KEY_PUBLIC = "key_public";
 }

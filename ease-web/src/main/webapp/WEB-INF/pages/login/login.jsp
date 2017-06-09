@@ -38,7 +38,10 @@
     </div>
 </div>
 
-<script type="text/javascript" src="${URL}/js/common/jquery.md5.js"></script>
+<script type="text/javascript">
+    var publicKey = '${publicKey}';
+</script>
+<script type="text/javascript" src="${URL}/plugins/jsencrypt/jsencrypt.min.js"></script>
 <script type="text/javascript" src="${URL}/js/login/login.js"></script>
 </body>
 </html>

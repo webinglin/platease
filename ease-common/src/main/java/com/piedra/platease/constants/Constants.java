@@ -23,8 +23,15 @@ public class Constants {
     /** 顶级节点的ID */
     public static final String PARENT_ID = "00000000000000000000000000000000";
 
+    /* 字符集 */
     public static final String CHAR = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
+    /* 私钥 */
+    public static final String PRIVATE_KEY = "privateKey";
+    /* 公钥 */
+    public static final String PUBLIC_KEY = "publicKey";
+
+    /* 排序顺序 */
     public static class Order {
         public static final String DESC = "desc";
         public static final String ASC = "asc";

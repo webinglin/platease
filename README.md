@@ -9,6 +9,7 @@
 2. 采用apache shiro权限认证框架来控制访问，利用Ehcache对用户权限资源进行缓存
 3. 工具类采用 apache-commons 系列
 4. 前端：JS框架[JQuery]、 UI风格[JQueryUI]、表格插件[jqGrid]、树插件[ztree]、表单验证插件[validform]、多选下拉框[multiselect]
+5. 加密数据传输采用RSA非对称加密算法
 
 ### 自定义service+dao
 对于新添加的Dao，需要定义一个实现BaseDao的接口，同时实现类继承了BaseDaoImpl. service的定义也是类似的实现BaseService和继承BaseServiceImpl
